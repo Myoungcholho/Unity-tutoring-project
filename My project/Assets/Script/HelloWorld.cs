@@ -5,6 +5,7 @@ using UnityEngine;
 public class HelloWorld : MonoBehaviour
 {
     public int Test;
+    public float f_Test;
     // Start is called before the first frame update
     void Start()
     {
