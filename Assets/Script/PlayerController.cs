@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
         animator.SetInteger("hRaw", (int)v);
-        
     }
 
     private void Move()
