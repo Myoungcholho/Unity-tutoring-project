@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,15 +10,34 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private Rigidbody2D playerRigidbody;
     private Animator playerAnimator;
+    private SpriteRenderer playerRenderer;
 
-    private void Start()
+    private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
-
-        playerInput.delegateJump += Jump;
+        playerRenderer = GetComponent<SpriteRenderer>();
     }
+
+    private void Start()
+    {
+        playerInput.onJump += Jump;
+    }
+
+    private void Update()
+    {
+        if(playerInput.horizontal == -1)
+        {
+            playerRenderer.flipX = true;
+        }
+        else if(playerInput.horizontal == 1)
+        {
+            playerRenderer.flipX = false;
+        }
+
+    }
+
     private void FixedUpdate()
     {
         Move();
@@ -43,11 +59,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private void PlayAnim()
     {
-        if (playerAnimator.GetInteger("hRaw") != playerInput.horizontal)
+        if (playerInput.horizontal != 0 )
         {
-            playerAnimator.SetInteger("hRaw", (int)playerInput.horizontal);
+            playerAnimator.SetBool("isWalking", true);
         }
-        else if (playerAnimator.GetBool("isGround") != isGround)
+        else
+        {
+            playerAnimator.SetBool("isWalking", false);
+        }
+
+        if (playerAnimator.GetBool("isGround") != isGround)
         {
             playerAnimator.SetBool("isGround", isGround);
         }
