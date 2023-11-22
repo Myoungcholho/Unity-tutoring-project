@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -13,6 +12,8 @@ public class PlayerInput : MonoBehaviour
     public float horizontal { get; private set; }
     public delegate void PlayerInputJump();
     public PlayerInputJump delegateJump;
+
+    public event Action onJump;
 
     private void Start()
     {
@@ -48,9 +49,9 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKey(jumpKey))
         {
-            if (delegateJump != null)
+            if (onJump != null)
             {
-                delegateJump.Invoke();
+                onJump.Invoke();
             }
         }
     }
