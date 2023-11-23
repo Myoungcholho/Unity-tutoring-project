@@ -23,8 +23,7 @@ public class PlayerMove : MonoBehaviour
 
     private bool isJumping = false;
     private bool isGround;
-
-    private RaycastHit2D hitdown;
+    private float MoveDirection;
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -35,23 +34,30 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         JumpKey();
+        MoveKey();
     }
 
     void FixedUpdate()
     {
         isGround = Physics2D.OverlapCircle(pos.position, checkRadius, wallLayer);
-        hitdown = Physics2D.Raycast(pos.position, Vector2.down, raycastDistance, wallLayer);
         
         Move();
         Jump();
 
     }
-
+    void MoveKey()
+    {
+        MoveDirection = 0;
+        if (Input.GetKey(KeyCode.A))
+            MoveDirection = -1;
+        else if (Input.GetKey(KeyCode.D))
+            MoveDirection = 1;
+    }
     void Move()
     {
         float move = 0;
 
-        if (Input.GetKey(KeyCode.A))
+        if (MoveDirection == -1)
         {
             move = -moveSpeed;
             spriteRenderer.flipX = true;
@@ -60,7 +66,7 @@ public class PlayerMove : MonoBehaviour
             if (hitLeft.collider != null)
                 move = 0;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (MoveDirection == 1)
         {
             move = moveSpeed;
             spriteRenderer.flipX = false;
