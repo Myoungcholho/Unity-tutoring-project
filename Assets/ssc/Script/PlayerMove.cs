@@ -12,36 +12,32 @@ public class PlayerMove : MonoBehaviour
     public Transform rightRaycastPosition; // 오른쪽 레이캐스트 시작 위치
     public float raycastDistance = 0.2f; // 레이캐스트의 길이
 
-
     private Animator anim;
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
 
-    private float MoveDirection;
+    private float MoveDirection = 0;
+
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void MoveKey(float Direction)
     {
-        
-    }
-
-    public void MoveKey()
-    {
-        MoveDirection = 0;
-        if (Input.GetKey(KeyCode.A))
+        MoveDirection = Direction;
+        Move();
+        //MoveDirection = 0;
+        /*if (Input.GetKey(KeyCode.A))
             MoveDirection = -1;
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
             MoveDirection = 1;
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
         {
             MoveDirection = 0;
-        }
+        }*/
     }
     public void Move()
     {
@@ -64,7 +60,7 @@ public class PlayerMove : MonoBehaviour
             if (hitRight.collider != null)
                 move = 0;
         }
-
+        
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         anim.SetBool("isWalking", move != 0);
 

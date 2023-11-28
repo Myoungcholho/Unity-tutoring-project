@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerJump : MonoBehaviour
 {
     public float jumpPower = 1f;
-    public KeyCode jumpKey = KeyCode.Space;
 
     public Transform pos;
     public float checkRadius;
@@ -16,30 +15,24 @@ public class PlayerJump : MonoBehaviour
 
     private bool isJumping = false;
     private bool isGround;
-    // Start is called before the first frame update
+    
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         isGround = Physics2D.OverlapCircle(pos.position, checkRadius, wallLayer);
+        Jump();
     }
 
     public void JumpKey()
     {
-        if (isGround && Input.GetKeyDown(jumpKey))
+        if (isGround)
         {
             isJumping = true;
-
         }
     }
     public void Jump()

@@ -4,35 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-   
-
     private PlayerJump jump;
     private PlayerMove move;
+    private PlayerInput input;
 
-    public delegate void PlayesrMove();
-    public delegate void PlayersJump();
     void Start()
     {
-        
         move = GetComponent<PlayerMove>();
         jump = GetComponent<PlayerJump>();
+        input = GetComponent<PlayerInput>();
+
+        input.OnJump += jump.JumpKey;
+        input.OnMove += move.MoveKey;
     }
 
-    void Update()
-    {
-        jump?.JumpKey();
-        move?.MoveKey();
-    }
-
-    void FixedUpdate()
-    {
-        
-        
-        move?.Move();
-        jump?.Jump();
-
-    }
-    
-
-    
 }
