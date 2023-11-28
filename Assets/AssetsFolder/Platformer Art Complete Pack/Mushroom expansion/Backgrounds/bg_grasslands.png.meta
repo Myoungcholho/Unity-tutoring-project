@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 170
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,7 +115,385 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: bg_grasslands_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 341.3333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 073257506ce97214d95f8d07f90264b7
+      internalID: -124845544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_1
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 341.3333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f51114d10c0f0ce4e917a99f3ebcdc26
+      internalID: 2099103542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_2
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 341.3333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfed5fb46a8b42047906c2f772026078
+      internalID: 1943812493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_3
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 341.3333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be6d9768b869ff94bb3cac8933f8c1ff
+      internalID: 1379316176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_4
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 341.3333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29fe0bffed0a7404fa18ac1b9c4a1872
+      internalID: -1091086266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_5
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 341.3333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddda1399733c74a41a1b0c59a7cd7109
+      internalID: -1725525167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 171.33333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b61d6c3d12814fa469d61f46663d80d1
+      internalID: -2067352570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_7
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 171.33333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5acc6cbda307cf4aa3f919648cfb7a4
+      internalID: 461112897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_8
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 171.33333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 672a0ed5ec79e0647af70e1600ee3d27
+      internalID: -2125950613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_9
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 171.33333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab1945b19351e9444880129d6a5df169
+      internalID: 46140265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_10
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 171.33333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6233df6e448b3cd43aafe629cf27fa0b
+      internalID: 182656369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_11
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 171.33333
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffd1ca468ef41f74bab801ffa17ef0bd
+      internalID: -908330626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1.3333282
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b80fefc31293a9844a6bdf9cfc9e259b
+      internalID: 1977030661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_13
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 1.3333282
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f0efa7af042cc642bb2ccdbbc775b08
+      internalID: -1701018469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_14
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 1.3333282
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d01687536db49e4ab2aa7f73340113c
+      internalID: 646785091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_15
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 1.3333282
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86cdf79e5b1792942bd23bd5c663dc84
+      internalID: 1464592131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_16
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 1.3333282
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a75f0de15a319b047816a07ed21197c5
+      internalID: 2133530001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bg_grasslands_17
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1.3333282
+        width: 170.66667
+        height: 170.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8a415985aa19c4b847028157c16f09
+      internalID: 235880186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +504,25 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bg_grasslands_0: -124845544
+      bg_grasslands_1: 2099103542
+      bg_grasslands_10: 182656369
+      bg_grasslands_11: -908330626
+      bg_grasslands_12: 1977030661
+      bg_grasslands_13: -1701018469
+      bg_grasslands_14: 646785091
+      bg_grasslands_15: 1464592131
+      bg_grasslands_16: 2133530001
+      bg_grasslands_17: 235880186
+      bg_grasslands_2: 1943812493
+      bg_grasslands_3: 1379316176
+      bg_grasslands_4: -1091086266
+      bg_grasslands_5: -1725525167
+      bg_grasslands_6: -2067352570
+      bg_grasslands_7: 461112897
+      bg_grasslands_8: -2125950613
+      bg_grasslands_9: 46140265
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
