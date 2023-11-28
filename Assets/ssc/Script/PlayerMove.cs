@@ -5,24 +5,18 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 1f;
-    public float jumpPower = 1f;
-    public KeyCode jumpKey = KeyCode.Space;
 
-    public Transform pos;
-    public float checkRadius;
     public LayerMask wallLayer;
 
     public Transform leftRaycastPosition; // 왼쪽 레이캐스트 시작 위치
     public Transform rightRaycastPosition; // 오른쪽 레이캐스트 시작 위치
     public float raycastDistance = 0.2f; // 레이캐스트의 길이
-    
+
 
     private Animator anim;
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
 
-    private bool isJumping = false;
-    private bool isGround;
     private float MoveDirection;
     void Start()
     {
@@ -31,29 +25,25 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        JumpKey();
-        MoveKey();
-    }
-
-    void FixedUpdate()
-    {
-        isGround = Physics2D.OverlapCircle(pos.position, checkRadius, wallLayer);
         
-        Move();
-        Jump();
-
     }
-    void MoveKey()
+
+    public void MoveKey()
     {
         MoveDirection = 0;
         if (Input.GetKey(KeyCode.A))
             MoveDirection = -1;
-        else if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
             MoveDirection = 1;
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+        {
+            MoveDirection = 0;
+        }
     }
-    void Move()
+    public void Move()
     {
         float move = 0;
 
@@ -78,26 +68,5 @@ public class PlayerMove : MonoBehaviour
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         anim.SetBool("isWalking", move != 0);
 
-    }
-
-    void JumpKey()
-    {
-        if (isGround && Input.GetKeyDown(jumpKey))
-        {
-            isJumping = true;
-            anim.SetBool("isJumping", true);
-        }
-    }
-    void Jump()
-    {
-        if (!isJumping)
-        {
-            if(isGround)
-                anim.SetBool("isJumping", false);
-            return;
-        }
-
-        rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-        isJumping = false;
     }
 }
