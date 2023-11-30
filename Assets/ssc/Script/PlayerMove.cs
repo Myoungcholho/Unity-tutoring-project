@@ -16,7 +16,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
 
-    private float MoveDirection = 0;
+    private int MoveDirection = 0;
 
     void Start()
     {
@@ -24,45 +24,38 @@ public class PlayerMove : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    
-    public void MoveKey(float Direction)
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+    public void MoveKey(int Direction)
     {
         MoveDirection = Direction;
-        Move();
-        //MoveDirection = 0;
-        /*if (Input.GetKey(KeyCode.A))
-            MoveDirection = -1;
-        else if (Input.GetKey(KeyCode.D))
-            MoveDirection = 1;
-        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
-        {
-            MoveDirection = 0;
-        }*/
     }
+
     public void Move()
     {
         float move = 0;
-
+        move = moveSpeed * MoveDirection;
         if (MoveDirection == -1)
         {
-            move = -moveSpeed;
             spriteRenderer.flipX = true;
 
             RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.left, raycastDistance, wallLayer);
             if (hitLeft.collider != null)
                 move = 0;
         }
-        else if (MoveDirection == 1)
+        if (MoveDirection == 1)
         {
-            move = moveSpeed;
             spriteRenderer.flipX = false;
             RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.right, raycastDistance, wallLayer);
             if (hitRight.collider != null)
                 move = 0;
         }
-        
+   
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         anim.SetBool("isWalking", move != 0);
-
     }
 }

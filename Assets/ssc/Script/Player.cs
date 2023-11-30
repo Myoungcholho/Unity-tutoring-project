@@ -17,5 +17,4 @@ public class Player : MonoBehaviour
         input.OnJump += jump.JumpKey;
         input.OnMove += move.MoveKey;
     }
-
 }
