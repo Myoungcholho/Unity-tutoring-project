@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -5,12 +6,17 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public float jumpForce;
 
-    private bool isGround;
+    [SerializeField]
+    private bool isGround;              //private
+
     private int jumpCount;
     private PlayerInput playerInput;
     private Rigidbody2D playerRigidbody;
     private Animator playerAnimator;
     private SpriteRenderer playerRenderer;
+
+    private Vector2 size;
+    public LayerMask layerMask;
 
     private void Awake()
     {
@@ -23,30 +29,41 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         playerInput.onJump += Jump;
-    }
-
-    private void Update()
-    {
-        if(playerInput.horizontal == -1)
-        {
-            playerRenderer.flipX = true;
-        }
-        else if(playerInput.horizontal == 1)
-        {
-            playerRenderer.flipX = false;
-        }
-
+        size = new Vector2(GetComponent<BoxCollider2D>().size.x, GetComponent<BoxCollider2D>().size.y);
     }
 
     private void FixedUpdate()
     {
+        
+        Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, size, 0, layerMask);
+        if (hits.Length >1)
+        {
+            Debug.Log("hit name : " + hits[1].name);
+            isGround = true;
+            jumpCount = 0;
+            JumpAnimPlay();
+        }
+        else
+        {
+            isGround = false;
+            JumpAnimPlay();
+        }
+
         Move();
-        PlayAnim();
+    }
+
+    // Gizmos 전용 메서드 함수
+    void OnDrawGizmos()
+    {
+        Gizmos.color = UnityEngine.Color.red;
+        Gizmos.DrawWireCube(transform.position, size);
     }
 
     private void Move()
     {
         playerRigidbody.velocity = new Vector2(playerInput.horizontal * speed, playerRigidbody.velocity.y);
+        FlipX();
+        WalkAnimPlay();
     }
     private void Jump()
     {
@@ -55,9 +72,10 @@ public class PlayerMovement : MonoBehaviour
             jumpCount++;
             playerRigidbody.velocity = Vector2.zero;
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
+            JumpAnimPlay(); 
         }
     }
-    private void PlayAnim()
+    private void WalkAnimPlay()
     {
         if (playerInput.horizontal != 0 )
         {
@@ -67,32 +85,28 @@ public class PlayerMovement : MonoBehaviour
         {
             playerAnimator.SetBool("isWalking", false);
         }
+    }
 
+    private void JumpAnimPlay()
+    {
         if (playerAnimator.GetBool("isGround") != isGround)
         {
             playerAnimator.SetBool("isGround", isGround);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void FlipX()
     {
-        if (collision.transform.CompareTag("Ground"))
+        if (playerInput.horizontal == -1)
         {
-            if (collision.contacts[0].normal.y > 0.7f)
-            {
-                isGround = true;
-                jumpCount = 0;
-            }
+            playerRenderer.flipX = true;
+        }
+        else if (playerInput.horizontal == 1)
+        {
+            playerRenderer.flipX = false;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.transform.CompareTag("Ground"))
-        {
-            isGround = false;
-        }
-    }
 
     private void OnDestroy()
     {
