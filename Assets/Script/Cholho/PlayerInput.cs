@@ -14,10 +14,7 @@ public class PlayerInput : MonoBehaviour
         KeyW,
     }
 
-
     Dictionary<int, KeyCode> commendKey;
-
-    public PlayerType playerType;
 
     public commendKeyEnum leftKey;
     public commendKeyEnum rightKey;
@@ -27,7 +24,9 @@ public class PlayerInput : MonoBehaviour
     public delegate void PlayerInputJump();
     public PlayerInputJump delegateJump;
 
-    public event Action onJump;
+    public event Action onJumpKeyDown;
+    public event Action onJumpKey;
+    public event Action onJumpKeyUp;
 
     private void Start()
     {
@@ -72,11 +71,25 @@ public class PlayerInput : MonoBehaviour
     }
     private void JumpAction()
     {
-        if (Input.GetKey(commendKey[(int)jumpKey]))
+        if (Input.GetKeyDown(commendKey[(int)jumpKey]))
         {
-            if (onJump != null)
+            if (onJumpKeyDown != null)
             {
-                onJump.Invoke();
+                onJumpKeyDown.Invoke();
+            }
+        }
+        else if (Input.GetKey(commendKey[(int)jumpKey]))
+        {
+            if (onJumpKey != null)
+            {
+                onJumpKey.Invoke();
+            }
+        }
+        else if (Input.GetKeyUp(commendKey[(int)jumpKey]))
+        {
+            if (onJumpKeyUp != null)
+            {
+                onJumpKeyUp.Invoke();
             }
         }
     }
