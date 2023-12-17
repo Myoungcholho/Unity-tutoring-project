@@ -9,10 +9,8 @@ public class PlayerJump : MonoBehaviour
     public Transform pos;
     public float checkRadius;
     public LayerMask wallLayer;
-
     private Animator anim;
     private Rigidbody2D rigid;
-
     private bool isJumping = false;
     private bool isGround;
     
@@ -30,7 +28,7 @@ public class PlayerJump : MonoBehaviour
 
     public void JumpKey()
     {
-        if (isGround)
+        if (isGround && rigid.velocity.y == 0)
         {
             isJumping = true;
         }
@@ -39,7 +37,7 @@ public class PlayerJump : MonoBehaviour
     {
         if (!isJumping)
         {
-            if (isGround)
+            if (isGround && rigid.velocity.y == 0)
                 anim.SetBool("isJumping", false);
             return;
         }

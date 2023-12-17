@@ -44,15 +44,15 @@ public class PlayerMove : MonoBehaviour
             spriteRenderer.flipX = true;
 
             RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.left, raycastDistance, wallLayer);
-            if (hitLeft.collider != null)
-                move = 0;
+            /*if (hitLeft.collider != null)
+                move = 0;*/
         }
         if (MoveDirection == 1)
         {
             spriteRenderer.flipX = false;
             RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.right, raycastDistance, wallLayer);
-            if (hitRight.collider != null)
-                move = 0;
+            /*if (hitRight.collider != null)
+                move = 0;*/
         }
    
         rigid.velocity = new Vector2(move, rigid.velocity.y);
