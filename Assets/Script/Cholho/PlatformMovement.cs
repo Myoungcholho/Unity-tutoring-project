@@ -10,9 +10,12 @@ public class PlatformMovement : MonoBehaviour
     public Transform startPos;
     public Transform endPos;
     private Transform destPos;
+    private Rigidbody2D rigid;
 
     void Start()
     {
+        //rigid = GetComponent<Rigidbody2D>();
+
         transform.position = startPos.position;
         destPos = endPos;
     }
@@ -21,7 +24,7 @@ public class PlatformMovement : MonoBehaviour
     {
         transform.position = Vector2.MoveTowards(transform.position, destPos.position, Time.deltaTime * speed);
         float distance = Vector2.Distance(transform.position, destPos.position);
-        Debug.Log("transform.position : " + transform.position + "/ destPos.position : " + destPos.position + "/ distance : " + distance);
+        //Debug.Log("transform.position : " + transform.position + "/ destPos.position : " + destPos.position + "/ distance : " + distance);
         if (distance <= 0.05f)
         {
             if(destPos == endPos)

@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsMine { get; private set; }
     public bool IsLongJump { get; set; } = false;
-    public bool IsJumping { get; set; } = false;
+    public bool IsGoingDown { get; set; } = false;
 
     private void Awake()
     {
@@ -61,18 +61,18 @@ public class PlayerMovement : MonoBehaviour
         // Collider가 작은 만큼 미리 rigidbody의 미리 처리 기능을 켜놓았는데
         // 땅에 닿지 않아도 본인의 상체 Collider를 인식해 땅이라고 판단하는 이상한 현상이 일어남.
         //Collider2D isGround = Physics2D.OverlapBox(legTransform.position, size, angle,layerMask);
-
         if (rigid.velocity.y <= -0.01f)
-            IsJumping = false;
+            IsGoingDown = true;
 
-        if (!IsJumping)
+        if (IsGoingDown)
         {
-            Collider2D isGround = Physics2D.OverlapCircle(legTransform.position, circleRadius, layerMask);
-            if (isGround != null)
+            isGround = (bool)Physics2D.OverlapCircle(legTransform.position, circleRadius, layerMask);
+            if (isGround)
             {
                 Debug.Log("땅을 밟고 있음!");
+                IsGoingDown = false;
                 jumpCount = 0;
-                JumpAnimPlay();
+                playerAnimator.SetBool("isGround", true);
             }
         }
 
@@ -94,26 +94,27 @@ public class PlayerMovement : MonoBehaviour
     }
     private void JumpKeyDown()
     {
-        if(jumpCount < 1)
+        if(jumpCount == 0)
         {
             jumpCount++;
-            IsJumping = true;
             rigid.velocity = Vector2.zero;
             rigid.AddForce(new Vector2(0, jumpForce));
-            JumpAnimPlay(); 
+            playerAnimator.SetBool("isGround", false);
         }
     }
+
+    // 중력
     private void JumpKey()
     {
         rigid.gravityScale = lowGravity;
     }
-
+    // 중력
     private void JumpKeyUp()
     {
         rigid.gravityScale = highGravity;
     }
 
-
+    // 플레이어 애니메이션 Walk
     private void WalkAnimPlay()
     {
         if (playerInput.horizontal != 0 )
@@ -125,15 +126,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("isWalking", false);
         }
     }
-
-    private void JumpAnimPlay()
-    {
-        if (playerAnimator.GetBool("isGround") != isGround)
-        {
-            playerAnimator.SetBool("isGround", isGround);
-        }
-    }
-
+    // 플레이어 Sprite Flip
     private void FlipX()
     {
         if (playerInput.horizontal == -1)
