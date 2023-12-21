@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public delegate void JumpFunction();
-    public delegate void MoveFunction(int Direction);
-    public event JumpFunction OnJump;
-    public event MoveFunction OnMove;
-
     public KeyCode jumpKey = KeyCode.Space;
 
     private PlayerJump jump;
@@ -21,14 +16,12 @@ public class PlayerInput : MonoBehaviour
     {
         move = GetComponent<PlayerMove>();
         jump = GetComponent<PlayerJump>();
-        OnJump += jump.JumpKey;
-        OnMove += move.MoveKey;
     }
     void Update()
     {
         if(Input.GetKeyDown(jumpKey))  //점프 입력
         {
-            OnJump?.Invoke();
+            jump?.JumpInvoke();
         }
 
         moveDirection = 0;
@@ -41,6 +34,6 @@ public class PlayerInput : MonoBehaviour
         {
             moveDirection += 1;
         }
-        OnMove?.Invoke(moveDirection);
+        move?.MoveInvoke(moveDirection);
     }
 }

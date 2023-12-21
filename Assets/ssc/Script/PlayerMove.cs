@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public delegate void MoveFunction(int Direction);
+    public event MoveFunction OnMove;
+
     public float moveSpeed = 1f;
 
     public LayerMask wallLayer;
@@ -23,11 +26,18 @@ public class PlayerMove : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        OnMove += MoveKey;
     }
 
     private void FixedUpdate()
     {
         Move();
+    }
+
+    public void MoveInvoke(int MoveDirection)
+    {
+        OnMove?.Invoke(MoveDirection);
     }
 
     public void MoveKey(int Direction)
