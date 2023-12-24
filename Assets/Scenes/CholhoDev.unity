@@ -266,9 +266,9 @@ GameObject:
   - component: {fileID: 356448231}
   - component: {fileID: 356448230}
   - component: {fileID: 356448229}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Player_B
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -415,14 +415,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 356448228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.78, z: 0}
+  m_LocalPosition: {x: 5.92, y: -0.31999993, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1546978852}
   - {fileID: 383085570}
-  m_Father: {fileID: 1292292102}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &383085568
 GameObject:
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 383085569}
   m_Layer: 7
   m_Name: Leg Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2934,6 +2934,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc21f101fda818489e40e8540497c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToMove: []
+  input: {fileID: 1292292111}
+  playerMovement: {fileID: 1292292110}
 --- !u!1 &1197442539
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,9 +2982,9 @@ GameObject:
   - component: {fileID: 1292292108}
   - component: {fileID: 1292292111}
   - component: {fileID: 1292292110}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Player_A
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3046,13 +3049,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292292100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.92, y: -2.1, z: 0}
+  m_LocalPosition: {x: 4.83, y: -2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1081065791}
   - {fileID: 1434316939}
-  - {fileID: 356448234}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3235,7 +3237,7 @@ GameObject:
   - component: {fileID: 1434316940}
   m_Layer: 7
   m_Name: Leg Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3579,6 +3581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc21f101fda818489e40e8540497c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToMove: []
+  input: {fileID: 356448230}
+  playerMovement: {fileID: 356448229}
 --- !u!61 &1546978854
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -1,43 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerHead : MonoBehaviour
 {
-    Transform parent;
-    BoxCollider2D BoxCollider;
+    [SerializeField]
+    private GameObject[] objectToMove;
+
+    public PlayerInput input;
+    public PlayerMovement playerMovement;
 
     private void Awake()
     {
-        BoxCollider = GetComponent<BoxCollider2D>();
-        parent = transform.parent;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        objectToMove = new GameObject[2];
+    }
+
     void Update()
     {
+        for (int i = 0; i < 2; ++i)
+        {
+            if (objectToMove[i] != null)
+            {
+                ObjectToMove(i);
+            }
+        }
+       
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void FixedUpdate()
     {
-        if(collision.transform.CompareTag("Player"))
+    }
+
+    private void ObjectToMove(int idx)
+    {
+        objectToMove[idx].transform.position += new Vector3(input.horizontal, 0f, 0f) * playerMovement.speed * Time.deltaTime;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player"))
         {
-            collision.transform.SetParent(parent);
+            for (int i = 0; i < 2; ++i)
+            {
+                if (objectToMove[i] == collision.gameObject)
+                    return;
+            }
+
+            for (int i = 0; i < 2; ++i)
+            {
+                if (objectToMove[i] == null)
+                {
+                    objectToMove[i] = collision.gameObject;
+                    return;
+                }
+            }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Player"))
+       if(collision.collider.CompareTag("Player"))
         {
-            collision.transform.SetParent(null);
+            for(int i=0; i<2; ++i)
+            {
+                if (objectToMove[i] == collision.gameObject)
+                {
+                    objectToMove[i] = null;
+                }
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        Move();
+        Move(playerInput.horizontal);
     }
 
     // Gizmos 전용 메서드 함수
@@ -86,9 +86,9 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawSphere(legTransform.position, circleRadius);
     }
 
-    private void Move()
+    private void Move(float horizontal)
     {
-        rigid.velocity = new Vector2(playerInput.horizontal * speed, rigid.velocity.y);
+        rigid.velocity = new Vector2(horizontal * speed, rigid.velocity.y);
         FlipX();
         WalkAnimPlay();
     }
@@ -101,6 +101,12 @@ public class PlayerMovement : MonoBehaviour
             rigid.AddForce(new Vector2(0, jumpForce));
             playerAnimator.SetBool("isGround", false);
         }
+    }
+
+    // 다른 플레이어에게 영향을 주는 메서드
+    public void ApplyInfluence(Vector3 influence)
+    {
+        transform.position += influence;
     }
 
     // 중력
