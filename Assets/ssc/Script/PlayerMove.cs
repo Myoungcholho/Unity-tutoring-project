@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public delegate void MoveFunction(int Direction);
+    public event MoveFunction OnMove;
+
     public float moveSpeed = 1f;
 
     public LayerMask wallLayer;
@@ -23,11 +26,18 @@ public class PlayerMove : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        OnMove += MoveKey;
     }
 
     private void FixedUpdate()
     {
         Move();
+    }
+
+    public void MoveInvoke(int MoveDirection)
+    {
+        OnMove?.Invoke(MoveDirection);
     }
 
     public void MoveKey(int Direction)
@@ -44,15 +54,15 @@ public class PlayerMove : MonoBehaviour
             spriteRenderer.flipX = true;
 
             RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.left, raycastDistance, wallLayer);
-            if (hitLeft.collider != null)
-                move = 0;
+            /*if (hitLeft.collider != null)
+                move = 0;*/
         }
         if (MoveDirection == 1)
         {
             spriteRenderer.flipX = false;
             RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.right, raycastDistance, wallLayer);
-            if (hitRight.collider != null)
-                move = 0;
+            /*if (hitRight.collider != null)
+                move = 0;*/
         }
    
         rigid.velocity = new Vector2(move, rigid.velocity.y);

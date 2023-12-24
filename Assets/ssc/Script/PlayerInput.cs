@@ -1,38 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public delegate void JumpFunction();
-    public delegate void MoveFunction(int Direction);
-    public event JumpFunction OnJump;
-    public event MoveFunction OnMove;
-
     public KeyCode jumpKey = KeyCode.Space;
-    
+
+    private PlayerJump jump;
+    private PlayerMove move;
+
+    private int moveDirection = 0;
+
+    void Start()
+    {
+        move = GetComponent<PlayerMove>();
+        jump = GetComponent<PlayerJump>();
+    }
     void Update()
     {
         if(Input.GetKeyDown(jumpKey))  //점프 입력
         {
-            OnJump?.Invoke();
+            jump?.JumpInvoke();
         }
 
-        if(Input.GetKey(KeyCode.A)) //이동 입력
+        moveDirection = 0;
+
+        if (Input.GetKey(KeyCode.A))
         {
-            OnMove?.Invoke(-1);
+            moveDirection -= 1;
         }
-        else if(Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            OnMove?.Invoke(1);
+            moveDirection += 1;
         }
-        else
-        { 
-            OnMove?.Invoke(0); 
-        } 
-        if(Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
-        {
-            OnMove?.Invoke(0);
-        }
+        move?.MoveInvoke(moveDirection);
     }
 }
