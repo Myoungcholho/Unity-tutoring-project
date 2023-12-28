@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerJump : MonoBehaviour
 {
-    public delegate void JumpFunction();
-    public event JumpFunction OnJump;
+    
 
     public float jumpPower = 1f;
 
@@ -15,15 +14,18 @@ public class PlayerJump : MonoBehaviour
 
     private Animator anim;
     private Rigidbody2D rigid;
+    private PlayerInput playerInput;
 
-    private bool isJumping = false;
+    public bool isJumping = false;
     private bool isGround;
     
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        OnJump += JumpKey;
+        playerInput = GetComponent<PlayerInput>();
+
+        playerInput.OnJump += JumpKey;
     }
 
     private void FixedUpdate()
@@ -31,13 +33,8 @@ public class PlayerJump : MonoBehaviour
         //isGround = Physics2D.OverlapCircle(pos.position, checkRadius, wallLayer);
         isGround = Physics2D.OverlapBox(pos.position, pos.localScale, wallLayer);
         Jump();
-        if(rigid.velocity.y > -0.000001 && rigid.velocity.y < 0.000001)
-            Debug.Log(rigid.velocity.y);
-    }
-
-    public void JumpInvoke()
-    {
-        OnJump?.Invoke();
+        /*if (rigid.velocity.y > -0.000001 && rigid.velocity.y < 0.000001)
+            Debug.Log(rigid.velocity.y);*/
     }
 
     public void JumpKey()

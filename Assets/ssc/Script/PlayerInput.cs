@@ -5,23 +5,23 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    public delegate void MoveFunction(int Direction);
+    public MoveFunction OnMove;
+    public delegate void JumpFunction();
+    public JumpFunction OnJump;
     public KeyCode jumpKey = KeyCode.Space;
-
-    private PlayerJump jump;
-    private PlayerMove move;
 
     private int moveDirection = 0;
 
     void Start()
     {
-        move = GetComponent<PlayerMove>();
-        jump = GetComponent<PlayerJump>();
+       
     }
     void Update()
     {
         if(Input.GetKeyDown(jumpKey))  //점프 입력
         {
-            jump?.JumpInvoke();
+            OnJump.Invoke();
         }
 
         moveDirection = 0;
@@ -34,6 +34,6 @@ public class PlayerInput : MonoBehaviour
         {
             moveDirection += 1;
         }
-        move?.MoveInvoke(moveDirection);
+        OnMove?.Invoke(moveDirection);
     }
 }
