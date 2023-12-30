@@ -1066,7 +1066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1606624276
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3792,7 +3792,7 @@ Tilemap:
       m_AnimatedSprites:
       - {fileID: 21300000, guid: 3fdfa71f2fd401043979fde71c38b3b1, type: 3}
       - {fileID: 21300000, guid: c0af78d15ad42284fafd38d6c19968b4, type: 3}
-      m_AnimationSpeed: 0.6668608
+      m_AnimationSpeed: 0.8803015
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
