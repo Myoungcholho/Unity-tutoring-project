@@ -8,7 +8,7 @@ public class PlayerHead : MonoBehaviour
     [SerializeField]
     private GameObject[] objectToMove;
 
-    public PlayerInput input;
+    public CholHo.PlayerInput input;
     public PlayerMovement playerMovement;
 
     private void Awake()

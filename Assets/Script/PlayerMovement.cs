@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGround;              //private
 
     public int jumpCount;
-    private PlayerInput playerInput;
+    private CholHo.PlayerInput playerInput;
     private Rigidbody2D rigid;
     private Animator playerAnimator;
     private SpriteRenderer playerRenderer;
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<CholHo.PlayerInput>();
         rigid = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         playerRenderer = GetComponent<SpriteRenderer>();
