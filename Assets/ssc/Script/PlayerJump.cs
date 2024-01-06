@@ -27,6 +27,8 @@ public class PlayerJump : MonoBehaviour
     public float jumpTime = 0.5f;
     private float jumpTimeCount = 0;
 
+    private Vector3 lastPosition;
+
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -36,11 +38,15 @@ public class PlayerJump : MonoBehaviour
         playerInput.OnJumpKeyDown += JumpKeyDown;
         playerInput.OnJumpKeyUp += JumpKeyUp;
         playerInput.OnJumpKeyPress += JumpKeyPress;
+
+        lastPosition = transform.position;
     }
 
     private void JumpKeyDown()
     {
-        if(isGround)
+        if(headHit)
+            anim.SetBool("isJumping", true);
+        else if (isGround)
         {
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = true;
@@ -48,6 +54,7 @@ public class PlayerJump : MonoBehaviour
             jumpTimeCount = jumpTime;
         }
         
+            
         
     }
     private void JumpKeyPress()
@@ -77,6 +84,7 @@ public class PlayerJump : MonoBehaviour
         }
 
     }
+
     private void FixedUpdate()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(-0.3f, -0.6f, 0);
@@ -84,19 +92,29 @@ public class PlayerJump : MonoBehaviour
         Debug.DrawRay(GroundstartPosition, Vector2.right * 0.6f, Color.red);
         if (isGround)
             Debug.Log("Ground Detected");
-        
+
         
 
-        Vector3 startPosition = transform.position + new Vector3(-0.3f, 0.5f, 0);
-        headHit = Physics2D.Raycast(startPosition, Vector2.right, 0.6f, PlayerLayer);
-        if (headHit)
-            Debug.Log("Head Detected");
-        Debug.DrawRay(startPosition, Vector2.right * 0.6f, Color.red);
 
+        HeadRayDetect();
         StopJumpAnimation();
 
     }
-    
+    private void HeadRayDetect()
+    {
+        Vector3 movedPosition = transform.position - lastPosition;
+        Debug.Log(movedPosition);
+        Vector3 startPosition = transform.position + new Vector3(-0.3f, 0.5f, 0);
+        headHit = Physics2D.Raycast(startPosition, Vector2.right, 0.6f, PlayerLayer);
+        if (headHit)
+        {
+            headHit.transform.position += movedPosition;
+            Debug.Log("Head Detected");
+        }
+        lastPosition = transform.position;
+        
+        Debug.DrawRay(startPosition, Vector2.right * 0.6f, Color.red);
+    }
 
     private void JumpKey()
     {
@@ -106,5 +124,4 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
-    
 }
