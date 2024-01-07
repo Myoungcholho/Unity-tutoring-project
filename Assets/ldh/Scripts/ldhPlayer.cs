@@ -26,7 +26,8 @@ public class ldhPlayer : MonoBehaviour
     bool isGround = false;
 
     Vector3 dir = Vector3.zero; //dir => direction , zero => (0,0,0)
-    Vector3 jump = Vector3.up;
+    bool jumping = false;
+    bool walking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -69,29 +70,47 @@ public class ldhPlayer : MonoBehaviour
             dir = Vector3.right;
         }
 
+
         if (Input.GetKeyDown(KeyCode.Space) && isGround)
-            rb.AddForce(jump * power, ForceMode2D.Impulse);
-            
+        {
+            rb.AddForce(Vector3.up * power, ForceMode2D.Impulse);
+            animator.SetBool("jumping", true);
+        }
+        //isGround 가 false이면  jumping 애니메이션
+           
+
     }
 
 
     private void FixedUpdate()
     {
-        if(dir != Vector3.zero)
+        if (dir != Vector3.zero)
         {
             transform.position += dir.normalized * speed * Time.fixedDeltaTime;
             animator.SetFloat("speed", speed);
             spriteRenderer.flipX = dir.x < 0;
+            walking = true;
+            animator.SetBool("walking", walking);
         }
         else
         {
+            walking = false;
             animator.SetFloat("speed", 0f);
+
         }
-        //transform.position += dir * speed * Time.fixedDeltaTime;
-        //animator.SetFloat("speed", dir.magnitude);  //magnitude => 벡터 길이반환
-        //if (dir.x != 0)
-        //{
-        //    spriteRenderer.flipX = dir.x < 0;
-        //}
+        //Landing platform
+        if (rb.velocity.y < 0) 
+        {
+            Debug.DrawRay(rb.position, Vector3.down, new Color(0, 1, 0));
+
+            RaycastHit2D rayHit = Physics2D.Raycast(rb.position, Vector3.down, 1, LayerMask.GetMask("Platform"));
+
+            if (rayHit.collider != null)
+            {
+                if (rayHit.distance < 0.5f)
+                    animator.SetBool("jumping", false);
+            }
+        }
+        
     }
 }
