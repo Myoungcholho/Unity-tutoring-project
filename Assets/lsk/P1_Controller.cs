@@ -1,10 +1,7 @@
 using System.Collections; //
 using System.Collections.Generic; //
-using System.Collections.Specialized;
-using System.ComponentModel.Design;
-using System.Net;
-using System.Security.Cryptography;
-using UnityEngine; //
+using UnityEngine;
+using UnityEngine.UIElements; //
 
 public class P1_Controller : MonoBehaviour
 {
@@ -27,7 +24,7 @@ public class P1_Controller : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (IsGrounded() && Input.GetButtonDown("Jump"))
         {
             Jump();
         }
@@ -37,7 +34,6 @@ public class P1_Controller : MonoBehaviour
     void FixedUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
-        Debug.Log(horizontal);
 
         Move(horizontal); //걷기 애니메이션 제어
         UpdateAnimations(horizontal); //걷기 및 점프 애니메이션 제어
@@ -87,23 +83,30 @@ public class P1_Controller : MonoBehaviour
     void Jump()
     {
         //y 속도가 0일때만 점프 가능하도록 설정
-        rigid.AddForce(new Vector2(0, 800));
-        jumping = true;
+        Debug.Log("Jump called");
+        rigid.velocity = new Vector2(rigid.velocity.x, 0f);
+        rigid.AddForce(new Vector2(0, 400));
     }
 
     bool IsGrounded()
     {
-        float circleRadius = 0.2f;
-        Vector2 circleCenter = new Vector2(transform.position.x, transform.position.y - 0.1f);
+        Debug.Log("Checking if grounded");
+        float circleRadius = 0.05f;
+        Vector2 circleCenter = new Vector2(transform.position.x, transform.position.y - 0.45f);
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(circleCenter, circleRadius, Tilemap);
 
         foreach (var collider in colliders)
         {
+            Debug.Log("Collided with: " + collider.gameObject.name);
             if (collider.gameObject != gameObject)
             {
                 jumping = false;
                 return true;
+            }
+            else
+            {
+                jumping = true;
             }
         }
 
@@ -115,5 +118,13 @@ public class P1_Controller : MonoBehaviour
         animator.SetBool("Walking", moving);
         animator.SetBool("Jumping", jumping);
         animator.SetFloat("VerticalSpeed", jumping ? 1f : 0f);
+        Debug.Log("IsGrounded: " + jumping);
+    }
+
+    void OnDrawGizmos()
+    {
+        float circleRadius = 0.05f;
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(new Vector2(transform.position.x, transform.position.y - 0.45f), circleRadius);
     }
 }
