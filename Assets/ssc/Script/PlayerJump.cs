@@ -7,8 +7,8 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerJump : MonoBehaviour
 {
-    
-
+    public int PlayerCount = 0;
+    //
     public float jumpPower = 1f;
     public float addJumpPower = 5f;
 
@@ -84,16 +84,34 @@ public class PlayerJump : MonoBehaviour
         }
 
     }
-
+    
     private void FixedUpdate()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(-0.3f, -0.6f, 0);
         isGround = Physics2D.Raycast(GroundstartPosition, Vector2.right, 0.6f, GroundLayer);
         Debug.DrawRay(GroundstartPosition, Vector2.right * 0.6f, Color.red);
         if (isGround)
-            Debug.Log("Ground Detected");
+        {
+            //Debug.Log("Ground Detected");
+            if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("HorizonMoveGround"))
+            {
+                //Debug.Log("Hit Move Ground Layer");
+                PlayerCount = 1;
+            }
+            else if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                PlayerJump otherPlayer = isGround.collider.gameObject.GetComponent<PlayerJump>();
+                if (otherPlayer.PlayerCount == 1)
+                    PlayerCount = 1;
+            }
+            
+        }
+        else
+            PlayerCount = 0;
 
-        
+
+
+
 
 
         HeadRayDetect();
@@ -103,13 +121,14 @@ public class PlayerJump : MonoBehaviour
     private void HeadRayDetect()
     {
         Vector3 movedPosition = transform.position - lastPosition;
-        Debug.Log(movedPosition);
+        //Debug.Log(movedPosition);
         Vector3 startPosition = transform.position + new Vector3(-0.3f, 0.5f, 0);
         headHit = Physics2D.Raycast(startPosition, Vector2.right, 0.6f, PlayerLayer);
         if (headHit)
         {
-            headHit.transform.position += movedPosition;
+            headHit.transform.position += movedPosition; //플레이어 올라타있
             Debug.Log("Head Detected");
+            
         }
         lastPosition = transform.position;
         
