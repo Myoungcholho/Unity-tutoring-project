@@ -8,8 +8,13 @@ public class PlayerInput : MonoBehaviour
     public delegate void MoveFunction(int Direction);
     public MoveFunction OnMove;
     public delegate void JumpFunction();
-    public JumpFunction OnJump;
+    public JumpFunction OnJumpKeyDown;
+    public JumpFunction OnJumpKeyUp;
+    public JumpFunction OnJumpKeyPress;
     public KeyCode jumpKey = KeyCode.Space;
+
+    public KeyCode leftKey = KeyCode.A;
+    public KeyCode rightKey = KeyCode.D;
 
     private int moveDirection = 0;
 
@@ -19,18 +24,20 @@ public class PlayerInput : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(jumpKey))  //점프 입력
-        {
-            OnJump.Invoke();
-        }
+        if(Input.GetKeyDown(jumpKey))
+            OnJumpKeyDown?.Invoke();
+        if(Input.GetKey(jumpKey))
+            OnJumpKeyPress?.Invoke();
+        if(Input.GetKeyUp(jumpKey))
+            OnJumpKeyUp?.Invoke();
 
         moveDirection = 0;
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(leftKey))
         {
             moveDirection -= 1;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(rightKey))
         {
             moveDirection += 1;
         }

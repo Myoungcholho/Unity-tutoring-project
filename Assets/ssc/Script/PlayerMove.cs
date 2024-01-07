@@ -21,54 +21,69 @@ public class PlayerMove : MonoBehaviour
     private PlayerInput playerInput;
     private int MoveDirection = 0;
 
-    //private PlayerJump jump;
+    private float move = 0;
+
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInput = GetComponent<PlayerInput>();
-        //jump = GetComponent<PlayerJump>();
         playerInput.OnMove += MoveKey;
+        
     }
 
     private void FixedUpdate()
     {
         Move();
+        Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        
     }
 
-    public void MoveKey(int Direction)
+    private void MoveKey(int Direction)
     {
         MoveDirection = Direction;
     }
 
     public void Move()
     {
-        float move = 0;
+        move = 0;
         move = moveSpeed * MoveDirection;
+        if (MoveDirection == 0)
+        {
+            rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+
+        }
+        else
+        {
+            rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+        }
+            
         if (MoveDirection == -1)
         {
             spriteRenderer.flipX = true;
-
-            RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.left, raycastDistance, wallLayer);
+            //-0.09 0.1 0
+            /*RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
             if (hitLeft.collider != null)
             {
-                //move = 0;
-            }
+                move = 0;
+            }*/
 
         }
         if (MoveDirection == 1)
         {
             spriteRenderer.flipX = false;
-            RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.right, raycastDistance, wallLayer);
+            //0.1 0.1 0
+            /*RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
             if (hitRight.collider != null)
             {
-                //move = 0;
-            }
-
+                move = 0;
+            }*/
         }
    
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         anim.SetBool("isWalking", move != 0);
     }
+
 }
