@@ -36,8 +36,8 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
-        Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        /*Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);*/
         
     }
 

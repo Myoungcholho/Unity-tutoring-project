@@ -7,46 +7,38 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerJump : MonoBehaviour
 {
-    public int PlayerCount = 0;
-    //
+    
     public float jumpPower = 1f;
     public float addJumpPower = 5f;
-
-    public LayerMask GroundLayer;
-    public LayerMask PlayerLayer;
 
     public bool isJumping = false;
 
     private Animator anim;
     private Rigidbody2D rigid;
     private PlayerInput playerInput;
-
-    private RaycastHit2D headHit;
-    private RaycastHit2D isGround;
-    //
+    private PlayerStatus playerStatus;
+    
     public float jumpTime = 0.5f;
     private float jumpTimeCount = 0;
-
-    private Vector3 lastPosition;
 
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-
         playerInput.OnJumpKeyDown += JumpKeyDown;
         playerInput.OnJumpKeyUp += JumpKeyUp;
         playerInput.OnJumpKeyPress += JumpKeyPress;
 
-        lastPosition = transform.position;
+        playerStatus = GetComponent<PlayerStatus>();
+
     }
 
     private void JumpKeyDown()
     {
-        if(headHit)
+        if(playerStatus.isHeadRayDetect())
             anim.SetBool("isJumping", true);
-        else if (isGround)
+        else if (playerStatus.isGroundRayDetect())
         {
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = true;
@@ -79,7 +71,7 @@ public class PlayerJump : MonoBehaviour
     {
         if (!isJumping)
         {
-            if (isGround)
+            if (playerStatus.isGroundRayDetect())
                 anim.SetBool("isJumping", false);
         }
 
@@ -87,57 +79,15 @@ public class PlayerJump : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector3 GroundstartPosition = transform.position + new Vector3(-0.3f, -0.6f, 0);
-        isGround = Physics2D.Raycast(GroundstartPosition, Vector2.right, 0.6f, GroundLayer);
-        Debug.DrawRay(GroundstartPosition, Vector2.right * 0.6f, Color.red);
-        if (isGround)
-        {
-            //Debug.Log("Ground Detected");
-            if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("HorizonMoveGround"))
-            {
-                //Debug.Log("Hit Move Ground Layer");
-                PlayerCount = 1;
-            }
-            else if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                PlayerJump otherPlayer = isGround.collider.gameObject.GetComponent<PlayerJump>();
-                if (otherPlayer.PlayerCount == 1)
-                    PlayerCount = 1;
-            }
-            
-        }
-        else
-            PlayerCount = 0;
-
-
-
-
-
-
-        HeadRayDetect();
+   
         StopJumpAnimation();
 
     }
-    private void HeadRayDetect()
-    {
-        Vector3 movedPosition = transform.position - lastPosition;
-        //Debug.Log(movedPosition);
-        Vector3 startPosition = transform.position + new Vector3(-0.3f, 0.5f, 0);
-        headHit = Physics2D.Raycast(startPosition, Vector2.right, 0.6f, PlayerLayer);
-        if (headHit)
-        {
-            headHit.transform.position += movedPosition; //플레이어 올라타있
-            Debug.Log("Head Detected");
-            
-        }
-        lastPosition = transform.position;
-        
-        Debug.DrawRay(startPosition, Vector2.right * 0.6f, Color.red);
-    }
+    
 
     private void JumpKey()
     {
-        if (isGround /*&& (rigid.velocity.y > -0.001 && rigid.velocity.y < 0.001)*/)
+        if (playerStatus.isGroundRayDetect())
         {
             isJumping = true;
         }

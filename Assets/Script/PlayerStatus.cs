@@ -18,7 +18,7 @@ public class PlayerStatus : MonoBehaviour
     private float headRayDistance = 0.7f;
     private float groundRayDistance = 0.65f;
 
-    public MoveUpTile moveuptile;
+    private MoveUpTile moveuptile;
 
     private bool wasOnTile = false;
     
@@ -70,7 +70,7 @@ public class PlayerStatus : MonoBehaviour
 
         if (isGround)
         {
-            if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("HorizonMoveGround"))
+            if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
             {
                 isOnTile = true;
                 moveuptile = isGround.collider.GetComponent<MoveUpTile>();
@@ -87,8 +87,8 @@ public class PlayerStatus : MonoBehaviour
         if (isOnTile && !wasOnTile)
         {
             
-            
-            moveuptile.total++;
+            if(moveuptile != null)
+                moveuptile.total++;
 
             
             wasOnTile = true;
@@ -97,9 +97,9 @@ public class PlayerStatus : MonoBehaviour
         }
         else if (!isOnTile && wasOnTile)
         {
-            
-            
-            moveuptile.total -= 1;
+
+            if (moveuptile != null)
+                moveuptile.total -= 1;
             
             wasOnTile = false;
             

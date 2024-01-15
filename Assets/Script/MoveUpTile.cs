@@ -15,12 +15,13 @@ public class MoveUpTile : MonoBehaviour
     
     private void Start()
     {
+        Players = GameObject.FindGameObjectsWithTag("Player");
         
         OriginPosition = transform.position;
     }
     private void FixedUpdate()
     {
-        Debug.Log(total);
+        
         if(total >= playerNumber )
         {
             Debug.Log("Move UP");
