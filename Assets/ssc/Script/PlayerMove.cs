@@ -15,6 +15,7 @@ public class PlayerMove : MonoBehaviour
     public Transform rightRaycastPosition; // 오른쪽 레이캐스트 시작 위치
     public float raycastDistance = 3f; // 레이캐스트의 길이
 
+    public bool PlayerDirection;
     private Animator anim;
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
@@ -63,6 +64,7 @@ public class PlayerMove : MonoBehaviour
         if (MoveDirection == -1)
         {
             spriteRenderer.flipX = true;
+            PlayerDirection = true;
             //-0.09 0.1 0
             /*RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
             if (hitLeft.collider != null)
@@ -74,6 +76,7 @@ public class PlayerMove : MonoBehaviour
         if (MoveDirection == 1)
         {
             spriteRenderer.flipX = false;
+            PlayerDirection = false;
             //0.1 0.1 0
             /*RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
             if (hitRight.collider != null)

@@ -18,22 +18,15 @@ public class PlayerStatus : MonoBehaviour
     private float headRayDistance = 0.7f;
     private float groundRayDistance = 0.65f;
 
-    private MoveUpTile moveuptile;
-
-    private bool wasOnTile = false;
-    
+    public bool hasKey = false;
     void Start()
     {
         lastPosition = transform.position;
-        moveuptile = GetComponent<MoveUpTile>();
-        
     }
 
     private void FixedUpdate()
     {
-
-        CarryAbovePlayer();
-        MoveUpTilePlayerAbove();
+        CarryAbovePlayer();  
     }
 
     public bool isGroundRayDetect()
@@ -63,47 +56,5 @@ public class PlayerStatus : MonoBehaviour
         }
         lastPosition = transform.position;
     }
-    private void MoveUpTilePlayerAbove()
-    {
-        
-        bool isOnTile = false;
-
-        if (isGround)
-        {
-            if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
-            {
-                isOnTile = true;
-                moveuptile = isGround.collider.GetComponent<MoveUpTile>();
-            }
-            else if (isGround.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                
-                isOnTile = true;
-                PlayerStatus otherplayerstatus = isGround.collider.GetComponent<PlayerStatus>();
-                moveuptile = otherplayerstatus.moveuptile;
-            }
-        }
-
-        if (isOnTile && !wasOnTile)
-        {
-            
-            if(moveuptile != null)
-                moveuptile.total++;
-
-            
-            wasOnTile = true;
-            
-            
-        }
-        else if (!isOnTile && wasOnTile)
-        {
-
-            if (moveuptile != null)
-                moveuptile.total -= 1;
-            
-            wasOnTile = false;
-            
-        }
-        
-    }
+    
 }

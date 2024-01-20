@@ -6,26 +6,34 @@ using UnityEngine;
 public class MoveUpTile : MonoBehaviour
 {
     public int playerNumber;
-    public GameObject[] Players;
+    //public GameObject[] Players;
     public float moveDistance = 3.0f;
-    public int total = 0;
 
+    [SerializeField]
+    private int total = 0;
+
+    public int Total
+    {
+        get { return total; }
+        set { total = value; }
+    }
     private Vector3 OriginPosition;
 
     
     private void Start()
     {
-        Players = GameObject.FindGameObjectsWithTag("Player");
+        //Players = GameObject.FindGameObjectsWithTag("Player");
         
         OriginPosition = transform.position;
     }
+    
     private void FixedUpdate()
     {
-        
-        if(total >= playerNumber )
+
+        if (total >= playerNumber)
         {
-            Debug.Log("Move UP");
-            if(transform.position.y < OriginPosition.y + moveDistance)
+            
+            if (transform.position.y < OriginPosition.y + moveDistance)
                 transform.position += Vector3.up * Time.deltaTime;
         }
         else

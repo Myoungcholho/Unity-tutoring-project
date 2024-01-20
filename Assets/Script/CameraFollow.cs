@@ -11,10 +11,10 @@ public class CameraFollow : MonoBehaviour
     private float smoothTime = 0.15f;
 
     [SerializeField]
-    private Transform target1;
+    private Transform maxX;
 
     [SerializeField]
-    private Transform target2;
+    private Transform minX;
 
     [SerializeField]
     private Transform[] targets;
@@ -29,8 +29,8 @@ public class CameraFollow : MonoBehaviour
             targets[i] = Player.transform;
             i++;
         }
-        target1 = targets[0];
-        target2 = targets[1];
+        maxX = targets[0];
+        minX = targets[1];
     }
     void FixedUpdate()
     {
@@ -39,16 +39,16 @@ public class CameraFollow : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);*/
         for (int i = 0; i < targets.Length; i++)
         {
-            if (targets[i].position.x < target2.position.x)
+            if (targets[i].position.x < minX.position.x)
             {
-                target2 = targets[i];
+                minX = targets[i];
             }
-            else if (targets[i].position.x > target1.position.x)
+            else if (targets[i].position.x > maxX.position.x)
             {
-                target1 = targets[i];
+                maxX = targets[i];
             }
         }
-        float X = (target1.position.x + target2.position.x) / 2;
+        float X = (maxX.position.x + minX.position.x) / 2;
         Vector3 targetPosition = new Vector3(X, 0, 0) + offset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
