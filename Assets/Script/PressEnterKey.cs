@@ -5,7 +5,7 @@ using TMPro;
 
 public class PressEnterKey : MonoBehaviour
 {
-    public TextMeshProUGUI text;
+    private TextMeshProUGUI text;
     // Start is called before the first frame update
     void Start()
     {
