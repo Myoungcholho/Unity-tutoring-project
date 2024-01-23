@@ -23,8 +23,8 @@ public class MoveUpTile : MonoBehaviour
     private PlayerStatus playerstatus;
     private RaycastHit2D isPlayerBelowRay;
 
-    public float a = -1.1f;
-    public float b = -0.32f;
+    public float addRayXposition = -1.1f;
+    public float addRayYposition = -0.32f;
     public float Distance = 2.2f;
 
     private void Start()
@@ -36,7 +36,7 @@ public class MoveUpTile : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector3 startPosition = transform.position + new Vector3(a, b, 0);
+        Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
         Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
         if (total >= playerNumber)
         {
@@ -56,7 +56,7 @@ public class MoveUpTile : MonoBehaviour
     }
     bool isPlayerBelow()
     {
-        Vector3 startPosition = transform.position + new Vector3(a, b, 0);
+        Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
 
 
 
