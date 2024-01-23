@@ -9,17 +9,24 @@ public class MoveUpTile : MonoBehaviour
     //public GameObject[] Players;
     public float moveDistance = 3.0f;
 
+    public LayerMask PlayerLayer;
+
     [SerializeField]
     private int total = 0;
 
     public int Total
-    {
+    { 
         get { return total; }
         set { total = value; }
     }
     private Vector3 OriginPosition;
+    private PlayerStatus playerstatus;
+    private RaycastHit2D isPlayerBelowRay;
 
-    
+    public float a = -1.1f;
+    public float b = -0.32f;
+    public float Distance = 2.2f;
+
     private void Start()
     {
         //Players = GameObject.FindGameObjectsWithTag("Player");
@@ -29,18 +36,31 @@ public class MoveUpTile : MonoBehaviour
     
     private void FixedUpdate()
     {
-
+        Vector3 startPosition = transform.position + new Vector3(a, b, 0);
+        Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
         if (total >= playerNumber)
         {
-            
+
             if (transform.position.y < OriginPosition.y + moveDistance)
-                transform.position += Vector3.up * Time.deltaTime;
+                transform.position += Vector3.up * 0.05f/*0.1f * Time.deltaTime*/;
         }
         else
         {
             if (transform.position.y > OriginPosition.y)
-                transform.position += Vector3.down * Time.deltaTime;
+            {
+                if(!isPlayerBelow())
+                    transform.position += Vector3.down * Time.deltaTime;
+            }
+
         }
     }
-    
+    bool isPlayerBelow()
+    {
+        Vector3 startPosition = transform.position + new Vector3(a, b, 0);
+
+
+
+        isPlayerBelowRay = Physics2D.Raycast(startPosition, Vector2.right, Distance, PlayerLayer);
+        return isPlayerBelowRay;
+    }
 }
