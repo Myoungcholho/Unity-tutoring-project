@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveUpTilePlayerAbove : MonoBehaviour
+public class LiftTilePlayerAbove : MonoBehaviour
 {
-    public MoveUpTile moveuptile;
+    public LiftTile moveuptile;
 
     private bool wasOnTile = false;
 
@@ -30,13 +30,13 @@ public class MoveUpTilePlayerAbove : MonoBehaviour
             if (playerstatus.isGround.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
             {
                 isOnTile = true;
-                moveuptile = playerstatus.isGround.collider.GetComponent<MoveUpTile>();
+                moveuptile = playerstatus.isGround.collider.GetComponent<LiftTile>();
             }
             else if (playerstatus.isGround.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
 
                 isOnTile = true;
-                MoveUpTilePlayerAbove moveuptileplayerAbove = playerstatus.isGround.collider.GetComponent<MoveUpTilePlayerAbove>();
+                LiftTilePlayerAbove moveuptileplayerAbove = playerstatus.isGround.collider.GetComponent<LiftTilePlayerAbove>();
                 moveuptile = moveuptileplayerAbove.moveuptile;
             }
         }

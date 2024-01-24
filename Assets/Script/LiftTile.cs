@@ -1,9 +1,10 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class MoveUpTile : MonoBehaviour
+public class LiftTile : MonoBehaviour
 {
     public int playerNumber;
     //public GameObject[] Players;
@@ -17,20 +18,33 @@ public class MoveUpTile : MonoBehaviour
     public int Total
     { 
         get { return total; }
-        set { total = value; }
+        set 
+        {
+            total = value;
+            int visibleText = playerNumber - total;
+            text.text = visibleText.ToString();
+        }
     }
+
     private Vector3 OriginPosition;
     private PlayerStatus playerstatus;
     private RaycastHit2D isPlayerBelowRay;
 
-    public float addRayXposition = -1.1f;
-    public float addRayYposition = -0.32f;
-    public float Distance = 2.2f;
+    private float addRayXposition = -1.1f;
+    private float addRayYposition = -0.32f;
+    private float Distance = 2.2f;
+
+
+    public bool isUp = true;
+
+    private TextMeshPro text;
+    private LiftTile lifttile;
 
     private void Start()
     {
         //Players = GameObject.FindGameObjectsWithTag("Player");
-        
+        lifttile = GetComponent<LiftTile>();
+        text = GetComponentInChildren<TextMeshPro>();
         OriginPosition = transform.position;
     }
     
@@ -38,7 +52,7 @@ public class MoveUpTile : MonoBehaviour
     {
         Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
         Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
-        if (total >= playerNumber)
+        if (/*total >= playerNumber*/ isUp)
         {
 
             if (transform.position.y < OriginPosition.y + moveDistance)
