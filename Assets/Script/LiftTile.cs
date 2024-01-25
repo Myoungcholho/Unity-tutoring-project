@@ -63,7 +63,7 @@ public class LiftTile : MonoBehaviour
             if (transform.position.y > OriginPosition.y)
             {
                 if(!isPlayerBelow())
-                    transform.position += Vector3.down * Time.deltaTime;
+                    transform.position += Vector3.down * 0.05f;
             }
 
         }
