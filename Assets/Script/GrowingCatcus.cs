@@ -10,6 +10,12 @@ public class GrowingCatcus : MonoBehaviour
 
     private float moveSpeed;
 
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -17,8 +23,8 @@ public class GrowingCatcus : MonoBehaviour
     }
 
     IEnumerator MoveCatcusHold()
-    {   
-        
+    {
+        anim.SetBool("isFire", true);
         while (true)
         {   
             if (Catcus.transform.position.x < TargetPosition.transform.position.x)
