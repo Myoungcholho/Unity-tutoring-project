@@ -8,7 +8,30 @@ public class LiftTilePlayerAbove : MonoBehaviour
 
     private bool wasOnTile = false;
     public bool isOnTile = false;
-    private PlayerStatus playerstatus;
+    public PlayerStatus playerstatus;
+    public LiftTilePlayerAbove liftTilePlayerAbove;
+
+    [SerializeField]
+    private int abovePlayerNumberCount = 1;
+    [SerializeField]
+    private int lastAbovePlayerNumberCount = 1;
+
+    public int AbovePlayerNumberCount
+    {
+        get 
+        { 
+            return abovePlayerNumberCount; 
+        }
+        set
+        {
+            abovePlayerNumberCount = value;
+            
+        }
+    }
+    
+
+    [SerializeField]
+    private int count = 0;
 
     void Start()
     {
@@ -17,68 +40,96 @@ public class LiftTilePlayerAbove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveUpTilePlayerAboved();
+        
     }
-
+    private void Update()
+    {
+        MoveUpTilePlayerAboved();
+        //CountAbovePlayerNumber();
+        //Debug.Log(CountAbovePlayerNumber2());
+        //count = CountAbovePlayerNumber2();
+        //CountAbovePlayerNumber2();
+    }
     private void MoveUpTilePlayerAboved()
     {
 
         isOnTile = false;
 
-        if (playerstatus.isGround)
+        if (playerstatus.footRayDetect)
         {
-            if (playerstatus.isGround.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
+            if (playerstatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
             {
                 isOnTile = true;
-                lifttile = playerstatus.isGround.collider.GetComponent<LiftTile>();
+                lifttile = playerstatus.footRayDetect.collider.GetComponent<LiftTile>();
             }
-            else if (playerstatus.isGround.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            else if (playerstatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                
-                
-                LiftTilePlayerAbove lifttileplayerAbove = playerstatus.isGround.collider.GetComponent<LiftTilePlayerAbove>();
+
+                LiftTilePlayerAbove lifttileplayerAbove = playerstatus.footRayDetect.collider.GetComponent<LiftTilePlayerAbove>();
                 lifttile = lifttileplayerAbove.lifttile;
+
                 if (lifttileplayerAbove.isOnTile)
                     isOnTile = true;
-                
-                
             }
         }
-        /*if (isOnTile)
-        {
-            transform.SetParent(lifttile.transform);
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.gravityScale = 0;
-        }
-        else
-        {
-            transform.parent = null;
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.gravityScale = 3;
-        }*/
+
         if (isOnTile && !wasOnTile)
         {
-            
-            
-            
             if (lifttile != null)
                 lifttile.Total++;
-
-           
             wasOnTile = true;
-
-
         }
         else if (!isOnTile && wasOnTile)
         {
-            
-            
             if (lifttile != null)
                 lifttile.Total--;
-            
             wasOnTile = false;
-
         }
 
     }
+/*
+    private int CountAbovePlayerNumber2()
+    {
+        
+        if (playerstatus.footRayDetect)
+        {
+            if (playerstatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
+            {
+                if(playerstatus.headRayDetect)
+                {
+                    if (playerstatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+                    {
+                        return 1 + CountAbovePlayer(playerstatus.headRayDetect.collider.gameObject);
+                    }
+                    
+                }
+                return 1;
+                
+            }
+            
+        }
+
+        return 0;
+
+    }
+
+    private int CountAbovePlayer(GameObject abovePlayer)
+    {
+
+        liftTilePlayerAbove = abovePlayer.GetComponent<LiftTilePlayerAbove>();
+        
+        if (liftTilePlayerAbove != null && liftTilePlayerAbove.playerstatus.headRayDetect)
+        {
+            
+            if (liftTilePlayerAbove.playerstatus.headRayDetect.collider != null && liftTilePlayerAbove.playerstatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                return 1 + CountAbovePlayer(liftTilePlayerAbove.playerstatus.headRayDetect.collider.gameObject); 
+            }
+        }
+        
+        //위에 플레이어가 없으면 1을 반환
+        return 1;
+    }
+
+    */
 }

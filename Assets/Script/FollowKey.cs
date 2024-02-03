@@ -34,6 +34,7 @@ public class FollowKey : MonoBehaviour
                 TargetPosition = TargetPlayer.transform.position + Vector3.left * 0.2f;
             }
             transform.position = Vector3.SmoothDamp(transform.position, TargetPosition, ref velocity, smoothTime);
+            
         }
     }
 

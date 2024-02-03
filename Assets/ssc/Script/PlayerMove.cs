@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    
-    
 
+    public RaycastHit2D hitLeft;
+    public RaycastHit2D hitRight;
     public float moveSpeed = 1f;
 
     public LayerMask wallLayer;
@@ -24,6 +24,7 @@ public class PlayerMove : MonoBehaviour
 
     private float move = 0;
 
+
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -37,9 +38,9 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        /*Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
-        Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);*/
-        
+        Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+
     }
 
     private void MoveKey(int Direction)
@@ -60,13 +61,13 @@ public class PlayerMove : MonoBehaviour
         {
             rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
         }
-            
+
         if (MoveDirection == -1)
         {
             spriteRenderer.flipX = true;
             PlayerDirection = true;
             //-0.09 0.1 0
-            /*RaycastHit2D hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
+            /*hitLeft = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
             if (hitLeft.collider != null)
             {
                 move = 0;
@@ -78,7 +79,7 @@ public class PlayerMove : MonoBehaviour
             spriteRenderer.flipX = false;
             PlayerDirection = false;
             //0.1 0.1 0
-            /*RaycastHit2D hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
+           /* hitRight = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
             if (hitRight.collider != null)
             {
                 move = 0;
