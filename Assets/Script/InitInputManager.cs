@@ -21,8 +21,8 @@ public class InitInputManager : MonoBehaviour
 
     public Action enterPress;
     public Action escPress;
-    public Action rightArrow;
-    public Action leftArrow;
+    public Action DPress;
+    public Action APress;
 
     private void Update()
     {
@@ -42,16 +42,16 @@ public class InitInputManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if (rightArrow != null)
+            if (APress != null)
             {
-                rightArrow.Invoke();
+                APress.Invoke();
             }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            if (leftArrow != null)
+            if (DPress != null)
             {
-                leftArrow.Invoke();
+                DPress.Invoke();
             }
         }
     }
