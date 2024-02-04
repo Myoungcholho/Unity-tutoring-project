@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class ButtonTextUpdater : MonoBehaviour
 {
-    public TextMeshProUGUI buttonText;
+    public TextMeshProUGUI text;
 
     public void UpdateButtonText(string newText)
     {
-        if (buttonText != null)
+        if (text != null)
         {
-            buttonText.text = newText;
+            text.text = newText;
         }
     }
 }
