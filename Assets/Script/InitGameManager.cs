@@ -55,13 +55,14 @@ public class InitGameManager : MonoBehaviour
 
     void EnterCanvas()
     {
+        //switch 문 int 형 변수로 입력해보기
         if (FirstCanvas.activeSelf)
         {
             EnableCanvas(MenuCanvas);
         }
         else if(MenuCanvas.activeSelf)
         {
-            if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text == "LOCAL PLAY MODE")
+            if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[0]))
             {
                 EnableCanvas(PlayerCanvas);
             }
