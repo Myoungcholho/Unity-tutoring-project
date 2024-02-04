@@ -10,7 +10,7 @@ public class LiftTile : MonoBehaviour
     //public GameObject[] Players;
     public float moveDistance = 3.0f;
 
-    public LayerMask PlayerLayer;
+    public LayerMask playerLayer;
 
     [SerializeField]
     private int total = 0;
@@ -75,12 +75,13 @@ public class LiftTile : MonoBehaviour
         {
             if (transform.position.y > OriginPosition.y)
             {
-                if(!isPlayerBelow())
+                if (!isPlayerBelow())
                 {
                     //transform.position = Vector3.MoveTowards(transform.position, OriginPosition, 0.05f);
                     move = -1;
                     //transform.position += Vector3.down * 0.05f;
                 }
+                else move = 0;
                     
             }
             else
@@ -97,7 +98,7 @@ public class LiftTile : MonoBehaviour
 
 
 
-        isPlayerBelowRay = Physics2D.Raycast(startPosition, Vector2.right, Distance, PlayerLayer);
+        isPlayerBelowRay = Physics2D.Raycast(startPosition, Vector2.right, Distance, playerLayer);
         return isPlayerBelowRay;
     }
 }
