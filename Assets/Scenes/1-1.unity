@@ -320,7 +320,10 @@ MonoBehaviour:
   moveSpeed: 3
   wallLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1280
   leftRaycastPosition: {fileID: 1311276869}
   rightRaycastPosition: {fileID: 1772111561}
   raycastDistance: 0.2
@@ -458,7 +461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105364114}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.181, y: -2.275, z: 0}
+  m_LocalPosition: {x: 14.02, y: -2.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -484,9 +487,6 @@ MonoBehaviour:
   isOnTile: 0
   playerstatus: {fileID: 0}
   liftTilePlayerAbove: {fileID: 0}
-  abovePlayerNumberCount: 1
-  lastAbovePlayerNumberCount: 1
-  count: 0
 --- !u!114 &105364126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,6 +501,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPossible: 0
   movableWall: {fileID: 0}
+  powerDirection: 0
+  leftPowerIncreased: 0
+  rightPowerIncreased: 0
 --- !u!1 &157806635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2137,9 +2140,6 @@ MonoBehaviour:
   isOnTile: 0
   playerstatus: {fileID: 0}
   liftTilePlayerAbove: {fileID: 0}
-  abovePlayerNumberCount: 1
-  lastAbovePlayerNumberCount: 1
-  count: 0
 --- !u!114 &920477502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2201,7 +2201,10 @@ MonoBehaviour:
   moveSpeed: 3
   wallLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1280
   leftRaycastPosition: {fileID: 1931893741}
   rightRaycastPosition: {fileID: 1374903855}
   raycastDistance: 0.2
@@ -2363,6 +2366,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPossible: 0
   movableWall: {fileID: 0}
+  powerDirection: 0
+  leftPowerIncreased: 0
+  rightPowerIncreased: 0
 --- !u!1 &926482192
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,9 +4442,6 @@ MonoBehaviour:
   isOnTile: 0
   playerstatus: {fileID: 0}
   liftTilePlayerAbove: {fileID: 0}
-  abovePlayerNumberCount: 1
-  lastAbovePlayerNumberCount: 1
-  count: 0
 --- !u!114 &1205125479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4500,7 +4503,10 @@ MonoBehaviour:
   moveSpeed: 3
   wallLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1280
   leftRaycastPosition: {fileID: 1294280412}
   rightRaycastPosition: {fileID: 211678624}
   raycastDistance: 0.2
@@ -4638,7 +4644,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205125477}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.029, y: -2.306, z: 0}
+  m_LocalPosition: {x: 16.86, y: -2.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4662,6 +4668,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPossible: 0
   movableWall: {fileID: 0}
+  powerDirection: 0
+  leftPowerIncreased: 0
+  rightPowerIncreased: 0
 --- !u!1 &1288302563
 GameObject:
   m_ObjectHideFlags: 0
@@ -4957,11 +4966,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452654339}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -4969,7 +4978,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1452654341
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5075,7 +5084,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74fe9496abfc7446bcc4ab7079e816d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 0
+  playerNumber: 2
+  leftPower: 0
+  rightPower: 0
 --- !u!1 &1528515103
 GameObject:
   m_ObjectHideFlags: 0
