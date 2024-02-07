@@ -4,12 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonTextUpdater : MonoBehaviour
+public class ButtonTextUpdater_MenuCanvas : MonoBehaviour
 {
     public TextMeshProUGUI text;
 
     public void UpdateButtonText(string newText)
     {
+        Debug.Log("UpdateButtonText called with text: " + newText);
         if (text != null)
         {
             text.text = newText;

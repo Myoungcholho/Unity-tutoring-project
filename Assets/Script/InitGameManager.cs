@@ -14,7 +14,10 @@ public class InitGameManager : MonoBehaviour
     public GameObject KeyBoardConfigCanvas;
 
     private int currentIndex = 0;
+    private int currentPageIndex;
+    private int currentPageText = 0;
     private string[] textOptions = { "LOCAL PLAY MODE", "OPTION", "EXIT" };
+    private string[] textPlayers = { "2PLAYERS GAME", "3PLAYERS GAME", "4PLAYERS GAME" };
 
     private void OnEnable()
     {
@@ -26,19 +29,38 @@ public class InitGameManager : MonoBehaviour
     void Start()
     {
         EnableCanvas(FirstCanvas);
-        UpdateText();
+        //UpdateText();
     }
 
     private void UpdateText()
     {
-        if(MenuCanvas != null)
+        switch (currentPageText)
         {
-            ButtonTextUpdater buttonTextUpdater = MenuCanvas.GetComponentInChildren<ButtonTextUpdater>();
+            case 0:
+                if (MenuCanvas != null)
+                {
+                    ButtonTextUpdater_MenuCanvas buttonTextUpdater = MenuCanvas.GetComponentInChildren<ButtonTextUpdater_MenuCanvas>();
 
-            if (buttonTextUpdater != null)
-            {
-                buttonTextUpdater.UpdateButtonText(textOptions[currentIndex]);
-            }
+                    if (buttonTextUpdater != null)
+                    {
+                        buttonTextUpdater.UpdateButtonText(textOptions[currentIndex]);
+                    }
+                    currentPageText = 1;
+                }
+                break;
+            case 1:
+                if (PlayerCanvas != null)
+                {
+                    ButtonTextUpdater_PlayerCanvas buttonTextUpdater = PlayerCanvas.GetComponentInChildren<ButtonTextUpdater_PlayerCanvas>();
+
+                    if (buttonTextUpdater != null)
+                    {
+                        buttonTextUpdater.UpdateButtonText(textPlayers[currentIndex]);
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -56,47 +78,94 @@ public class InitGameManager : MonoBehaviour
     void EnterCanvas()
     {
         //switch 문 int 형 변수로 입력해보기
-        if (FirstCanvas.activeSelf)
+        switch (currentPageIndex)
         {
-            EnableCanvas(MenuCanvas);
-        }
-        else if(MenuCanvas.activeSelf)
-        {
-            if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[0]))
-            {
-                EnableCanvas(PlayerCanvas);
-            }
-            else if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text == "OPTION")
-            {
-                EnableCanvas(Option2Canvas);
-            }
-            else if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text == "EXIT")
-            {
-                DisableCanvas(MenuCanvas);
-            }
-        }
-        else if (PlayerCanvas.activeSelf)
-        {
-            EnableCanvas(YesornoCanvas);
-        }
-        else if (Option2Canvas.activeSelf)
-        {
-            EnableCanvas(KeyBoardConfigCanvas);
+            case 0:
+                EnableCanvas(MenuCanvas);
+                currentPageIndex = 1;
+                break;
+            case 1:
+                if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[0]))
+                {
+                    EnableCanvas(PlayerCanvas);
+                    currentPageIndex = 2;
+                }
+                else if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[1]))
+                {
+                    EnableCanvas(Option2Canvas);
+                    currentPageIndex = 3;
+                }
+                else if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[2]))
+                {
+                    DisableCanvas(MenuCanvas);
+                    currentPageIndex = 0;
+                }
+                break;
+            case 2:
+                EnableCanvas(YesornoCanvas);
+                currentPageIndex = 4;
+                break;
+            case 3:
+                EnableCanvas(KeyBoardConfigCanvas);
+                currentPageIndex = 4;
+                break;
+            default:
+                break;
         }
     }
     void EscCanvas()
     {
-        DisableCanvas(KeyBoardConfigCanvas);
-        DisableCanvas(Option2Canvas);
-        DisableCanvas(YesornoCanvas);
-        DisableCanvas(PlayerCanvas);
-        DisableCanvas(MenuCanvas);
+        switch(currentPageIndex)
+        {
+            case 0:
+                break;
+            case 1:
+                if (MenuCanvas.activeSelf)
+                {
+                    DisableCanvas(MenuCanvas);
+                    currentPageIndex = 0;
+                }
+                else
+                {
+
+                }
+                break;
+            case 2:
+                if (PlayerCanvas.activeSelf)
+                {
+                    DisableCanvas(PlayerCanvas);
+                    currentPageIndex = 1;
+                }
+                break;
+            case 3:
+                if (Option2Canvas.activeSelf)
+                {
+                    DisableCanvas(Option2Canvas);
+                    currentPageIndex = 1;
+                }
+                break;
+            case 4:
+                if (YesornoCanvas.activeSelf)
+                {
+                    DisableCanvas(YesornoCanvas);
+                    currentPageIndex = 2;
+                }
+                else if (KeyBoardConfigCanvas.activeSelf)
+                {
+                    DisableCanvas(KeyBoardConfigCanvas);
+                    currentPageIndex = 3;
+                }
+                break;
+            default:
+                break;
+        }
     }
     private void EnableCanvas(GameObject canvas)
     {
         if (canvas != null)
         {
             canvas.SetActive(true);
+            UpdateText(); // Canvas를 활성화할 때마다 텍스트 업데이트
         }
     }
     private void DisableCanvas(GameObject canvas)
