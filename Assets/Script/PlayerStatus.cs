@@ -13,6 +13,9 @@ public class PlayerStatus : MonoBehaviour
     public RaycastHit2D headRayDetect;
     public RaycastHit2D footRayDetect;
 
+    public RaycastHit2D movingLeftRayDetect;
+    public RaycastHit2D movingRightRayDetect;
+
     private Vector3 lastPosition;
 
     public float headRayDistance = 0.7f;

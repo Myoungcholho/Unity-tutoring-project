@@ -11,37 +11,14 @@ public class LiftTilePlayerAbove : MonoBehaviour
     public PlayerStatus playerstatus;
     public LiftTilePlayerAbove liftTilePlayerAbove;
 
-    [SerializeField]
-    private int abovePlayerNumberCount = 1;
-    [SerializeField]
-    private int lastAbovePlayerNumberCount = 1;
 
-    public int AbovePlayerNumberCount
-    {
-        get 
-        { 
-            return abovePlayerNumberCount; 
-        }
-        set
-        {
-            abovePlayerNumberCount = value;
-            
-        }
-    }
     
-
-    [SerializeField]
-    private int count = 0;
 
     void Start()
     {
         playerstatus = GetComponent<PlayerStatus>();
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
     private void Update()
     {
         MoveUpTilePlayerAboved();
@@ -132,4 +109,6 @@ public class LiftTilePlayerAbove : MonoBehaviour
     }
 
     */
+
+    
 }

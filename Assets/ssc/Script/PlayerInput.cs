@@ -54,14 +54,16 @@ public class PlayerInput : MonoBehaviour
         {
             moveDirection += 1;
         }
+        
         OnMove?.Invoke(moveDirection);
+        if (Input.GetKeyUp(leftKey) || Input.GetKeyUp(rightKey))
+        {
+            OnMoveKeyUp?.Invoke();
+        }
     }
 
     void PushWall()
     {
-        if(Input.GetKeyUp(leftKey) || Input.GetKeyUp(rightKey))
-        {
-            OnMoveKeyUp?.Invoke();
-        }
+        
     }
 }
