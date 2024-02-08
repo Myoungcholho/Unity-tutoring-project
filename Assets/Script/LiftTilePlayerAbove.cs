@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class LiftTilePlayerAbove : MonoBehaviour
 {
-    public LiftTile lifttile;
+    public LiftTile liftTile;
 
     private bool wasOnTile = false;
     public bool isOnTile = false;
-    public PlayerStatus playerstatus;
+    public PlayerStatus playerStatus;
     public LiftTilePlayerAbove liftTilePlayerAbove;
 
 
@@ -16,7 +16,7 @@ public class LiftTilePlayerAbove : MonoBehaviour
 
     void Start()
     {
-        playerstatus = GetComponent<PlayerStatus>();
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     private void Update()
@@ -32,34 +32,35 @@ public class LiftTilePlayerAbove : MonoBehaviour
 
         isOnTile = false;
 
-        if (playerstatus.footRayDetect)
+        if (playerStatus.footRayDetect)
         {
-            if (playerstatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
+            if (playerStatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
             {
                 isOnTile = true;
-                lifttile = playerstatus.footRayDetect.collider.GetComponent<LiftTile>();
+                liftTile = playerStatus.footRayDetect.collider.GetComponent<LiftTile>();
             }
-            else if (playerstatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            else if (playerStatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-
-                LiftTilePlayerAbove lifttileplayerAbove = playerstatus.footRayDetect.collider.GetComponent<LiftTilePlayerAbove>();
-                lifttile = lifttileplayerAbove.lifttile;
-
-                if (lifttileplayerAbove.isOnTile)
+                LiftTilePlayerAbove liftTileUnderPlayerAbove = playerStatus.footRayDetect.collider.GetComponent<LiftTilePlayerAbove>();
+                if (liftTileUnderPlayerAbove.isOnTile)
                     isOnTile = true;
+
+                liftTile = liftTileUnderPlayerAbove.liftTile;
+
+                
             }
         }
 
         if (isOnTile && !wasOnTile)
         {
-            if (lifttile != null)
-                lifttile.Total++;
+            if (liftTile != null)
+                liftTile.Total++;
             wasOnTile = true;
         }
         else if (!isOnTile && wasOnTile)
         {
-            if (lifttile != null)
-                lifttile.Total--;
+            if (liftTile != null)
+                liftTile.Total--;
             wasOnTile = false;
         }
 

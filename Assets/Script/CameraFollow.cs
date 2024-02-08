@@ -20,10 +20,18 @@ public class CameraFollow : MonoBehaviour
     private Transform[] targets;
 
     private GameObject[] Players;
+
     private void Awake()
     {
         Players = GameObject.FindGameObjectsWithTag("Player");
         int i = 0;
+        foreach (var Player in Players)
+        {
+            i++;
+        }
+        targets = new Transform[i];
+        
+        i = 0;
         foreach(var Player in Players)
         {
             targets[i] = Player.transform;
@@ -34,9 +42,7 @@ public class CameraFollow : MonoBehaviour
     }
     void FixedUpdate()
     {
-        /*float X = (target1.position.x + target2.position.x) / 2;
-        Vector3 targetPosition = new Vector3(X, 0, 0) + offset;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);*/
+        
         for (int i = 0; i < targets.Length; i++)
         {
             if (targets[i].position.x < minX.position.x)

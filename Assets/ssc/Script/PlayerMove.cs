@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     public float raycastDistance = 3f; // 레이캐스트의 길이
 
     public bool PlayerDirection;
+
     private Animator anim;
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
@@ -25,6 +26,8 @@ public class PlayerMove : MonoBehaviour
     private float move = 0;
 
     private PlayerStatus playerStatus;
+
+    private Vector3 lastPosition;
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
@@ -41,6 +44,8 @@ public class PlayerMove : MonoBehaviour
         Move();
         Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
         Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        CarryUnderPlayer();
+
 
     }
     private void StopMove()
@@ -102,4 +107,35 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("isWalking", move != 0);
     }
 
+    private bool isOn = false;
+    private GameObject currentUnderPlayer = null;
+    private void CarryUnderPlayer()
+    {
+
+        if (playerStatus.isGroundRayDetect())
+        {
+            GameObject detectedPlayer = playerStatus.footRayDetect.collider.gameObject;
+            if (detectedPlayer.layer == LayerMask.NameToLayer("Player"))
+            {
+
+                if (currentUnderPlayer != detectedPlayer)
+                {
+                    isOn = true;
+                    lastPosition = playerStatus.footRayDetect.transform.position;
+                    currentUnderPlayer = detectedPlayer;
+                }
+                else if (isOn && lastPosition != playerStatus.footRayDetect.transform.position)
+                {
+                    Vector3 movedPosition = playerStatus.footRayDetect.transform.position - lastPosition;
+                    transform.position += movedPosition;
+                    lastPosition = playerStatus.footRayDetect.transform.position;
+                }
+            }
+        }
+        else
+        {
+            isOn = false;
+            currentUnderPlayer = null;
+        }
+    }
 }

@@ -16,20 +16,22 @@ public class PlayerStatus : MonoBehaviour
     public RaycastHit2D movingLeftRayDetect;
     public RaycastHit2D movingRightRayDetect;
 
-    private Vector3 lastPosition;
+    
 
     public float headRayDistance = 0.7f;
     private float groundRayDistance = 0.65f;
 
     public bool hasKey = false;
+
     void Start()
     {
-        lastPosition = transform.position;
+        //lastPosition = transform.position;
     }
 
     private void FixedUpdate()
     {
-        CarryAbovePlayer();  
+        //CarryAbovePlayer();
+        
     }
 
     public bool isGroundRayDetect()
@@ -50,14 +52,14 @@ public class PlayerStatus : MonoBehaviour
         return headRayDetect;
     }
 
-    private void CarryAbovePlayer()
+    /*private void CarryAbovePlayer()
     {
-        if (isHeadRayDetect())
+        if (isHeadRayDetect() && headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Vector3 movedPosition = transform.position - lastPosition;
             headRayDetect.transform.position += movedPosition;
         }
         lastPosition = transform.position;
-    }
-    
+    }*/
+
 }
