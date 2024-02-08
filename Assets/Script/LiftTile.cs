@@ -51,12 +51,15 @@ public class LiftTile : MonoBehaviour
         OriginPosition = transform.position;
         text.text = playerNumber.ToString();
     }
-    
+
+    public bool canUp = false;
     private void FixedUpdate()
     {
         Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
         Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
-        if (total >= playerNumber /*isUp*/)
+        canUp = (total >= playerNumber);
+        
+        if (canUp /*isUp*/)
         {
 
             if (transform.position.y < OriginPosition.y + moveDistance)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MovableWall : MonoBehaviour
@@ -12,12 +13,21 @@ public class MovableWall : MonoBehaviour
     public int LeftPower
     {
         get { return leftPower; }
-        set { value = leftPower; }
+        set 
+        {
+            value = leftPower; 
+            
+        }
     }
     public int rightPower = 0;
+
+    private TextMeshPro text;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        text = GetComponentInChildren<TextMeshPro>();
+        text.text = playerNumber.ToString();
     }
 
     // Update is called once per frame
@@ -41,6 +51,7 @@ public class MovableWall : MonoBehaviour
                 move = 0;
             
         }
+        text.text = count.ToString();
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         
     }

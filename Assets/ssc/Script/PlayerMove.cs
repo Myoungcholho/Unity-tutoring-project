@@ -83,8 +83,8 @@ public class PlayerMove : MonoBehaviour
             playerStatus.movingLeftRayDetect = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             if (playerStatus.movingLeftRayDetect.collider != null)
             {
-                
-                move = 0;
+                if(playerStatus.movingLeftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+                    move = 0;
             }
 
         }
@@ -96,8 +96,8 @@ public class PlayerMove : MonoBehaviour
             playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             if (playerStatus.movingRightRayDetect.collider != null)
             {
-                
-                move = 0;
+                if (playerStatus.movingRightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+                    move = 0;
             }
             
         }

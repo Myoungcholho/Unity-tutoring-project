@@ -11,12 +11,16 @@ public class LiftTilePlayerAbove : MonoBehaviour
     public PlayerStatus playerStatus;
     public LiftTilePlayerAbove liftTilePlayerAbove;
 
-
-    
+    private Rigidbody2D rigid;
+    private Animator anim;
+    private PlayerJump playerJump;
 
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
+        rigid = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        playerJump = GetComponent<PlayerJump>();
     }
 
     private void Update()
@@ -50,17 +54,32 @@ public class LiftTilePlayerAbove : MonoBehaviour
                 
             }
         }
+        if (!playerJump.isJumping && isOnTile && liftTile.canUp)
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, 0.1f);
+        }
+        else if (!playerJump.isJumping && isOnTile && !liftTile.canUp)
+        {
+            Debug.Log("sdfdsf");
+            rigid.velocity = new Vector2(rigid.velocity.x, -1f);
+            
 
+        }
+        
         if (isOnTile && !wasOnTile)
         {
             if (liftTile != null)
                 liftTile.Total++;
+            //rigid.gravityScale = 10f;
+
             wasOnTile = true;
+            
         }
         else if (!isOnTile && wasOnTile)
         {
             if (liftTile != null)
                 liftTile.Total--;
+            //rigid.gravityScale = 3f;
             wasOnTile = false;
         }
 
