@@ -6,23 +6,27 @@ using UnityEngine;
 
 public class LiftTile : MonoBehaviour
 {
-    public int playerNumber;
-    //public GameObject[] Players;
+    public int numberOfPlayers;
+    
     public float moveDistance = 3.0f;
 
     public LayerMask playerLayer;
 
+    public bool canUp = false;
+
     [SerializeField]
     private int total = 0;
-
     public int Total
     { 
         get { return total; }
         set 
         {
             total = value;
-            int visibleText = playerNumber - total;
-            text.text = visibleText.ToString();
+            int visibleText = numberOfPlayers - total;
+            if (visibleText > -1)
+                text.text = visibleText.ToString();
+            else
+                text.text = "0";
         }
     }
 
@@ -30,43 +34,43 @@ public class LiftTile : MonoBehaviour
     private PlayerStatus playerstatus;
     private RaycastHit2D isPlayerBelowRay;
 
-    public float addRayXposition = -1.91f;
-    public float addRayYposition = -0.32f;
-    public float Distance = 3.84f;
+    private float addRayXposition = -1.93f;
+    private float addRayYposition = -0.32f;
+    private float Distance = 3.85f;
 
-    //test
-    public bool isUp = true;
+    
 
     private TextMeshPro text;
-    private LiftTile lifttile;
+    private LiftTile liftTile;
     private Rigidbody2D rigid;
 
     private float move;
+
+    
+
     private void Start()
     {
-        //Players = GameObject.FindGameObjectsWithTag("Player");
-        lifttile = GetComponent<LiftTile>();
+        
+        liftTile = GetComponent<LiftTile>();
         text = GetComponentInChildren<TextMeshPro>();
         rigid = GetComponent<Rigidbody2D>();
         OriginPosition = transform.position;
-        text.text = playerNumber.ToString();
+        text.text = numberOfPlayers.ToString();
     }
 
-    public bool canUp = false;
+    
     private void FixedUpdate()
     {
         Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
         Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
-        canUp = (total >= playerNumber);
+        canUp = (total >= numberOfPlayers);
         
-        if (canUp /*isUp*/)
+        if (canUp)
         {
 
             if (transform.position.y < OriginPosition.y + moveDistance)
             {
-                //transform.position = Vector3.MoveTowards(transform.position, transform.position * Vector2.right, 0.05f);
                 move = 1;
-                //transform.position += Vector3.up * 0.05f/*0.1f * Time.deltaTime*/;
             }
             else
             {

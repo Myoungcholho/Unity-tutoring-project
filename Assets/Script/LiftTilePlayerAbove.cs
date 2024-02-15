@@ -5,12 +5,12 @@ using UnityEngine;
 public class LiftTilePlayerAbove : MonoBehaviour
 {
     public LiftTile liftTile;
-
-    private bool wasOnTile = false;
-    public bool isOnTile = false;
     public PlayerStatus playerStatus;
     public LiftTilePlayerAbove liftTilePlayerAbove;
 
+    private bool wasOnTile = false;
+    private bool isOnTile = false;
+    
     private Rigidbody2D rigid;
     private Animator anim;
     private PlayerJump playerJump;
@@ -26,11 +26,8 @@ public class LiftTilePlayerAbove : MonoBehaviour
     private void Update()
     {
         MoveUpTilePlayerAboved();
-        //CountAbovePlayerNumber();
-        //Debug.Log(CountAbovePlayerNumber2());
-        //count = CountAbovePlayerNumber2();
-        //CountAbovePlayerNumber2();
     }
+
     private void MoveUpTilePlayerAboved()
     {
 
@@ -54,23 +51,27 @@ public class LiftTilePlayerAbove : MonoBehaviour
                 
             }
         }
-        if (!playerJump.isJumping && isOnTile && liftTile.canUp)
+        if(!playerJump.isJumping)
         {
-            rigid.velocity = new Vector2(rigid.velocity.x, 0.1f);
-        }
-        else if (!playerJump.isJumping && isOnTile && !liftTile.canUp)
-        {
-            Debug.Log("sdfdsf");
-            rigid.velocity = new Vector2(rigid.velocity.x, -1f);
-            
+            if (!playerJump.isJumping && isOnTile && liftTile.canUp)
+            {
+                //rigid.velocity = new Vector2(rigid.velocity.x, 0.1f);
+            }
+            else if (!playerJump.isJumping && isOnTile && !liftTile.canUp)
+            {
 
+                //rigid.velocity = new Vector2(rigid.velocity.x, -1f);
+
+
+            }
         }
+        
         
         if (isOnTile && !wasOnTile)
         {
             if (liftTile != null)
                 liftTile.Total++;
-            //rigid.gravityScale = 10f;
+            
 
             wasOnTile = true;
             
@@ -79,7 +80,7 @@ public class LiftTilePlayerAbove : MonoBehaviour
         {
             if (liftTile != null)
                 liftTile.Total--;
-            //rigid.gravityScale = 3f;
+            
             wasOnTile = false;
         }
 

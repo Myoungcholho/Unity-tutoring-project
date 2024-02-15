@@ -42,14 +42,15 @@ public class PushWall : MonoBehaviour
         {*/
             if (isPossible && playerStatus.movingLeftRayDetect == true && powerDirection == -1 && !leftPowerIncreased)
             {
-                movableWall.leftPower += 1;
+                movableWall.LeftPower ++;
+                movableWall.LeftMovableWallPlus();
                 leftPowerIncreased = true;
             }
             else if(!playerStatus.movingLeftRayDetect)
             {
                 if(leftPowerIncreased == true)
                 {
-                    movableWall.leftPower -= 1;
+                    movableWall.LeftPower--;
                     leftPowerIncreased = false;
                 }
                 
@@ -57,14 +58,15 @@ public class PushWall : MonoBehaviour
 
             if (playerStatus.movingRightRayDetect == true && powerDirection == 1 && !rightPowerIncreased)
             {
-                movableWall.rightPower += 1;
+                movableWall.RightPower++;
                 rightPowerIncreased = true;
             }
             else if (!playerStatus.movingRightRayDetect)
             {
                 if (rightPowerIncreased == true)
                 {
-                    movableWall.rightPower -= 1;
+                    movableWall.RightPower--;
+
                     rightPowerIncreased = false;
                 }
 

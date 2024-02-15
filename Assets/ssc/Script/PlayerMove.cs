@@ -28,6 +28,11 @@ public class PlayerMove : MonoBehaviour
     private PlayerStatus playerStatus;
 
     private Vector3 lastPosition;
+
+    private bool canFreeze = true;
+
+    private bool isOn = false;
+    private GameObject currentUnderPlayer = null;
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
@@ -38,12 +43,14 @@ public class PlayerMove : MonoBehaviour
         playerInput.OnMove += MoveKey;
         playerInput.OnMoveKeyUp += StopMove;
     }
-
+    private void Update()
+    {
+        DecideFreeze();
+    }
     private void FixedUpdate()
     {
         Move();
-        Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
-        Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+        
         CarryUnderPlayer();
 
 
@@ -65,7 +72,7 @@ public class PlayerMove : MonoBehaviour
     {
         move = 0;
         move = moveSpeed * MoveDirection;
-        /*if (MoveDirection == 0)
+        if (MoveDirection == 0 && canFreeze)
         {
             rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
 
@@ -73,7 +80,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
-        }*/
+        }
 
         if (MoveDirection == -1)
         {
@@ -81,10 +88,12 @@ public class PlayerMove : MonoBehaviour
             PlayerDirection = true;
             //-0.09 0.1 0
             playerStatus.movingLeftRayDetect = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
+            Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
+
             if (playerStatus.movingLeftRayDetect.collider != null)
             {
-                if(playerStatus.movingLeftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-                    move = 0;
+                //if(playerStatus.movingLeftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+                    //move = 0;
             }
 
         }
@@ -94,10 +103,11 @@ public class PlayerMove : MonoBehaviour
             PlayerDirection = false;
             //0.1 0.1 0
             playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
+            Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
             if (playerStatus.movingRightRayDetect.collider != null)
             {
-                if (playerStatus.movingRightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-                    move = 0;
+                //if (playerStatus.movingRightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+                    //move = 0;
             }
             
         }
@@ -107,28 +117,32 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("isWalking", move != 0);
     }
 
-    private bool isOn = false;
-    private GameObject currentUnderPlayer = null;
+    private float groundRayDistance = 0.9f;
+    private float groundX = -0.44f; // -0.325f
+    private float groundY = -0.475f; //-0.5f
     private void CarryUnderPlayer()
     {
+        Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
-        if (playerStatus.isGroundRayDetect())
+        //Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.red);
+        RaycastHit2D footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, playerLayer);
+        if (footRayDetect/*playerStatus.isGroundRayDetect()*/)
         {
-            GameObject detectedPlayer = playerStatus.footRayDetect.collider.gameObject;
+            GameObject detectedPlayer = footRayDetect/*playerStatus.footRayDetect*/.collider.gameObject;
             if (detectedPlayer.layer == LayerMask.NameToLayer("Player"))
             {
 
                 if (currentUnderPlayer != detectedPlayer)
                 {
                     isOn = true;
-                    lastPosition = playerStatus.footRayDetect.transform.position;
+                    lastPosition = /*playerStatus.*/footRayDetect.transform.position;
                     currentUnderPlayer = detectedPlayer;
                 }
-                else if (isOn && lastPosition != playerStatus.footRayDetect.transform.position)
+                else if (isOn && lastPosition != /*playerStatus.*/footRayDetect.transform.position)
                 {
-                    Vector3 movedPosition = playerStatus.footRayDetect.transform.position - lastPosition;
+                    Vector3 movedPosition = /*playerStatus.*/footRayDetect.transform.position - lastPosition;
                     transform.position += movedPosition;
-                    lastPosition = playerStatus.footRayDetect.transform.position;
+                    lastPosition = /*playerStatus.*/footRayDetect.transform.position;
                 }
             }
         }
@@ -138,4 +152,60 @@ public class PlayerMove : MonoBehaviour
             currentUnderPlayer = null;
         }
     }
+
+    private void DecideFreeze()
+    {
+        if (playerStatus.leftRayDetect)
+        {
+            if (playerStatus.leftRayDetect.collider.CompareTag("Ground"))
+            {
+                canFreeze = false;
+            }
+            
+        }
+        else if(playerStatus.rightRayDetect)
+        {
+            if (playerStatus.rightRayDetect.collider.CompareTag("Ground"))
+            {
+                canFreeze = false;
+            }
+        }
+        else
+        {
+            canFreeze = true;
+        }
+    }
+   /* private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            if (collision.transform.position.y < transform.position.y)
+            {
+                lastPosition = collision.transform.position;
+            }
+        }
+            
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            if(collision.transform.position.y < transform.position.y)
+            {
+                Vector3 movedPosition = collision.transform.position - lastPosition;
+                transform.position += movedPosition;
+                lastPosition = collision.transform.position;
+            }
+
+        }
+
+        if(collision != null)
+        {
+
+        }
+        else
+        {
+            Debug.Log("sdfsdf");
+        }
+    }*/
 }
