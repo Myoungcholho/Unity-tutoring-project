@@ -18,9 +18,10 @@ public class PlayerJump : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerStatus playerStatus;
     
-    public float jumpTime = 0.5f;
+    private float jumpTime = 0.1f;
     private float jumpTimeCount = 0;
 
+    private bool canAddJump = false;
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -36,7 +37,7 @@ public class PlayerJump : MonoBehaviour
 
     private void JumpKeyDown()
     {
-        if(playerStatus.isHeadRayDetect())
+        if (playerStatus.isHeadRayDetect())
             anim.SetBool("isJumping", true);
         else if (playerStatus.isGroundRayDetect())
         {
@@ -44,27 +45,42 @@ public class PlayerJump : MonoBehaviour
             isJumping = true;
             anim.SetBool("isJumping", true);
             jumpTimeCount = jumpTime;
+            canAddJump = true;
         }
-        
-            
-        
+
     }
     private void JumpKeyPress()
     {
-        if(jumpTimeCount > 0 && isJumping)
+        /*if (playerStatus.isHeadRayDetect())
+            anim.SetBool("isJumping", true);
+        else if (playerStatus.footRayDetect && !isJumping)
         {
+            Debug.Log("JumpKeyFirst");
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            isJumping = true;
+            anim.SetBool("isJumping", true);
+            jumpTimeCount = jumpTime;
+            canAddJump = true;
+        }*/
+
+        if (jumpTimeCount > 0 && isJumping)
+        {
+            //Debug.Log("JumpKeyPress");
             rigid.AddForce(Vector2.up * addJumpPower, ForceMode2D.Impulse);
             jumpTimeCount -= Time.deltaTime;
         }
         else
         {
             isJumping = false;
+            canAddJump = false;
         }
     }
 
     private void JumpKeyUp()
     {
-        isJumping= false;
+        
+        isJumping = false;
+        canAddJump = false;
     }
 
     private void StopJumpAnimation()

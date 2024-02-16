@@ -20,24 +20,24 @@ public class PlayerStatus : MonoBehaviour
     public RaycastHit2D rightRayDetect;
     
 
-    public float headRayDistance = 0.7f;
+    private float headRayDistance = 0.65f;
     public float groundRayDistance = 0.66f;
 
     public bool hasKey = false;
 
     private float sideRaycastDistance = 0.2f;
-    public Transform leftRaycastPosition; // 왼쪽 레이캐스트 시작 위치
-    public Transform rightRaycastPosition; // 오른쪽 레이캐스트 시작 위치
+    public Transform leftRaycastPosition;
+    public Transform rightRaycastPosition;
 
-    private float groundX = -0.325f; // -0.325f
-    private float groundY = -0.5f; //-0.5f
+    private float groundX = -0.325f;
+    private float groundY = -0.5f;
 
     private void FixedUpdate()
     {
-        
+        isGroundRayDetect();
+        isHeadRayDetect();
         leftRay();
         rightRay();
-
     }
 
     public bool isGroundRayDetect()
@@ -51,7 +51,7 @@ public class PlayerStatus : MonoBehaviour
 
     public bool isHeadRayDetect()
     {
-        Vector3 startPosition = transform.position + new Vector3(-0.34f, 0.5f, 0);
+        Vector3 startPosition = transform.position + new Vector3(-0.32f, 0.55f, 0);
 
         Debug.DrawRay(startPosition, Vector2.right * headRayDistance, Color.red);
         headRayDetect = Physics2D.Raycast(startPosition, Vector2.right, headRayDistance, playerLayer);

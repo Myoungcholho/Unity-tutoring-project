@@ -25,7 +25,7 @@ public class FollowKey : MonoBehaviour
     {
         if(TargetPlayer != null)
         {
-            if(playermove.PlayerDirection)
+            if(playermove.playerDirection)
             {
                 TargetPosition = TargetPlayer.transform.position + Vector3.right * 0.2f;
             }

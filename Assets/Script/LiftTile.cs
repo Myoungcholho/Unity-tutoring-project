@@ -84,12 +84,12 @@ public class LiftTile : MonoBehaviour
             {
                 if (!isPlayerBelow())
                 {
-                    //transform.position = Vector3.MoveTowards(transform.position, OriginPosition, 0.05f);
                     move = -1;
-                    //transform.position += Vector3.down * 0.05f;
                 }
-                else move = 0;
-                    
+                else
+                {
+                    move = 0;
+                }   
             }
             else
             {
@@ -102,8 +102,6 @@ public class LiftTile : MonoBehaviour
     bool isPlayerBelow()
     {
         Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
-
-
 
         isPlayerBelowRay = Physics2D.Raycast(startPosition, Vector2.right, Distance, playerLayer);
         return isPlayerBelowRay;

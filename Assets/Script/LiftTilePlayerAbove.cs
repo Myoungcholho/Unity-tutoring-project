@@ -47,8 +47,6 @@ public class LiftTilePlayerAbove : MonoBehaviour
                     isOnTile = true;
 
                 liftTile = liftTileUnderPlayerAbove.liftTile;
-
-                
             }
         }
         if(!playerJump.isJumping)
@@ -85,51 +83,4 @@ public class LiftTilePlayerAbove : MonoBehaviour
         }
 
     }
-/*
-    private int CountAbovePlayerNumber2()
-    {
-        
-        if (playerstatus.footRayDetect)
-        {
-            if (playerstatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MoveUpTile"))
-            {
-                if(playerstatus.headRayDetect)
-                {
-                    if (playerstatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-                    {
-                        return 1 + CountAbovePlayer(playerstatus.headRayDetect.collider.gameObject);
-                    }
-                    
-                }
-                return 1;
-                
-            }
-            
-        }
-
-        return 0;
-
-    }
-
-    private int CountAbovePlayer(GameObject abovePlayer)
-    {
-
-        liftTilePlayerAbove = abovePlayer.GetComponent<LiftTilePlayerAbove>();
-        
-        if (liftTilePlayerAbove != null && liftTilePlayerAbove.playerstatus.headRayDetect)
-        {
-            
-            if (liftTilePlayerAbove.playerstatus.headRayDetect.collider != null && liftTilePlayerAbove.playerstatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                return 1 + CountAbovePlayer(liftTilePlayerAbove.playerstatus.headRayDetect.collider.gameObject); 
-            }
-        }
-        
-        //위에 플레이어가 없으면 1을 반환
-        return 1;
-    }
-
-    */
-
-    
 }

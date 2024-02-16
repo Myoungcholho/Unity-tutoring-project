@@ -6,14 +6,9 @@ using UnityEngine;
 public class PushWall : MonoBehaviour
 {
     [SerializeField]
-    private bool isPossible = false;
+    private bool isAttached = false;
     
-    private PlayerInput playerInput;
-
     public MovableWall movableWall;
-
-
-    private PlayerMove playerMove;
 
     [SerializeField]
     private int powerDirection = 0;
@@ -28,52 +23,38 @@ public class PushWall : MonoBehaviour
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
-        playerMove = GetComponent<PlayerMove>();
-        playerInput = GetComponent<PlayerInput>();
-        
     }
-    
-    
+
     void Update()
     {
-        
-        
-        /*if (isPossible)
-        {*/
-            if (isPossible && playerStatus.movingLeftRayDetect == true && powerDirection == -1 && !leftPowerIncreased)
-            {
-                movableWall.LeftPower ++;
-                //movableWall.leftMovableWallPlus();
-                leftPowerIncreased = true;
-            }
-            else if(!playerStatus.movingLeftRayDetect)
-            {
-                if(leftPowerIncreased == true)
-                {
-                    movableWall.LeftPower--;
-                    //movableWall.leftMovableWallMinus();
-                    leftPowerIncreased = false;
-                }
-                
-            }
 
-            if (playerStatus.movingRightRayDetect == true && powerDirection == 1 && !rightPowerIncreased)
+        if (isAttached && playerStatus.movingLeftRayDetect == true && powerDirection == -1 && !leftPowerIncreased)
+        {
+            movableWall.LeftPower++;
+            leftPowerIncreased = true;
+        }
+        else if (!playerStatus.movingLeftRayDetect)
+        {
+            if (leftPowerIncreased == true)
             {
-                movableWall.RightPower++;
-                rightPowerIncreased = true;
+                movableWall.LeftPower--;
+                leftPowerIncreased = false;
             }
-            else if (!playerStatus.movingRightRayDetect)
+        }
+
+        if (isAttached && playerStatus.movingRightRayDetect == true && powerDirection == 1 && !rightPowerIncreased)
+        {
+            movableWall.RightPower++;
+            rightPowerIncreased = true;
+        }
+        else if (!playerStatus.movingRightRayDetect)
+        {
+            if (rightPowerIncreased == true)
             {
-                if (rightPowerIncreased == true)
-                {
-                    movableWall.RightPower--;
-
-                    rightPowerIncreased = false;
-                }
-
+                movableWall.RightPower--;
+                rightPowerIncreased = false;
             }
-        //}
-
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -81,10 +62,9 @@ public class PushWall : MonoBehaviour
         
         if (collision != null)
         {
-             
             if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
             {
-                isPossible = true;
+                isAttached = true;
                 
                 movableWall = collision.collider.GetComponent<MovableWall>();
                 if (collision.transform.position.x - transform.position.x < 0)
@@ -92,22 +72,20 @@ public class PushWall : MonoBehaviour
                     powerDirection = -1;
                 }
                 else
+                {
                     powerDirection = 1;
+                }
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                PushWall pushWall = collision.gameObject.GetComponent<PushWall>();
-                if (pushWall.isPossible)
+                PushWall otherPlayerspushWall = collision.gameObject.GetComponent<PushWall>();
+                if (otherPlayerspushWall.isAttached)
                 {
-                    powerDirection = pushWall.powerDirection;
-                    isPossible = true;
+                    powerDirection = otherPlayerspushWall.powerDirection;
+                    isAttached = true;
                     
-                    movableWall = pushWall.movableWall;
+                    movableWall = otherPlayerspushWall.movableWall;
                 }
-                /*else
-                {
-                    isPossible = false;
-                }*/
             }
         }
     }
@@ -118,7 +96,7 @@ public class PushWall : MonoBehaviour
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall") || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                isPossible = false;
+                isAttached = false;
             }
         }
     }

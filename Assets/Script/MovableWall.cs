@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 public class MovableWall : MonoBehaviour
 {
+
+    public LayerMask movableWallLayer;
+
     public int numberOfPlayers = 2;
 
     private Rigidbody2D rigid;
@@ -20,15 +23,23 @@ public class MovableWall : MonoBehaviour
 
         }
     }
+
     private int rightPower = 0;
     public int RightPower
     {
         get { return rightPower; }
         set { rightPower = value; }
     }
+
+    private int dumpRightPower = 0;
+    private int dumpLeftPower = 0;
+
     private TextMeshPro text;
 
-    public LayerMask movableWallLayer;
+    private float sideRaycastDistance = 0.2f;
+    private RaycastHit2D leftRayDetect;
+    private RaycastHit2D rightRayDetect;
+
 
     void Start()
     {
@@ -42,6 +53,47 @@ public class MovableWall : MonoBehaviour
         BesidePlusPower();
         leftRay();
         RightRay();
+        MoveWall();
+
+    }
+    
+
+    private void leftRay()
+    {
+        leftRayDetect = Physics2D.Raycast(transform.position + new Vector3(-0.51f, 0, 0), Vector2.down, sideRaycastDistance, movableWallLayer);
+        Debug.DrawRay(transform.position + new Vector3(-0.55f, 0, 0), Vector2.down * 0.2f, Color.red);
+    }
+
+    private void RightRay()
+    {
+        rightRayDetect = Physics2D.Raycast(transform.position + new Vector3(0.51f, 0, 0), Vector2.down, sideRaycastDistance, movableWallLayer);
+        Debug.DrawRay(transform.position + new Vector3(0.51f, 0, 0), Vector2.down * 0.2f, Color.red);
+    }
+    
+    private void BesidePlusPower()
+    {
+        if (leftRayDetect)
+        {
+            rightPower -= dumpRightPower;
+            
+            MovableWall besideMovableWall = leftRayDetect.collider.gameObject.GetComponent<MovableWall>();
+            dumpRightPower = besideMovableWall.rightPower;
+            rightPower += besideMovableWall.rightPower;
+        }
+  
+        if (rightRayDetect)
+        {
+            leftPower -= dumpLeftPower;
+
+            MovableWall besideMovableWall = rightRayDetect.collider.gameObject.GetComponent<MovableWall>();
+            dumpLeftPower = besideMovableWall.leftPower;
+            leftPower += besideMovableWall.leftPower;
+            
+        }
+    }
+
+    private void MoveWall()
+    {
         float move = 0;
         int count = numberOfPlayers;
         count -= (leftPower + rightPower);
@@ -68,105 +120,16 @@ public class MovableWall : MonoBehaviour
         {
             rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
+
         if (count > -1)
+        {
             text.text = count.ToString();
+        }
         else
+        {
             text.text = "0";
+        }
+            
         rigid.velocity = new Vector2(move, rigid.velocity.y);
-
     }
-    
-
-    private bool isDetect = false;
-    public void leftMovableWallPlus()
-    {
-        if (!isDetect)
-        {
-            if (leftRayDetect)
-            {
-                isDetect = true;
-                MovableWall besideMovableWall = leftRayDetect.collider.gameObject.GetComponent<MovableWall>();
-                besideMovableWall.leftPower += leftPower;
-            }
-
-        }
-
-
-    }
-
-    public void leftMovableWallMinus()
-    {
-        if (isDetect)
-        {
-            isDetect = false;
-            MovableWall besideMovableWall = leftRayDetect.collider.gameObject.GetComponent<MovableWall>();
-            besideMovableWall.leftPower -= leftPower;
-        }
-
-    }
-
-    private float sideRaycastDistance = 0.2f;
-
-    private RaycastHit2D leftRayDetect;
-    private void leftRay()
-    {
-
-        leftRayDetect = Physics2D.Raycast(transform.position + new Vector3(-0.51f, 0, 0), Vector2.down, sideRaycastDistance, movableWallLayer);
-        Debug.DrawRay(transform.position + new Vector3(-0.55f, 0, 0), Vector2.down * 0.2f, Color.red);
-        if (leftRayDetect)
-        {
-            Debug.Log("MovableWall LeftRayDetect");
-        }
-    }
-
-    private RaycastHit2D rightRayDetect;
-    private void RightRay()
-    {
-        rightRayDetect = Physics2D.Raycast(transform.position + new Vector3(0.51f, 0, 0), Vector2.down, sideRaycastDistance, movableWallLayer);
-        Debug.DrawRay(transform.position + new Vector3(0.51f, 0, 0), Vector2.down * 0.2f, Color.red);
-        Debug.Log("MovableWall RightRayDetect");
-    }
-    private int saveRightPower = 0;
-    private int saveLeftPower = 0;
-    private bool isLeftReal = false;
-    private bool isRightReal = false;
-    private void BesidePlusPower()
-    {
-        if (isLeftReal)
-        {
-            //Debug.Log("dsfsf");
-            
-            isLeftReal = false;
-        }
-        if (isRightReal)
-        {
-            //Debug.Log("dsfsf");
-            
-            isRightReal = false;
-        }
-
-        if (leftRayDetect)
-        {
-            rightPower -= saveRightPower;
-            
-            MovableWall besideMovableWall = leftRayDetect.collider.gameObject.GetComponent<MovableWall>();
-            saveRightPower = besideMovableWall.rightPower;
-            rightPower += besideMovableWall.rightPower;
-            isLeftReal = true;
-        }
-        
-
-
-        if (rightRayDetect)
-        {
-            leftPower -= saveLeftPower;
-
-            MovableWall besideMovableWall = rightRayDetect.collider.gameObject.GetComponent<MovableWall>();
-            saveLeftPower = besideMovableWall.leftPower;
-            leftPower += besideMovableWall.leftPower;
-            isRightReal = true;
-        }
-        
-    }
-    
 }

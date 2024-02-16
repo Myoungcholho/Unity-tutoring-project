@@ -9,19 +9,21 @@ public class PlayerMove : MonoBehaviour
     
     public float moveSpeed = 1f;
 
-    public LayerMask wallLayer;
+    
     public LayerMask playerLayer;
-    public Transform leftRaycastPosition; // 왼쪽 레이캐스트 시작 위치
-    public Transform rightRaycastPosition; // 오른쪽 레이캐스트 시작 위치
-    public float raycastDistance = 3f; // 레이캐스트의 길이
 
-    public bool PlayerDirection;
+    public Transform leftRaycastPosition;
+    public Transform rightRaycastPosition;
+    
+    private float raycastDistance = 0.2f; //3f
+
+    public bool playerDirection;
 
     private Animator anim;
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
     private PlayerInput playerInput;
-    private int MoveDirection = 0;
+    private int moveDirection = 0;
 
     private float move = 0;
 
@@ -32,7 +34,15 @@ public class PlayerMove : MonoBehaviour
     private bool canFreeze = true;
 
     private bool isOn = false;
+
     private GameObject currentUnderPlayer = null;
+
+    private float groundRayDistance = 0.9f;
+    private float groundX = -0.44f;
+    private float groundY = -0.475f;
+
+    private LayerMask nothingLayer;
+
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
@@ -40,7 +50,7 @@ public class PlayerMove : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInput = GetComponent<PlayerInput>();
-        playerInput.OnMove += MoveKey;
+        playerInput.OnMove += GetMoveDirection;
         playerInput.OnMoveKeyUp += StopMove;
     }
     private void Update()
@@ -50,29 +60,24 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        
         CarryUnderPlayer();
-
-
     }
     private void StopMove()
     {
-        playerStatus.movingLeftRayDetect = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
-        playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, wallLayer);
+        playerStatus.movingLeftRayDetect = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, nothingLayer);
+        playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, nothingLayer);
         anim.SetBool("isWalking", false);
     }
-    private void MoveKey(int Direction)
+    private void GetMoveDirection(int Direction)
     {
-        MoveDirection = Direction;
-        
-
+        moveDirection = Direction;
     }
 
     public void Move()
     {
         move = 0;
-        move = moveSpeed * MoveDirection;
-        if (MoveDirection == 0 && canFreeze)
+        move = moveSpeed * moveDirection;
+        if (moveDirection == 0 && canFreeze)
         {
             rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
 
@@ -82,11 +87,10 @@ public class PlayerMove : MonoBehaviour
             rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
         }
 
-        if (MoveDirection == -1)
+        if (moveDirection == -1)
         {
             spriteRenderer.flipX = true;
-            PlayerDirection = true;
-            //-0.09 0.1 0
+            playerDirection = true;
             playerStatus.movingLeftRayDetect = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
 
@@ -97,11 +101,10 @@ public class PlayerMove : MonoBehaviour
             }
 
         }
-        if (MoveDirection == 1)
+        if (moveDirection == 1)
         {
             spriteRenderer.flipX = false;
-            PlayerDirection = false;
-            //0.1 0.1 0
+            playerDirection = false;
             playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
             if (playerStatus.movingRightRayDetect.collider != null)
@@ -117,32 +120,30 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("isWalking", move != 0);
     }
 
-    private float groundRayDistance = 0.9f;
-    private float groundX = -0.44f; // -0.325f
-    private float groundY = -0.475f; //-0.5f
+    
     private void CarryUnderPlayer()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
         //Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.red);
         RaycastHit2D footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, playerLayer);
-        if (footRayDetect/*playerStatus.isGroundRayDetect()*/)
+        if (footRayDetect)
         {
-            GameObject detectedPlayer = footRayDetect/*playerStatus.footRayDetect*/.collider.gameObject;
+            GameObject detectedPlayer = footRayDetect.collider.gameObject;
             if (detectedPlayer.layer == LayerMask.NameToLayer("Player"))
             {
 
                 if (currentUnderPlayer != detectedPlayer)
                 {
                     isOn = true;
-                    lastPosition = /*playerStatus.*/footRayDetect.transform.position;
+                    lastPosition = footRayDetect.transform.position;
                     currentUnderPlayer = detectedPlayer;
                 }
-                else if (isOn && lastPosition != /*playerStatus.*/footRayDetect.transform.position)
+                else if (isOn && lastPosition != footRayDetect.transform.position)
                 {
-                    Vector3 movedPosition = /*playerStatus.*/footRayDetect.transform.position - lastPosition;
+                    Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
                     transform.position += movedPosition;
-                    lastPosition = /*playerStatus.*/footRayDetect.transform.position;
+                    lastPosition = footRayDetect.transform.position;
                 }
             }
         }
@@ -161,7 +162,6 @@ public class PlayerMove : MonoBehaviour
             {
                 canFreeze = false;
             }
-            
         }
         else if(playerStatus.rightRayDetect)
         {
@@ -175,37 +175,4 @@ public class PlayerMove : MonoBehaviour
             canFreeze = true;
         }
     }
-   /* private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if (collision.transform.position.y < transform.position.y)
-            {
-                lastPosition = collision.transform.position;
-            }
-        }
-            
-    }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if(collision.transform.position.y < transform.position.y)
-            {
-                Vector3 movedPosition = collision.transform.position - lastPosition;
-                transform.position += movedPosition;
-                lastPosition = collision.transform.position;
-            }
-
-        }
-
-        if(collision != null)
-        {
-
-        }
-        else
-        {
-            Debug.Log("sdfsdf");
-        }
-    }*/
 }
