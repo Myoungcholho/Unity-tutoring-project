@@ -43,7 +43,7 @@ public class PushWall : MonoBehaviour
             if (isPossible && playerStatus.movingLeftRayDetect == true && powerDirection == -1 && !leftPowerIncreased)
             {
                 movableWall.LeftPower ++;
-                movableWall.LeftMovableWallPlus();
+                //movableWall.leftMovableWallPlus();
                 leftPowerIncreased = true;
             }
             else if(!playerStatus.movingLeftRayDetect)
@@ -51,6 +51,7 @@ public class PushWall : MonoBehaviour
                 if(leftPowerIncreased == true)
                 {
                     movableWall.LeftPower--;
+                    //movableWall.leftMovableWallMinus();
                     leftPowerIncreased = false;
                 }
                 
