@@ -6,9 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
 
-    
     public float moveSpeed = 1f;
-
     
     public LayerMask playerLayer;
 
@@ -23,23 +21,13 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
     private PlayerInput playerInput;
-    private int moveDirection = 0;
 
+    private int moveDirection = 0;
     private float move = 0;
 
     private PlayerStatus playerStatus;
 
-    private Vector3 lastPosition;
-
     private bool canFreeze = true;
-
-    private bool isOn = false;
-
-    private GameObject currentUnderPlayer = null;
-
-    private float groundRayDistance = 0.9f;
-    private float groundX = -0.44f;
-    private float groundY = -0.475f;
 
     private LayerMask nothingLayer;
 
@@ -60,7 +48,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        CarryUnderPlayer();
+       
     }
     private void StopMove()
     {
@@ -80,7 +68,6 @@ public class PlayerMove : MonoBehaviour
         if (moveDirection == 0 && canFreeze)
         {
             rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-
         }
         else
         {
@@ -118,40 +105,6 @@ public class PlayerMove : MonoBehaviour
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         
         anim.SetBool("isWalking", move != 0);
-    }
-
-    
-    private void CarryUnderPlayer()
-    {
-        Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
-
-        //Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.red);
-        RaycastHit2D footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, playerLayer);
-        if (footRayDetect)
-        {
-            GameObject detectedPlayer = footRayDetect.collider.gameObject;
-            if (detectedPlayer.layer == LayerMask.NameToLayer("Player"))
-            {
-
-                if (currentUnderPlayer != detectedPlayer)
-                {
-                    isOn = true;
-                    lastPosition = footRayDetect.transform.position;
-                    currentUnderPlayer = detectedPlayer;
-                }
-                else if (isOn && lastPosition != footRayDetect.transform.position)
-                {
-                    Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
-                    transform.position += movedPosition;
-                    lastPosition = footRayDetect.transform.position;
-                }
-            }
-        }
-        else
-        {
-            isOn = false;
-            currentUnderPlayer = null;
-        }
     }
 
     private void DecideFreeze()

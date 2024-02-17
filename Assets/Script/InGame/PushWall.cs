@@ -31,6 +31,7 @@ public class PushWall : MonoBehaviour
         if (isAttached && playerStatus.movingLeftRayDetect == true && powerDirection == -1 && !leftPowerIncreased)
         {
             movableWall.LeftPower++;
+            
             leftPowerIncreased = true;
         }
         else if (!playerStatus.movingLeftRayDetect)
@@ -64,17 +65,22 @@ public class PushWall : MonoBehaviour
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
             {
-                isAttached = true;
                 
-                movableWall = collision.collider.GetComponent<MovableWall>();
-                if (collision.transform.position.x - transform.position.x < 0)
+                if((playerStatus.leftRayDetect && playerStatus.leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall") )|| playerStatus.rightRayDetect && (playerStatus.rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall")))
                 {
-                    powerDirection = -1;
+                    isAttached = true;
+
+                    movableWall = collision.collider.GetComponent<MovableWall>();
+                    if (collision.transform.position.x - transform.position.x < 0)
+                    {
+                        powerDirection = -1;
+                    }
+                    else
+                    {
+                        powerDirection = 1;
+                    }
                 }
-                else
-                {
-                    powerDirection = 1;
-                }
+                
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {

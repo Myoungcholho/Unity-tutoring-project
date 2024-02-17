@@ -21,7 +21,7 @@ public class PlayerJump : MonoBehaviour
     private float jumpTime = 0.1f;
     private float jumpTimeCount = 0;
 
-    private bool canAddJump = false;
+    
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
@@ -37,32 +37,30 @@ public class PlayerJump : MonoBehaviour
 
     private void JumpKeyDown()
     {
-        if (playerStatus.isHeadRayDetect())
+        if (playerStatus.headRayDetect)
+        {
+            if(playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
+            {
+                playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
+            }
+            else if(playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                AddForceWall(playerStatus.headRayDetect.collider.gameObject);
+            }
             anim.SetBool("isJumping", true);
-        else if (playerStatus.isGroundRayDetect())
+
+        }   
+        else if (playerStatus.footRayDetect)
         {
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = true;
             anim.SetBool("isJumping", true);
             jumpTimeCount = jumpTime;
-            canAddJump = true;
         }
-
     }
     private void JumpKeyPress()
     {
-        /*if (playerStatus.isHeadRayDetect())
-            anim.SetBool("isJumping", true);
-        else if (playerStatus.footRayDetect && !isJumping)
-        {
-            Debug.Log("JumpKeyFirst");
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            isJumping = true;
-            anim.SetBool("isJumping", true);
-            jumpTimeCount = jumpTime;
-            canAddJump = true;
-        }*/
-
+        
         if (jumpTimeCount > 0 && isJumping)
         {
             //Debug.Log("JumpKeyPress");
@@ -72,15 +70,13 @@ public class PlayerJump : MonoBehaviour
         else
         {
             isJumping = false;
-            canAddJump = false;
+            
         }
     }
 
     private void JumpKeyUp()
     {
-        
         isJumping = false;
-        canAddJump = false;
     }
 
     private void StopJumpAnimation()
@@ -95,9 +91,7 @@ public class PlayerJump : MonoBehaviour
     
     private void FixedUpdate()
     {
-   
         StopJumpAnimation();
-
     }
     
 
@@ -108,5 +102,20 @@ public class PlayerJump : MonoBehaviour
             isJumping = true;
         }
     }
-
+    public void AddForceWall(GameObject abovePlayer)
+    {
+        if(abovePlayer.layer == LayerMask.NameToLayer("Player"))
+        {
+            PlayerJump abovePlayersPlayerJump = abovePlayer.GetComponent<PlayerJump>();
+            if (abovePlayersPlayerJump != null)
+            {
+                abovePlayer = abovePlayersPlayerJump.playerStatus.headRayDetect.collider.gameObject;
+                abovePlayersPlayerJump.AddForceWall(abovePlayer);
+            }
+        }
+        else if(abovePlayer.layer == LayerMask.NameToLayer("MovableWall"))
+        {
+            playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
+        }
+    }
 }

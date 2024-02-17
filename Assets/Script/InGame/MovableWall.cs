@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MovableWall : MonoBehaviour
 {
-
+    public bool customNumberOfPlayers = false;
     public LayerMask movableWallLayer;
 
     public int numberOfPlayers = 2;
@@ -17,11 +18,7 @@ public class MovableWall : MonoBehaviour
     public int LeftPower
     {
         get { return leftPower; }
-        set
-        {
-            leftPower = value;
-
-        }
+        set { leftPower = value; }
     }
 
     private int rightPower = 0;
@@ -45,16 +42,19 @@ public class MovableWall : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         text = GetComponentInChildren<TextMeshPro>();
-        text.text = numberOfPlayers.ToString();
-    }
 
-    private void FixedUpdate()
+        text.text = numberOfPlayers.ToString();
+        InitialSettings();
+    }
+    private void Update()
     {
         BesidePlusPower();
+    }
+    private void FixedUpdate()
+    {
         leftRay();
         RightRay();
         MoveWall();
-
     }
     
 
@@ -102,12 +102,12 @@ public class MovableWall : MonoBehaviour
         {
             if (leftPower > rightPower)
             {
-                move = -0.7f;
+                move = -0.5f;
                 rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
             }
             else if (leftPower < rightPower)
             {
-                move = 0.7f;
+                move = 0.5f;
                 rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
             }
             else
@@ -121,15 +121,33 @@ public class MovableWall : MonoBehaviour
             rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
 
-        if (count > -1)
+        if (count > -1) //
         {
             text.text = count.ToString();
         }
-        else
+        else 
         {
             text.text = "0";
         }
             
         rigid.velocity = new Vector2(move, rigid.velocity.y);
+    }
+
+    private void InitialSettings()
+    {
+        GameObject[] Players;
+        Players = GameObject.FindGameObjectsWithTag("Player");
+        int i = 0;
+        foreach (var Player in Players)
+        {
+            i++;
+        }
+        if (!customNumberOfPlayers)
+        {
+            if (this.gameObject.name == "MovableWall1-2_3")
+                numberOfPlayers = i - 1;
+            else
+                numberOfPlayers = i;
+        }
     }
 }
