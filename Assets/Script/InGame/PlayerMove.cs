@@ -111,14 +111,16 @@ public class PlayerMove : MonoBehaviour
     {
         if (playerStatus.leftRayDetect)
         {
-            if (playerStatus.leftRayDetect.collider.CompareTag("Ground"))
+            if (playerStatus.leftRayDetect.collider.CompareTag("Ground")
+                /*&& !(playerStatus.leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall"))*/)
             {
                 canFreeze = false;
             }
         }
         else if(playerStatus.rightRayDetect)
         {
-            if (playerStatus.rightRayDetect.collider.CompareTag("Ground"))
+            if (playerStatus.rightRayDetect.collider.CompareTag("Ground")
+                /*&& !(playerStatus.rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall"))*/)
             {
                 canFreeze = false;
             }

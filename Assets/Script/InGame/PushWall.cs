@@ -27,7 +27,7 @@ public class PushWall : MonoBehaviour
 
     void Update()
     {
-
+/*
         if (isAttached && playerStatus.movingLeftRayDetect == true && powerDirection == -1 && !leftPowerIncreased)
         {
             movableWall.LeftPower++;
@@ -55,18 +55,19 @@ public class PushWall : MonoBehaviour
                 movableWall.RightPower--;
                 rightPowerIncreased = false;
             }
-        }
+        }*/
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         
-        if (collision != null)
+       /* if (collision != null)
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
             {
                 
-                if((playerStatus.leftRayDetect && playerStatus.leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall") )|| playerStatus.rightRayDetect && (playerStatus.rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall")))
+                if((playerStatus.leftRayDetect && playerStatus.leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall") )
+                    || playerStatus.rightRayDetect && (playerStatus.rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall")))
                 {
                     isAttached = true;
 
@@ -84,26 +85,37 @@ public class PushWall : MonoBehaviour
             }
             else if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
+                
                 PushWall otherPlayerspushWall = collision.gameObject.GetComponent<PushWall>();
                 if (otherPlayerspushWall.isAttached)
                 {
                     powerDirection = otherPlayerspushWall.powerDirection;
                     isAttached = true;
-                    
+                    Debug.Log("isAttacehd");
                     movableWall = otherPlayerspushWall.movableWall;
                 }
+                else
+                {
+                    isAttached = false;
+                }
             }
-        }
+        }*/
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision != null)
+        /*if (collision != null)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall") || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
+            {
+                if(this.gameObject.name == "3P_Player")
+                    Debug.Log(collision.gameObject.name);
+                isAttached = false;
+            }
+            else if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 isAttached = false;
             }
-        }
+        }*/
     }
 }
