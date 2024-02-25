@@ -61,16 +61,15 @@ public class MovableWall : MonoBehaviour
     private void leftRay()
     {
         leftRayDetect = Physics2D.Raycast(transform.position + new Vector3(-0.51f, 0, 0), Vector2.down, sideRaycastDistance, movableWallLayer);
-        Debug.DrawRay(transform.position + new Vector3(-0.55f, 0, 0), Vector2.down * 0.2f, Color.gray);
+        Debug.DrawRay(transform.position + new Vector3(-0.55f, 0, 0), Vector2.down * 0.2f, Color.red);
     }
 
     private void RightRay()
     {
         rightRayDetect = Physics2D.Raycast(transform.position + new Vector3(0.51f, 0, 0), Vector2.down, sideRaycastDistance, movableWallLayer);
-        Debug.DrawRay(transform.position + new Vector3(0.51f, 0, 0), Vector2.down * 0.2f, Color.blue);
+        Debug.DrawRay(transform.position + new Vector3(0.51f, 0, 0), Vector2.down * 0.2f, Color.red);
     }
     
-    // 벽이 벽을 미는 경우
     private void BesidePlusPower()
     {
         if (leftRayDetect)
