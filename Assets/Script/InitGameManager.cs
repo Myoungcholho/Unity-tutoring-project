@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class InitGameManager : MonoBehaviour
 {
@@ -13,8 +14,16 @@ public class InitGameManager : MonoBehaviour
     public GameObject Option2Canvas;
     public GameObject KeyBoardConfigCanvas;
 
+    public TextMeshProUGUI menuText;
+    private ButtonTextUpdater_MenuCanvas buttonTextUpdater;
+    ButtonTextUpdater_PlayerCanvas playerCanvas;
+    const int maxIndex = 3;
+
     private int currentIndex = 0;
-    private int currentPageIndex;
+    private int currentPageIndex { 
+        get; 
+        set;
+    }
     private int currentPageText = 0;
     private string[] textOptions = { "LOCAL PLAY MODE", "OPTION", "EXIT" };
     private string[] textPlayers = { "2PLAYERS GAME", "3PLAYERS GAME", "4PLAYERS GAME" };
@@ -26,37 +35,33 @@ public class InitGameManager : MonoBehaviour
         InitInputManager.instance.DPress += ChangeTextForward;
         InitInputManager.instance.APress += ChangeTextBackward;
     }
+    private void Awake()
+    {
+        buttonTextUpdater = MenuCanvas.GetComponentInChildren<ButtonTextUpdater_MenuCanvas>();
+        playerCanvas = PlayerCanvas.GetComponentInChildren<ButtonTextUpdater_PlayerCanvas>();
+    }
     void Start()
     {
         EnableCanvas(FirstCanvas);
         //UpdateText();
     }
 
+    // A와 D키 눌렸을 때 호출됨
     private void UpdateText()
     {
-        switch (currentPageText)
+        switch (currentPageIndex)
         {
-            case 0:
-                if (MenuCanvas != null)
-                {
-                    ButtonTextUpdater_MenuCanvas buttonTextUpdater = MenuCanvas.GetComponentInChildren<ButtonTextUpdater_MenuCanvas>();
-
-                    if (buttonTextUpdater != null)
-                    {
-                        buttonTextUpdater.UpdateButtonText(textOptions[currentIndex]);
-                    }
-                    currentPageText = 1;
-                }
+            case CONSTDEFINE.BASICWINDOW:
                 break;
-            case 1:
+            case CONSTDEFINE.SELECTWINDOW:
                 if (PlayerCanvas != null)
                 {
-                    ButtonTextUpdater_PlayerCanvas buttonTextUpdater = PlayerCanvas.GetComponentInChildren<ButtonTextUpdater_PlayerCanvas>();
-
-                    if (buttonTextUpdater != null)
-                    {
-                        buttonTextUpdater.UpdateButtonText(textPlayers[currentIndex]);
-                    }
+                    buttonTextUpdater.UpdateButtonText(textOptions[currentIndex]);
+                }
+                break;
+            case CONSTDEFINE.PLAYERSELECT:
+                {   
+                    playerCanvas.UpdateButtonText(textPlayers[currentIndex]);
                 }
                 break;
             default:
@@ -64,14 +69,16 @@ public class InitGameManager : MonoBehaviour
         }
     }
 
+    // D키가 눌렸을 경우 
     private void ChangeTextForward()
     {
         currentIndex = (currentIndex + 1) % textOptions.Length;
         UpdateText();
     }
+    // A키가 눌렸을 경우
     private void ChangeTextBackward()
     {
-        currentIndex = (currentIndex - 1 + textOptions.Length) % textOptions.Length;
+        currentIndex = (currentIndex + (maxIndex-1) + textOptions.Length) % textOptions.Length;
         UpdateText();
     }
 
@@ -85,17 +92,17 @@ public class InitGameManager : MonoBehaviour
                 currentPageIndex = 1;
                 break;
             case 1:
-                if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[0]))
+                if (menuText.text.Equals(textOptions[0]))
                 {
                     EnableCanvas(PlayerCanvas);
                     currentPageIndex = 2;
                 }
-                else if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[1]))
+                else if (menuText.text.Equals(textOptions[1]))
                 {
                     EnableCanvas(Option2Canvas);
                     currentPageIndex = 3;
                 }
-                else if (MenuCanvas.GetComponentInChildren<TextMeshProUGUI>().text.Equals(textOptions[2]))
+                else if (menuText.text.Equals(textOptions[2]))
                 {
                     DisableCanvas(MenuCanvas);
                     currentPageIndex = 0;
@@ -124,10 +131,6 @@ public class InitGameManager : MonoBehaviour
                 {
                     DisableCanvas(MenuCanvas);
                     currentPageIndex = 0;
-                }
-                else
-                {
-
                 }
                 break;
             case 2:
