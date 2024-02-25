@@ -37,26 +37,35 @@ public class PlayerJump : MonoBehaviour
 
     private void JumpKeyDown()
     {
-        if (playerStatus.headRayDetect)
+        if(!isJumping && anim.GetBool("isJumping") == false)
         {
-            if(playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
+            if (playerStatus.headRayDetect && playerStatus.headRayDetect.collider.gameObject != this.gameObject)
             {
-                playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
-            }
-            else if(playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                AddForceWall(playerStatus.headRayDetect.collider.gameObject);
-            }
-            anim.SetBool("isJumping", true);
+                if (playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
+                {
+                    playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
+                }
+                else if (playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player")
+                    && playerStatus.headRayDetect.collider.gameObject != this.gameObject)
+                {
+                    AddForceWall(playerStatus.headRayDetect.collider.gameObject);
+                }
+                //anim.SetBool("isJumping", true);
 
-        }   
-        else if (playerStatus.footRayDetect)
-        {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            isJumping = true;
+            }
+            else if (playerStatus.footRayDetect && playerStatus.footRayDetect.collider.gameObject != this.gameObject)
+            {
+                rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+
+                //anim.SetBool("isJumping", true);
+                jumpTimeCount = jumpTime;
+                isJumping = true;
+            }
+            
+            
             anim.SetBool("isJumping", true);
-            jumpTimeCount = jumpTime;
         }
+        
     }
     private void JumpKeyPress()
     {
@@ -70,7 +79,7 @@ public class PlayerJump : MonoBehaviour
         else
         {
             isJumping = false;
-            
+           
         }
     }
 
@@ -83,7 +92,7 @@ public class PlayerJump : MonoBehaviour
     {
         if (!isJumping)
         {
-            if (playerStatus.isGroundRayDetect())
+            if (playerStatus.footRayDetect && playerStatus.footRayDetect.collider.gameObject != this.gameObject/*playerStatus.footRayDetect.collider.CompareTag("Ground")*/)
                 anim.SetBool("isJumping", false);
         }
 
@@ -92,25 +101,28 @@ public class PlayerJump : MonoBehaviour
     private void FixedUpdate()
     {
         StopJumpAnimation();
+        /*if(playerStatus.footRayDetect *//*&& playerStatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player")*//*)
+        {
+            if(playerStatus.footRayDetect.collider.gameObject != this.gameObject && this.gameObject.name == "Player2")
+                Debug.Log(playerStatus.footRayDetect.collider.gameObject.name);
+        }*/
     }
     
 
-    private void JumpKey()
-    {
-        if (playerStatus.isGroundRayDetect())
-        {
-            isJumping = true;
-        }
-    }
     public void AddForceWall(GameObject abovePlayer)
     {
-        if(abovePlayer.layer == LayerMask.NameToLayer("Player"))
+        Debug.Log(abovePlayer.name);
+        if(playerStatus.headRayDetect && abovePlayer.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerJump abovePlayersPlayerJump = abovePlayer.GetComponent<PlayerJump>();
             if (abovePlayersPlayerJump != null)
             {
-                abovePlayer = abovePlayersPlayerJump.playerStatus.headRayDetect.collider.gameObject;
-                abovePlayersPlayerJump.AddForceWall(abovePlayer);
+                if(abovePlayersPlayerJump.playerStatus.headRayDetect)
+                {
+                    abovePlayer = abovePlayersPlayerJump.playerStatus.headRayDetect.collider.gameObject;
+                    abovePlayersPlayerJump.AddForceWall(abovePlayer);
+                }
+                    
             }
         }
         else if(abovePlayer.layer == LayerMask.NameToLayer("MovableWall"))
@@ -118,4 +130,10 @@ public class PlayerJump : MonoBehaviour
             playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
         }
     }
+/*
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            Debug.Log("ONCOllisionEnter2D");
+    }*/
 }

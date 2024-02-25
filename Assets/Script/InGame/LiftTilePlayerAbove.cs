@@ -11,16 +11,10 @@ public class LiftTilePlayerAbove : MonoBehaviour
     private bool wasOnTile = false;
     private bool isOnTile = false;
     
-    private Rigidbody2D rigid;
-    private Animator anim;
-    private PlayerJump playerJump;
-
     void Start()
     {
         playerStatus = GetComponent<PlayerStatus>();
-        rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        playerJump = GetComponent<PlayerJump>();
+        
     }
 
     private void Update()
@@ -30,7 +24,6 @@ public class LiftTilePlayerAbove : MonoBehaviour
 
     private void MoveUpTilePlayerAboved()
     {
-
         isOnTile = false;
 
         if (playerStatus.footRayDetect)
@@ -49,28 +42,10 @@ public class LiftTilePlayerAbove : MonoBehaviour
                 liftTile = liftTileUnderPlayerAbove.liftTile;
             }
         }
-        if(!playerJump.isJumping)
-        {
-            if (!playerJump.isJumping && isOnTile && liftTile.canUp)
-            {
-                //rigid.velocity = new Vector2(rigid.velocity.x, 0.1f);
-            }
-            else if (!playerJump.isJumping && isOnTile && !liftTile.canUp)
-            {
-
-                //rigid.velocity = new Vector2(rigid.velocity.x, -1f);
-
-
-            }
-        }
-        
-        
         if (isOnTile && !wasOnTile)
         {
             if (liftTile != null)
                 liftTile.Total++;
-            
-
             wasOnTile = true;
             
         }
@@ -78,7 +53,6 @@ public class LiftTilePlayerAbove : MonoBehaviour
         {
             if (liftTile != null)
                 liftTile.Total--;
-            
             wasOnTile = false;
         }
 

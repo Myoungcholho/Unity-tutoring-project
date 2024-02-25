@@ -54,8 +54,13 @@ public class CameraFollow : MonoBehaviour
                 maxX = targets[i];
             }
         }
+        
+    }
+    private void LateUpdate()
+    {
         float X = (maxX.position.x + minX.position.x) / 2;
         Vector3 targetPosition = new Vector3(X, 0, 0) + offset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        //transform.position = targetPosition;
     }
 }

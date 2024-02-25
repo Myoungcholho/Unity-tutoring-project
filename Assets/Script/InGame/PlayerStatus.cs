@@ -29,43 +29,42 @@ public class PlayerStatus : MonoBehaviour
     public Transform leftRaycastPosition;
     public Transform rightRaycastPosition;
 
-    private float groundX = -0.325f;
+    public float groundX = -0.325f;
     private float groundY = -0.5f;
 
     //
     public int curLeftPower = 0;
     public int curRightPower = 0;
 
-    private PlayerStatus playerStatus;
-    private PlayerStatus currentPlayerStatus;
-
     private int dumpRightPower = 0;
     private int dumpLeftPower = 0;
-
+    private bool isLeftPowering = false;
+    private bool isRightPowering = false;
     private void Start()
     {
-        playerStatus = GetComponent<PlayerStatus>();
+        
     }
     private void Update()
     {
-        //LeftPower();
         BesidePlusPower();
         Power();
-    }
-    private void FixedUpdate()
-    {
         isGroundRayDetect();
         isHeadRayDetect();
         leftRay();
         rightRay();
+    }
+    private void FixedUpdate()
+    {
+        
     }
 
     public bool isGroundRayDetect()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
-        Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.red);
+        Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.yellow);
         footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, groundLayer);
+        
         return footRayDetect;
     }
 
@@ -90,19 +89,18 @@ public class PlayerStatus : MonoBehaviour
         Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
     }
     
-    private bool isPowering = false;
-    private bool isRightPowering = false;
+    
     private void Power()
     {
-        if(!isPowering && movingLeftRayDetect)
+        if(!isLeftPowering && movingLeftRayDetect)
         {
             curLeftPower++;
-            isPowering = true;
+            isLeftPowering = true;
         }
-        else if(isPowering && !movingLeftRayDetect)
+        else if(isLeftPowering && !movingLeftRayDetect)
         {
             curLeftPower--;
-            isPowering = false;
+            isLeftPowering = false;
         }
 
         if (!isRightPowering && movingRightRayDetect)
@@ -119,7 +117,7 @@ public class PlayerStatus : MonoBehaviour
     private void BesidePlusPower()
     {
         curRightPower -= dumpRightPower;
-        if (leftRayDetect /*&& leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player")*/)
+        if (leftRayDetect)
         {
             if(leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
@@ -131,19 +129,16 @@ public class PlayerStatus : MonoBehaviour
             {
 
             }
-            
+           
         }
         else
             dumpRightPower = 0;
         curLeftPower -= dumpLeftPower;
         if (rightRayDetect && rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-
-
             PlayerStatus besidePlayerStatus = rightRayDetect.collider.gameObject.GetComponent<PlayerStatus>();
             dumpLeftPower = besidePlayerStatus.curLeftPower;
             curLeftPower += besidePlayerStatus.curLeftPower;
-
         }
         else
             dumpLeftPower = 0;
