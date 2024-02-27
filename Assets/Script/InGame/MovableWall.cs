@@ -60,7 +60,7 @@ public class MovableWall : MonoBehaviour
     {
         leftRayDetect = Physics2D.Raycast(transform.position + new Vector3(-sideRayDistance, sideRayHeight, 0), Vector2.down, sideRaycastLength, Layer);
         Debug.DrawRay(transform.position + new Vector3(-sideRayDistance, sideRayHeight, 0), Vector2.down * sideRaycastLength, Color.red);
-        /*leftArrayRayDetect*/ = Physics2D.RaycastAll(transform.position + new Vector3(-sideRayDistance, sideRayHeight, 0), Vector2.down, sideRaycastLength, Layer);
+        leftArrayRayDetect = Physics2D.RaycastAll(transform.position + new Vector3(-sideRayDistance, sideRayHeight, 0), Vector2.down, sideRaycastLength, Layer);
         
     }
 
