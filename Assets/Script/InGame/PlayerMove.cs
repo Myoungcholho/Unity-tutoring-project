@@ -23,7 +23,7 @@ public class PlayerMove : MonoBehaviour
     private PlayerInput playerInput;
 
     private int moveDirection = 0;
-    private float move = 0;
+    public float move = 0;
 
     private PlayerStatus playerStatus;
 

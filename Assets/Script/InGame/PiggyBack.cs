@@ -9,9 +9,9 @@ public class PiggyBack : MonoBehaviour
 
     private GameObject currentUnderPlayer = null;
 
-    private float groundRayDistance = 0.9f;
-    private float groundX = -0.44f;
-    public float groundY = -0.475f;
+    public float groundRayDistance = 0.56f; //0.9f 0.64
+    public float groundX = -0.28f; //-0.44f -0.32
+    public float groundY = -0.5f; //-0.475
     [SerializeField]
     private bool isOn = false;
 
@@ -19,42 +19,50 @@ public class PiggyBack : MonoBehaviour
     
     private void FixedUpdate()
     {
+        //PiggdBack();
+    }
+    private void LateUpdate()
+    {
         PiggdBack();
     }
-
     private void PiggdBack()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
-        Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.red);
+        Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.blue);
         RaycastHit2D footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, objectLayer);
         if (footRayDetect)
         {
-            GameObject detectedPlayer = footRayDetect.collider.gameObject;
-            
-            if (footRayDetect)
+            if(footRayDetect.collider.gameObject != this.gameObject)
             {
+                
+                GameObject detectedPlayer = footRayDetect.collider.gameObject;
 
-                if (currentUnderPlayer != detectedPlayer)
+                if (footRayDetect)
                 {
-                    isOn = true;
-                    lastPosition = footRayDetect.transform.position;
-                    currentUnderPlayer = detectedPlayer;
-                }
-                else if (isOn && lastPosition != footRayDetect.transform.position)
-                {
-                    Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
-                    
-                    transform.position += movedPosition;
-                    
-                    lastPosition = footRayDetect.transform.position;
+
+                    if (currentUnderPlayer != detectedPlayer)
+                    {
+                        isOn = true;
+                        lastPosition = footRayDetect.transform.position;
+                        currentUnderPlayer = detectedPlayer;
+                    }
+                    else if (isOn && lastPosition != footRayDetect.transform.position)
+                    {
+                        Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
+
+                        transform.position += movedPosition;
+
+                        lastPosition = footRayDetect.transform.position;
+                    }
                 }
             }
+            else
+            {
+                isOn = false;
+                currentUnderPlayer = null;
+            }
         }
-        else
-        {
-            isOn = false;
-            currentUnderPlayer = null;
-        }
+            
     }
 }
