@@ -51,8 +51,8 @@ public class PiggyBack : MonoBehaviour
                     {
                         Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
 
-                        transform.position += movedPosition;
-
+                        //transform.position += movedPosition;
+                        transform.position += new Vector3(movedPosition.x, 0, 0);
                         lastPosition = footRayDetect.transform.position;
                     }
                 }
