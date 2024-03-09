@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ButtonRe : MonoBehaviour
 {
+    
+    public Action buttonPressed; 
+    public Action buttonReleased;
+
     public GameObject blockingDoor;
 
     private GameObject mushRoomObject;
@@ -31,7 +36,7 @@ public class ButtonRe : MonoBehaviour
 
         wallStartPosition = blockingDoor.transform.position;
         endPosition = wallStartPosition + new Vector3(0, 1f, 0);
-        StartCoroutine("WallUp");
+        //StartCoroutine("WallUp");
 
         walls = GameObject.FindGameObjectsWithTag("BlockingWall");
         if(this.gameObject.name == "Button1_3_6")
@@ -53,11 +58,12 @@ public class ButtonRe : MonoBehaviour
                     pressingObject = collision.gameObject;
                     isDown = true;
                     mushRoomObject.transform.position = startPosition + new Vector3(0, -0.2f, 0);
-                    /*StartCoroutine("WallDown");*/
-                    StopCoroutine("WallUp");
+                    
                     isPressed = true;
                     //함수 호출
-                    stageManager.ControlWallDown();
+                    //stageManager.ControlWallDown();
+                    //델리게이트 호출
+                    buttonPressed?.Invoke();
                 }
                 
             }
@@ -75,42 +81,15 @@ public class ButtonRe : MonoBehaviour
                 Debug.Log("Exit");
                 mushRoomObject.transform.position = startPosition;
                 isDown = false;
-                /*StartCoroutine("WallUp");
-                StopCoroutine("WallDown");*/
+                
                 pressingObject = null;
                 isPressed = false;
-                stageManager.ControlWallUp();
+                //stageManager.ControlWallUp();
+                buttonReleased?.Invoke();
             }
             
         }
     }
 
-
-    private IEnumerator WallUp()
-    {
-
-        while (blockingDoor.transform.position.y <= endPosition.y)
-        {
-            blockingDoor.transform.position += new Vector3(0, 0.5f * Time.deltaTime, 0);
-            blockingDoor.transform.localScale += new Vector3(0, 1f * Time.deltaTime, 0);
-
-            yield return null;
-        }
-        StopCoroutine("WallUp");
-
-    }
-    private IEnumerator WallDown()
-    {
-
-
-        while (blockingDoor.transform.position.y >= wallStartPosition.y)
-        {
-            blockingDoor.transform.position += new Vector3(0, -0.5f * Time.deltaTime, 0);
-            blockingDoor.transform.localScale += new Vector3(0, -1f * Time.deltaTime, 0);
-
-            yield return null;
-        }
-        StopCoroutine("WallDown");
-    }
 
 }

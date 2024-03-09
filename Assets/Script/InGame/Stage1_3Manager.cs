@@ -13,7 +13,7 @@ public class Stage1_3Manager : MonoBehaviour
     private int wallDownCount = 0; //몇 번째 벽을 컨트롤할지 정하는 변수
 
     private WallUpDown wallScript;
-
+    private ButtonRe buttonRe;
     private GameObject[] Players;
     private int NumberOfPlayers = 0;
 
@@ -25,19 +25,18 @@ public class Stage1_3Manager : MonoBehaviour
         FloatinglandHeightAdjustment();
         NumberOfBoxsInitialSettings();
         NumberOfButtonsInitialSettings();
+
+        ButtonRe[] buttonReArray = FindObjectsOfType<ButtonRe>();
+
+        foreach (var buttonRe in buttonReArray)
+        {
+            buttonRe.buttonPressed += ControlWallDown;
+            buttonRe.buttonReleased += ControlWallUp;
+        }
     }
     void Start()
     {
-        for(int i = 1;  i < walls.Length; i++)
-        {
-            if (walls[i].transform.position.x > walls[i - 1].transform.position.x)
-            {
-
-            }
-        }
-
-        
-    
+       
     }
 
     public void ControlWallDown()

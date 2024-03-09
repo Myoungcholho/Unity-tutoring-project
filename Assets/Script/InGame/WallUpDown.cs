@@ -11,6 +11,7 @@ public class WallUpDown : MonoBehaviour
     {
         wallStartPosition = transform.position;
         endPosition = wallStartPosition + new Vector3(0, 1f, 0);
+        StartCoroutine("WallUp");
     }
 
     public void StartWallUp() 
