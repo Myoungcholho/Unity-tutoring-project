@@ -17,19 +17,24 @@ public class PiggyBack : MonoBehaviour
 
     private Vector3 lastPosition;
     
+    private void Update()
+    {
+        
+    }
     private void FixedUpdate()
     {
-        //PiggdBack();
+        
     }
     private void LateUpdate()
     {
         PiggdBack();
+
     }
     private void PiggdBack()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
-        Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.blue);
+        Debug.DrawRay(GroundstartPosition + new Vector3(0, -0.1f, 0), Vector2.right * groundRayDistance, Color.blue);
         RaycastHit2D footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, objectLayer);
         if (footRayDetect)
         {
@@ -50,7 +55,6 @@ public class PiggyBack : MonoBehaviour
                     else if (isOn && lastPosition != footRayDetect.transform.position)
                     {
                         Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
-
                         //transform.position += movedPosition;
                         transform.position += new Vector3(movedPosition.x, 0, 0);
                         lastPosition = footRayDetect.transform.position;

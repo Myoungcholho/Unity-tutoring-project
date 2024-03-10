@@ -62,8 +62,8 @@ public class PlayerStatus : MonoBehaviour
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
-        Debug.DrawRay(GroundstartPosition, Vector2.right * groundRayDistance, Color.yellow);
-        footRayDetect = Physics2D.Raycast(GroundstartPosition, Vector2.right, groundRayDistance, groundLayer);
+        Debug.DrawRay(GroundstartPosition + new Vector3(0, -0.1f, 0), Vector2.right * groundRayDistance, Color.yellow);
+        footRayDetect = Physics2D.Raycast(GroundstartPosition + new Vector3(0, -0.1f, 0), Vector2.right, groundRayDistance, groundLayer);
         
         return footRayDetect;
     }

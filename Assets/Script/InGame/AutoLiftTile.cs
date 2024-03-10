@@ -35,34 +35,36 @@ public class AutoLiftTile : MonoBehaviour
         BelowRay();
     }
 
-    private IEnumerator MoveUp()
+    private IEnumerator MoveUp() //일정 시간 동안 위로 이동
     {
         float time = 0;
         while (time < moveDuration)
         {
             if(belowRay != true)
-                transform.position = Vector3.SmoothDamp(transform.position, endPosition/*transform.position += new Vector3(0, moveSpeed)*/, ref velocity, smoothTime);
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, endPosition, ref velocity, smoothTime);
+            }
+               
             time += Time.deltaTime;
             yield return null;
         }
-        //yield return new WaitForSeconds(0.2f);
         StartCoroutine(MoveDown());
         
     }
-    private IEnumerator MoveDown()
+    private IEnumerator MoveDown() //일정 시간 동안 beginPosition으로 아래로 이동
     {
         
         float time = 0;
         while (time < moveDuration)
         {
             if (belowRay != true)
-                transform.position = Vector3.SmoothDamp(transform.position, beginPosition/*transform.position += new Vector3(0, -moveSpeed)*/, ref velocity, smoothTime);
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, beginPosition, ref velocity, smoothTime);
+            }
+                
             time += Time.deltaTime;
             yield return null;
-        }
-        
-        //yield return new WaitForSeconds(0.2f);
-        
+        }   
         StartCoroutine(MoveUp());
     }
 

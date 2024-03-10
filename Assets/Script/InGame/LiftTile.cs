@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class LiftTile : MonoBehaviour
 {
+    public bool moveUp = true;
     public int numberOfPlayers;
     
     public float moveDistance = 3.0f;
@@ -61,10 +62,18 @@ public class LiftTile : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
-        Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
-        canUp = (total >= numberOfPlayers);
+        //Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
         
+        canUp = (total >= numberOfPlayers);
+        if (moveUp == true)
+            MoveUp();
+        else
+            MoveDown();
+
+        rigid.velocity = new Vector2(rigid.velocity.x, move);
+    }
+    private void MoveUp()
+    {
         if (canUp)
         {
 
@@ -89,20 +98,52 @@ public class LiftTile : MonoBehaviour
                 else
                 {
                     move = 0;
-                }   
+                }
             }
             else
             {
                 move = 0;
             }
         }
-
-        rigid.velocity = new Vector2(rigid.velocity.x, move);
     }
+
+    private void MoveDown()
+    {
+        if (canUp)
+        {
+
+            if (transform.position.y > OriginPosition.y - moveDistance)
+            {
+                if (!isPlayerBelow())
+                    move = -1;
+            }
+            else
+            {
+                move = 0;
+            }
+
+        }
+        else
+        {
+            if (transform.position.y < OriginPosition.y)
+            {
+                
+                
+                    move = 1;
+                
+               
+            }
+            else
+            {
+                move = 0;
+            }
+        }
+    }
+
     bool isPlayerBelow()
     {
         Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
-
+        Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
         isPlayerBelowRay = Physics2D.Raycast(startPosition, Vector2.right, Distance, playerLayer);
         return isPlayerBelowRay;
     }

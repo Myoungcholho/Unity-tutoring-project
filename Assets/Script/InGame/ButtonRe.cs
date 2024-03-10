@@ -12,37 +12,18 @@ public class ButtonRe : MonoBehaviour
     public GameObject blockingDoor;
 
     private GameObject mushRoomObject;
-    private Vector3 endPosition;
-
-    private Vector3 startPosition;
-
-    private Vector3 wallStartPosition;
-
+    
+    private Vector3 buttonStartPosition;
+    private Vector3 buttonEndPosition;
     private GameObject pressingObject;
 
-    public bool isDown = false;
-
     public bool isPressed = false;
-    [SerializeField]
-    private GameObject[] walls;
-
-    private GameObject camera;
-    private Stage1_3Manager stageManager;
+    
     void Start()
     {
-         
         mushRoomObject = transform.GetChild(0).gameObject;
-        startPosition = mushRoomObject.transform.position;
-
-        wallStartPosition = blockingDoor.transform.position;
-        endPosition = wallStartPosition + new Vector3(0, 1f, 0);
-        //StartCoroutine("WallUp");
-
-        walls = GameObject.FindGameObjectsWithTag("BlockingWall");
-        if(this.gameObject.name == "Button1_3_6")
-            stageManager = GetComponent<Stage1_3Manager>(); 
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
-        stageManager = camera.GetComponent<Stage1_3Manager>();
+        buttonStartPosition = mushRoomObject.transform.position;
+        buttonEndPosition = buttonStartPosition + new Vector3(0, -0.2f, 0);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -54,15 +35,13 @@ public class ButtonRe : MonoBehaviour
             {
                 if(!isPressed)
                 {
-                    Debug.Log("Enter" + collision.name);
-                    pressingObject = collision.gameObject;
-                    isDown = true;
-                    mushRoomObject.transform.position = startPosition + new Vector3(0, -0.2f, 0);
+
+                    pressingObject = collision.gameObject; //현재 버튼을 누른 오브젝트 저장
+
+                    mushRoomObject.transform.position = buttonEndPosition; //버튼 눌림 표시
                     
                     isPressed = true;
-                    //함수 호출
-                    //stageManager.ControlWallDown();
-                    //델리게이트 호출
+                   
                     buttonPressed?.Invoke();
                 }
                 
@@ -76,15 +55,13 @@ public class ButtonRe : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall")
             || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            if(collision.gameObject == pressingObject)
+            if(collision.gameObject == pressingObject) //만약 버튼을 누른 오브젝트가 버튼에서 나갈 시 
             {
-                Debug.Log("Exit");
-                mushRoomObject.transform.position = startPosition;
-                isDown = false;
-                
+                mushRoomObject.transform.position = buttonStartPosition;
+        
                 pressingObject = null;
                 isPressed = false;
-                //stageManager.ControlWallUp();
+                
                 buttonReleased?.Invoke();
             }
             

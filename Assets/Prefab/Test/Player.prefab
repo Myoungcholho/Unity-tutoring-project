@@ -301,8 +301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7074aa2ae93172842b0aa60766505825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 30
-  addJumpPower: 2.5
+  jumpPower: 3
+  addJumpPower: 1.5
   isJumping: 0
 --- !u!114 &1922312421552993884
 MonoBehaviour:
