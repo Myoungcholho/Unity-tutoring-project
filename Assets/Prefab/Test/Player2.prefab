@@ -218,7 +218,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181725784050513893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -244,7 +244,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6181725784050513893}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -301,8 +301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7074aa2ae93172842b0aa60766505825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 30
-  addJumpPower: 2.5
+  jumpPower: 3
+  addJumpPower: 1.5
   isJumping: 0
 --- !u!114 &6181725784050513889
 MonoBehaviour:

@@ -39,10 +39,11 @@ public class Stage1_3Manager : MonoBehaviour
        
     }
 
-    public void ControlWallDown()
+    public void ControlWallDown() 
     {
-        wallDownCount++; 
+        wallDownCount++; // 버튼이 한 개씩 눌릴 때마다 카운트를 1씩 더함
 
+        //wallDownCount 값에 따라 순서대로 WallUpDown스크립트 컴포넌트에 접근
         wallScript = walls[wallDownCount - 1].GetComponent<WallUpDown>();
         wallScript.StartWallDown();
     }

@@ -57,8 +57,6 @@ public class ButtonRe2 : MonoBehaviour
         while (floor.transform.position.x >= floorTargetPos.x)
         {
             floor.transform.position += new Vector3(-2f * Time.deltaTime, 0, 0);
-            //blockingDoor.transform.localScale += new Vector3(0, -1f * Time.deltaTime, 0);
-
             yield return null;
         }
 
