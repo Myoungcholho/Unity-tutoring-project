@@ -13790,7 +13790,7 @@ MonoBehaviour:
   YesornoCanvas: {fileID: 353967255}
   Option2Canvas: {fileID: 2082767396}
   KeyBoardConfigCanvas: {fileID: 1065373650}
-  menuText: {fileID: 0}
+  menuText: {fileID: 676282994}
 --- !u!4 &2030320546
 Transform:
   m_ObjectHideFlags: 0
