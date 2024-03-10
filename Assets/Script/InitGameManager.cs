@@ -87,34 +87,34 @@ public class InitGameManager : MonoBehaviour
         //switch 문 int 형 변수로 입력해보기
         switch (currentPageIndex)
         {
-            case 0:
+            case CONSTDEFINE.BASICWINDOW:
                 EnableCanvas(MenuCanvas);
-                currentPageIndex = 1;
+                currentPageIndex = CONSTDEFINE.SELECTWINDOW;
                 break;
-            case 1:
+            case CONSTDEFINE.SELECTWINDOW:
                 if (menuText.text.Equals(textOptions[0]))
                 {
                     EnableCanvas(PlayerCanvas);
-                    currentPageIndex = 2;
+                    currentPageIndex = CONSTDEFINE.PLAYERSELECT;
                 }
                 else if (menuText.text.Equals(textOptions[1]))
                 {
                     EnableCanvas(Option2Canvas);
-                    currentPageIndex = 3;
+                    currentPageIndex = CONSTDEFINE.OPTIONWINDOW;
                 }
                 else if (menuText.text.Equals(textOptions[2]))
                 {
                     DisableCanvas(MenuCanvas);
-                    currentPageIndex = 0;
+                    currentPageIndex = CONSTDEFINE.BASICWINDOW;
                 }
                 break;
-            case 2:
+            case CONSTDEFINE.PLAYERSELECT:
                 EnableCanvas(YesornoCanvas);
-                currentPageIndex = 4;
+                currentPageIndex = CONSTDEFINE.LASTWINDOW;
                 break;
-            case 3:
+            case CONSTDEFINE.OPTIONWINDOW:
                 EnableCanvas(KeyBoardConfigCanvas);
-                currentPageIndex = 4;
+                currentPageIndex = CONSTDEFINE.LASTWINDOW;
                 break;
             default:
                 break;
@@ -124,39 +124,39 @@ public class InitGameManager : MonoBehaviour
     {
         switch(currentPageIndex)
         {
-            case 0:
+            case CONSTDEFINE.BASICWINDOW:
                 break;
-            case 1:
+            case CONSTDEFINE.SELECTWINDOW:
                 if (MenuCanvas.activeSelf)
                 {
                     DisableCanvas(MenuCanvas);
-                    currentPageIndex = 0;
+                    currentPageIndex = CONSTDEFINE.BASICWINDOW;
                 }
                 break;
-            case 2:
+            case CONSTDEFINE.PLAYERSELECT:
                 if (PlayerCanvas.activeSelf)
                 {
                     DisableCanvas(PlayerCanvas);
-                    currentPageIndex = 1;
+                    currentPageIndex = CONSTDEFINE.SELECTWINDOW;
                 }
                 break;
-            case 3:
+            case CONSTDEFINE.OPTIONWINDOW:
                 if (Option2Canvas.activeSelf)
                 {
                     DisableCanvas(Option2Canvas);
-                    currentPageIndex = 1;
+                    currentPageIndex = CONSTDEFINE.SELECTWINDOW;
                 }
                 break;
-            case 4:
+            case CONSTDEFINE.LASTWINDOW: 
                 if (YesornoCanvas.activeSelf)
                 {
                     DisableCanvas(YesornoCanvas);
-                    currentPageIndex = 2;
+                    currentPageIndex = CONSTDEFINE.PLAYERSELECT;
                 }
                 else if (KeyBoardConfigCanvas.activeSelf)
                 {
                     DisableCanvas(KeyBoardConfigCanvas);
-                    currentPageIndex = 3;
+                    currentPageIndex = CONSTDEFINE.OPTIONWINDOW;
                 }
                 break;
             default:
