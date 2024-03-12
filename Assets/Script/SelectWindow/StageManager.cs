@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class StageManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class StageManager : MonoBehaviour
             return m_instance;
         }
     }
-
+    public Text stageText;
     private int stageNum;
     public int StageNum
     {
@@ -32,11 +33,10 @@ public class StageManager : MonoBehaviour
         }
     }
     public int levelNum { get; set; }
-
+    
  
-    void Start()
+    public void StageTextUpdate(string str)
     {
-        
+        stageText.text = str;
     }
-
 }

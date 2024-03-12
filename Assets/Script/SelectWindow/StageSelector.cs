@@ -6,6 +6,7 @@ public class StageSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public Image borderImg;
     public int stageNumber;
+    public string uiTextStr;
     private ScrollViewController scrollView;
 
     // Start is called before the first frame update
@@ -23,18 +24,16 @@ public class StageSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         scrollView.StartCoroutineScroll(stageNumber);
     }
 
-    //마우스가 이미지 위에 올라갔을때 이미지 크기 조절
+    //마우스가 이미지 위에 올라갔을때
     public void OnPointerEnter(PointerEventData eventData)
     {
         borderImg.enabled = true;
+        StageManager.instance.StageTextUpdate(stageNumber +". " + uiTextStr);
     }
 
+    //마우스가 이미지 벗어났을때 원래대로
     public void OnPointerExit(PointerEventData evenData)
     {
-        //마우스가 이미지 벗어났을때 원래대로
         borderImg.enabled = false;
     }
- 
- 
-
 }
