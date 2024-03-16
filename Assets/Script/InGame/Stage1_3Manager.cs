@@ -34,11 +34,7 @@ public class Stage1_3Manager : MonoBehaviour
             buttonRe.buttonReleased += ControlWallUp;
         }
     }
-    void Start()
-    {
-       
-    }
-
+   
     public void ControlWallDown() 
     {
         wallDownCount++; // 버튼이 한 개씩 눌릴 때마다 카운트를 1씩 더함

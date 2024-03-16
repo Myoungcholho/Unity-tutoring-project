@@ -15,6 +15,7 @@ public class ButtonRe2 : MonoBehaviour
     private Vector3 wallStartPosition;
 
     private Vector3 floorTargetPos;
+
     void Start()
     {
          
@@ -23,19 +24,21 @@ public class ButtonRe2 : MonoBehaviour
 
         wallStartPosition = blockingDoor.transform.position;
         WallendPosition = wallStartPosition + new Vector3(0, 2f, 0);
+
         floorTargetPos = floor.transform.position + new Vector3(-6f, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("MovableWall")
-            || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.layer != LayerMask.NameToLayer("MovableWall")
+            && collision.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
-            
-            mushRoomObject.transform.position = startPosition + new Vector3(0, -0.2f, 0);
-            StartCoroutine("MoveWall");
-            StartCoroutine("MoveFloor");
+            return;
         }
+
+        mushRoomObject.transform.position = startPosition + new Vector3(0, -0.2f, 0);
+        StartCoroutine("MoveWall");
+        StartCoroutine("MoveFloor");
     }
 
     private IEnumerator MoveWall()
@@ -50,15 +53,13 @@ public class ButtonRe2 : MonoBehaviour
         }
         StopCoroutine("MoveWall");
     }
+
     private IEnumerator MoveFloor()
     {
-
-
         while (floor.transform.position.x >= floorTargetPos.x)
         {
             floor.transform.position += new Vector3(-2f * Time.deltaTime, 0, 0);
             yield return null;
         }
-
     }
 }

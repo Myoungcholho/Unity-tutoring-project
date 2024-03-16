@@ -43,7 +43,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        DecideFreeze();
+        CheckFreezeCondition();
     }
     private void FixedUpdate()
     {
@@ -81,12 +81,6 @@ public class PlayerMove : MonoBehaviour
             playerStatus.movingLeftRayDetect = Physics2D.Raycast(leftRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             Debug.DrawRay(leftRaycastPosition.position, Vector2.down * 0.2f, Color.red);
 
-            if (playerStatus.movingLeftRayDetect.collider != null)
-            {
-                //if(playerStatus.movingLeftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-                    //move = 0;
-            }
-
         }
         if (moveDirection == 1)
         {
@@ -94,12 +88,6 @@ public class PlayerMove : MonoBehaviour
             playerDirection = false;
             playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
-            if (playerStatus.movingRightRayDetect.collider != null)
-            {
-                //if (playerStatus.movingRightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-                    //move = 0;
-            }
-            
         }
    
         rigid.velocity = new Vector2(move, rigid.velocity.y);
@@ -107,7 +95,7 @@ public class PlayerMove : MonoBehaviour
         anim.SetBool("isWalking", move != 0);
     }
 
-    private void DecideFreeze()
+    private void CheckFreezeCondition()
     {
         if (playerStatus.leftRayDetect)
         {

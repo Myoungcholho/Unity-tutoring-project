@@ -55,10 +55,6 @@ public class MovableWall : MonoBehaviour
         MoveWall();
     }
 
-    private void LateUpdate()
-    {
-        //MoveWall();
-    }
     private void leftRay()
     {
         leftRayDetect = Physics2D.Raycast(transform.position + new Vector3(-sideRayDistance, sideRayHeight, 0), Vector2.down, sideRaycastLength, Layer);

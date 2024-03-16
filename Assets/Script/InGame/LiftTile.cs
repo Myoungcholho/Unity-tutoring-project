@@ -9,7 +9,7 @@ public class LiftTile : MonoBehaviour
     public bool customNumberOfPlayers = false;
     public bool moveUp = true;
     public int numberOfPlayers;
-    
+
     public float moveDistance = 3.0f;
 
     public LayerMask playerLayer;
@@ -19,9 +19,9 @@ public class LiftTile : MonoBehaviour
     [SerializeField]
     private int total = 0;
     public int Total
-    { 
+    {
         get { return total; }
-        set 
+        set
         {
             total = value;
             int visibleText = numberOfPlayers - total;
@@ -33,29 +33,23 @@ public class LiftTile : MonoBehaviour
     }
 
     private Vector3 OriginPosition;
-    //private PlayerStatus playerstatus;
+
     private RaycastHit2D isPlayerBelowRay;
 
     private float addRayXposition = -1.93f;
     private float addRayYposition = -0.32f;
     private float Distance = 3.85f;
 
-    
-
     private TextMeshPro text;
-   // private LiftTile liftTile;
     private Rigidbody2D rigid;
 
     private float move;
 
-    
-
     private void Start()
     {
-        
-        //liftTile = GetComponent<LiftTile>();
         text = GetComponentInChildren<TextMeshPro>();
         rigid = GetComponent<Rigidbody2D>();
+
         InitialSettings();
         OriginPosition = transform.position;
         text.text = numberOfPlayers.ToString();
@@ -64,9 +58,8 @@ public class LiftTile : MonoBehaviour
     
     private void FixedUpdate()
     {
-        //Vector3 startPosition = transform.position + new Vector3(addRayXposition, addRayYposition, 0);
-        
         canUp = (total >= numberOfPlayers);
+
         if (moveUp == true)
             MoveUp();
         else
@@ -89,16 +82,11 @@ public class LiftTile : MonoBehaviour
         }
         else
         {
-            if (transform.position.y > OriginPosition.y)
+            if (transform.position.y > OriginPosition.y && !isPlayerBelow())
             {
-                if (!isPlayerBelow())
-                {
+               
                     move = -1;
-                }
-                else
-                {
-                    move = 0;
-                }
+         
             }
             else
             {
@@ -111,10 +99,9 @@ public class LiftTile : MonoBehaviour
     {
         if (canUp)
         {
-            if (transform.position.y > OriginPosition.y - moveDistance)
+            if (transform.position.y > OriginPosition.y - moveDistance && !isPlayerBelow())
             {
-                if (!isPlayerBelow())
-                    move = -1;
+                move = -1;
             }
             else
             {
@@ -125,7 +112,7 @@ public class LiftTile : MonoBehaviour
         {
             if (transform.position.y < OriginPosition.y)
             {
-                    move = 1;
+                move = 1;
             }
             else
             {

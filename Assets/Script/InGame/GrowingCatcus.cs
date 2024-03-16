@@ -19,7 +19,9 @@ public class GrowingCatcus : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
             StartCoroutine(MoveCatcusHold());
+        }  
     }
 
     IEnumerator MoveCatcusHold()
@@ -28,7 +30,10 @@ public class GrowingCatcus : MonoBehaviour
         while (true)
         {   
             if (Catcus.transform.position.x < TargetPosition.transform.position.x)
+            {
                 break;
+            }
+                
             moveSpeed = 1f * Time.deltaTime;
             Catcus.transform.position = Vector3.MoveTowards(Catcus.transform.position, TargetPosition.transform.position, moveSpeed);
             yield return null;

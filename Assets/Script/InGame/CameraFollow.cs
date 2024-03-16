@@ -54,8 +54,6 @@ public class CameraFollow : MonoBehaviour
                 maxX = targets[i];
             }
         }
-        
-        //transform.position = targetPosition;
     }
 
     private void LateUpdate()

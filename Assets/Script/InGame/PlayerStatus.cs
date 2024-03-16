@@ -40,10 +40,7 @@ public class PlayerStatus : MonoBehaviour
     private int dumpLeftPower = 0;
     private bool isLeftPowering = false;
     private bool isRightPowering = false;
-    private void Start()
-    {
-        
-    }
+    
     private void Update()
     {
         BesidePlusPower();
@@ -53,28 +50,21 @@ public class PlayerStatus : MonoBehaviour
         leftRay();
         rightRay();
     }
-    private void FixedUpdate()
-    {
-        
-    }
-
-    public bool isGroundRayDetect()
+ 
+    public void isGroundRayDetect()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
 
         Debug.DrawRay(GroundstartPosition + new Vector3(0, -0.1f, 0), Vector2.right * groundRayDistance, Color.yellow);
         footRayDetect = Physics2D.Raycast(GroundstartPosition + new Vector3(0, -0.1f, 0), Vector2.right, groundRayDistance, groundLayer);
-        
-        return footRayDetect;
     }
 
-    public bool isHeadRayDetect()
+    public void isHeadRayDetect()
     {
         Vector3 startPosition = transform.position + new Vector3(-0.32f, 0.55f, 0);
 
         Debug.DrawRay(startPosition, Vector2.right * headRayDistance, Color.red);
         headRayDetect = Physics2D.Raycast(startPosition, Vector2.right, headRayDistance, playerLayer);
-        return headRayDetect;
     }
     
     private void leftRay()
@@ -133,6 +123,7 @@ public class PlayerStatus : MonoBehaviour
         }
         else
             dumpRightPower = 0;
+
         curLeftPower -= dumpLeftPower;
         if (rightRayDetect && rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {

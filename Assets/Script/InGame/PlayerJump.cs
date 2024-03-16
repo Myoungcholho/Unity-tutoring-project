@@ -41,14 +41,16 @@ public class PlayerJump : MonoBehaviour
         {
             if (playerStatus.headRayDetect && playerStatus.headRayDetect.collider.gameObject != this.gameObject)
             {
-                if (playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("MovableWall"))
+                GameObject headRayDetectedObject = playerStatus.headRayDetect.collider.gameObject;
+
+                if (headRayDetectedObject.layer == LayerMask.NameToLayer("MovableWall"))
                 {
                     playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
                 }
-                else if (playerStatus.headRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player")
-                    && playerStatus.headRayDetect.collider.gameObject != this.gameObject)
+                else if (headRayDetectedObject.layer == LayerMask.NameToLayer("Player")
+                    /*&& headRayDetectedObject != this.gameObject*/)
                 {
-                    AddForceWall(playerStatus.headRayDetect.collider.gameObject);
+                    AddForceWallUp(headRayDetectedObject);
                 }
                 //anim.SetBool("isJumping", true);
 
@@ -62,10 +64,8 @@ public class PlayerJump : MonoBehaviour
                 isJumping = true;
             }
             
-            
             anim.SetBool("isJumping", true);
-        }
-        
+        }   
     }
     private void JumpKeyPress()
     {
@@ -101,28 +101,22 @@ public class PlayerJump : MonoBehaviour
     private void FixedUpdate()
     {
         StopJumpAnimation();
-        /*if(playerStatus.footRayDetect *//*&& playerStatus.footRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player")*//*)
-        {
-            if(playerStatus.footRayDetect.collider.gameObject != this.gameObject && this.gameObject.name == "Player2")
-                Debug.Log(playerStatus.footRayDetect.collider.gameObject.name);
-        }*/
     }
     
 
-    public void AddForceWall(GameObject abovePlayer)
+    public void AddForceWallUp(GameObject abovePlayer) //움직이는 벽 위에 있을 시 통통 튀기는 함수
     {
-        Debug.Log(abovePlayer.name);
         if(playerStatus.headRayDetect && abovePlayer.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerJump abovePlayersPlayerJump = abovePlayer.GetComponent<PlayerJump>();
+
             if (abovePlayersPlayerJump != null)
             {
                 if(abovePlayersPlayerJump.playerStatus.headRayDetect)
                 {
                     abovePlayer = abovePlayersPlayerJump.playerStatus.headRayDetect.collider.gameObject;
-                    abovePlayersPlayerJump.AddForceWall(abovePlayer);
-                }
-                    
+                    abovePlayersPlayerJump.AddForceWallUp(abovePlayer);
+                }     
             }
         }
         else if(abovePlayer.layer == LayerMask.NameToLayer("MovableWall"))
@@ -130,10 +124,4 @@ public class PlayerJump : MonoBehaviour
             playerStatus.headRayDetect.rigidbody.AddForce(Vector2.up * 35f, ForceMode2D.Impulse);
         }
     }
-/*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-            Debug.Log("ONCOllisionEnter2D");
-    }*/
 }
