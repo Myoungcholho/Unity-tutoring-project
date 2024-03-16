@@ -16,18 +16,23 @@ public class PiggyBack : MonoBehaviour
     private bool isOn = false;
 
     private Vector3 lastPosition;
-    
+
+    //private Rigidbody2D rigidbody;
+    private void Start()
+    {
+        //rigidbody = GetComponent<Rigidbody2D>();
+    }
     private void Update()
     {
         
     }
     private void FixedUpdate()
     {
-        
+        PiggdBack();
     }
     private void LateUpdate()
     {
-        PiggdBack();
+        
 
     }
     private void PiggdBack()
@@ -55,8 +60,12 @@ public class PiggyBack : MonoBehaviour
                     else if (isOn && lastPosition != footRayDetect.transform.position)
                     {
                         Vector3 movedPosition = footRayDetect.transform.position - lastPosition;
-                        //transform.position += movedPosition;
-                        transform.position += new Vector3(movedPosition.x, 0, 0);
+                        transform.position += movedPosition;
+                        //rigidbody2D.velocity = new Vector2(footRayDetect.rigidbody.velocity.x, footRayDetect.rigidbody.velocity.y);
+                        /*rigidbody2D.velocity = footRayDetect.rigidbody.velocity;
+                        Debug.Log(footRayDetect.rigidbody.velocity.x);*/
+                        
+                        //transform.position += new Vector3(movedPosition.x, 0, 0);
                         lastPosition = footRayDetect.transform.position;
                     }
                 }

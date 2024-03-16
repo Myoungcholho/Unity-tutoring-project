@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class LiftTile : MonoBehaviour
 {
+    public bool customNumberOfPlayers = false;
     public bool moveUp = true;
     public int numberOfPlayers;
     
@@ -32,7 +33,7 @@ public class LiftTile : MonoBehaviour
     }
 
     private Vector3 OriginPosition;
-    private PlayerStatus playerstatus;
+    //private PlayerStatus playerstatus;
     private RaycastHit2D isPlayerBelowRay;
 
     private float addRayXposition = -1.93f;
@@ -42,7 +43,7 @@ public class LiftTile : MonoBehaviour
     
 
     private TextMeshPro text;
-    private LiftTile liftTile;
+   // private LiftTile liftTile;
     private Rigidbody2D rigid;
 
     private float move;
@@ -52,9 +53,10 @@ public class LiftTile : MonoBehaviour
     private void Start()
     {
         
-        liftTile = GetComponent<LiftTile>();
+        //liftTile = GetComponent<LiftTile>();
         text = GetComponentInChildren<TextMeshPro>();
         rigid = GetComponent<Rigidbody2D>();
+        InitialSettings();
         OriginPosition = transform.position;
         text.text = numberOfPlayers.ToString();
     }
@@ -76,7 +78,6 @@ public class LiftTile : MonoBehaviour
     {
         if (canUp)
         {
-
             if (transform.position.y < OriginPosition.y + moveDistance)
             {
                 move = 1;
@@ -85,7 +86,6 @@ public class LiftTile : MonoBehaviour
             {
                 move = 0;
             }
-
         }
         else
         {
@@ -111,7 +111,6 @@ public class LiftTile : MonoBehaviour
     {
         if (canUp)
         {
-
             if (transform.position.y > OriginPosition.y - moveDistance)
             {
                 if (!isPlayerBelow())
@@ -121,17 +120,12 @@ public class LiftTile : MonoBehaviour
             {
                 move = 0;
             }
-
         }
         else
         {
             if (transform.position.y < OriginPosition.y)
             {
-                
-                
                     move = 1;
-                
-               
             }
             else
             {
@@ -146,5 +140,22 @@ public class LiftTile : MonoBehaviour
         Debug.DrawRay(startPosition, Vector2.right * Distance, Color.red);
         isPlayerBelowRay = Physics2D.Raycast(startPosition, Vector2.right, Distance, playerLayer);
         return isPlayerBelowRay;
+    }
+
+    private void InitialSettings()
+    {
+        GameObject[] Players;
+        Players = GameObject.FindGameObjectsWithTag("Player");
+        int TotalNumberofPlayers = 0;
+        foreach (var Player in Players)
+        {
+            TotalNumberofPlayers++;
+        }
+
+        if(!customNumberOfPlayers)
+        {
+            numberOfPlayers = TotalNumberofPlayers;
+        }
+        
     }
 }
