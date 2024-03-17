@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionManager : MonoBehaviour
 {
+
+    public Button PRDbutton;
     private OptionText optionText;
     const int maxIndex = 2;
 
@@ -47,6 +50,10 @@ public class OptionManager : MonoBehaviour
     private void Awake()
     {
         optionText = OptionText.instance;
+    }
+    private void Start()
+    {
+        PRDbutton.Select();
     }
     private void UpdateText()
     {
@@ -134,5 +141,7 @@ public class OptionManager : MonoBehaviour
         InitInputManager.instance.APress -= ChangeTextBackward;
         InitInputManager.instance.AKeyDown -= SetButtonPressed;
         InitInputManager.instance.DKeyDown -= SetButtonPressed;
+        InitInputManager.instance.WKeyDown -= DecreaseIndex;
+        InitInputManager.instance.SKeyDown -= IncreaseIndex;
     }
 }
