@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class OptionManager : MonoBehaviour
 {
-    private PRDscript PRDtext;
-    private KEYBOARDscript KEYBOARDtext;
-    private WINDOWscript WINDOWtext;
-    private BGscript BGtext;
-    private BGMscript BGMtext;
-    private SEscript SEtext;
-    private DISPscript DISPtext;
+    private OptionText optionText;
     const int maxIndex = 2;
 
     private string[] windowModeText = { "WINDOW", "FULL" };
@@ -20,49 +14,68 @@ public class OptionManager : MonoBehaviour
     private string[] dispNumberText = { "Off", "On" };
 
     private int currentIndex = 0;
-    private int currentverticalIndex
-    {
-        get;
-        set;
-    }
-    private int currentPageText = 0;
+    private int currentverticalIndex = 0;
+    private bool isButtonPressed = false;
+    private int previousVerticalIndex;
 
     private void OnEnable()
     {
         InitInputManager.instance.DPress += ChangeTextForward;
         InitInputManager.instance.APress += ChangeTextBackward;
+        InitInputManager.instance.AKeyDown += SetButtonPressed;
+        InitInputManager.instance.DKeyDown += SetButtonPressed;
+        InitInputManager.instance.WKeyDown += DecreaseIndex;
+        InitInputManager.instance.SKeyDown += IncreaseIndex;
     }
 
+    private void DecreaseIndex()
+    {
+        if (!isButtonPressed)
+        {
+            currentverticalIndex = (currentverticalIndex - 1 + 7) % 7;
+            UpdateText();
+        }
+    }
+    private void IncreaseIndex()
+    {
+        if (!isButtonPressed)
+        {
+            currentverticalIndex = (currentverticalIndex + 1) % 7;
+            UpdateText();
+        }
+    }
     private void Awake()
     {
-        PRDtext = GetComponent<PRDscript>();
-        KEYBOARDtext = GetComponent<KEYBOARDscript>();
-        WINDOWtext = GetComponent<WINDOWscript>();
-        BGtext = GetComponent<BGscript>();
-        BGMtext = GetComponent<BGMscript>();
-        SEtext = GetComponent<SEscript>();
-        DISPtext = GetComponent<DISPscript>();
+        optionText = OptionText.instance;
     }
     private void UpdateText()
     {
+        Debug.Log("UpdateText() called");
         switch (currentverticalIndex)
         {
             case CONSTDEFINE.PRDCONFIG:
+                Debug.Log("prdconfig");
                 break;
             case CONSTDEFINE.KEYBOARDCONFIG:
+                Debug.Log("keyboardconfig");
                 break;
             case CONSTDEFINE.WINDOWMODE:
-                WINDOWtext.UpdateButtonText(windowModeText[currentIndex]);
+                Debug.Log("windowmode");
+                optionText.UpdateWindowText(windowModeText[currentIndex]);
                 break;
             case CONSTDEFINE.BGCOLOR:
-                BGtext.UpdateButtonText(bgColorText[currentIndex]);
+                Debug.Log("bgcolor");
+                optionText.UpdateBgText(bgColorText[currentIndex]);
                 break;
             case CONSTDEFINE.BGMVOLUME:
+                Debug.Log("bgmvolume");
                 break;
             case CONSTDEFINE.SEVOLUME:
+                Debug.Log("sevolume");
                 break;
             case CONSTDEFINE.DISPNUMBER:
-                DISPtext.UpdateButtonText(dispNumberText[currentIndex]);
+                Debug.Log("dispnumber");
+                optionText.UpdateDispText(dispNumberText[currentIndex]);
                 break;
             default:
                 break;
@@ -70,45 +83,56 @@ public class OptionManager : MonoBehaviour
     }
     private void ChangeTextForward()
     {
-        switch (currentverticalIndex)
+        if (!isButtonPressed)
         {
-            case CONSTDEFINE.WINDOWMODE:
-                currentIndex = (currentIndex + 1) % windowModeText.Length;
-                break;
-            case CONSTDEFINE.BGCOLOR:
-                currentIndex = (currentIndex + 1) % bgColorText.Length;
-                break;
-            case CONSTDEFINE.DISPNUMBER:
-                currentIndex = (currentIndex + 1) % dispNumberText.Length;
-                break;
-            default:
-                break;
+            previousVerticalIndex = currentverticalIndex;
+            currentIndex = (currentIndex + 1) % GetTextArrayLength();
+            UpdateText();
         }
-        UpdateText();
     }
     // A키가 눌렸을 경우
     private void ChangeTextBackward()
     {
+        if (!isButtonPressed)
+        {
+            previousVerticalIndex = currentverticalIndex;
+            currentIndex = (currentIndex + (maxIndex - 1) + GetTextArrayLength()) % GetTextArrayLength();
+            UpdateText();
+        }
+    }
+    private void SetButtonPressed()
+    {
+        isButtonPressed = true;
+    }
+    private void ResetButtonPressed()
+    {
+        isButtonPressed = false;
+    }
+    private int GetTextArrayLength()
+    {
+        int length = 0;
         switch (currentverticalIndex)
         {
             case CONSTDEFINE.WINDOWMODE:
-                currentIndex = (currentIndex + (maxIndex - 1) + windowModeText.Length) % windowModeText.Length;
+                length = windowModeText.Length;
                 break;
             case CONSTDEFINE.BGCOLOR:
-                currentIndex = (currentIndex + (maxIndex) + bgColorText.Length) % bgColorText.Length;
+                length = bgColorText.Length;
                 break;
             case CONSTDEFINE.DISPNUMBER:
-                currentIndex = (currentIndex + (maxIndex - 1) + dispNumberText.Length) % dispNumberText.Length;
+                length = dispNumberText.Length;
                 break;
             default:
                 break;
         }
-        UpdateText();
+        return Mathf.Max(length, 1); //0대신에 1을 반환하도록
     }
 
     private void OnDisable()
     {
         InitInputManager.instance.DPress -= ChangeTextForward;
         InitInputManager.instance.APress -= ChangeTextBackward;
+        InitInputManager.instance.AKeyDown -= SetButtonPressed;
+        InitInputManager.instance.DKeyDown -= SetButtonPressed;
     }
 }

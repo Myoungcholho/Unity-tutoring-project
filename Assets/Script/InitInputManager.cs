@@ -26,6 +26,10 @@ public class InitInputManager : MonoBehaviour
     public Action WPress;
     public Action SPress;
     public Action SpacePress;
+    public Action AKeyDown;
+    public Action DKeyDown;
+    public Action WKeyDown;
+    public Action SKeyDown;
 
     private void Update()
     {
@@ -56,12 +60,20 @@ public class InitInputManager : MonoBehaviour
             {
                 APress.Invoke();
             }
+            if (AKeyDown != null)
+            {
+                AKeyDown.Invoke();
+            }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             if (DPress != null)
             {
                 DPress.Invoke();
+            }
+            if (DKeyDown != null)
+            {
+                DKeyDown.Invoke();
             }
         }
         if (Input.GetKeyDown(KeyCode.W))
@@ -70,12 +82,20 @@ public class InitInputManager : MonoBehaviour
             {
                 WPress.Invoke();
             }
+            if (WKeyDown != null)
+            {
+                WKeyDown.Invoke();
+            }
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             if (SPress != null)
             {
                 SPress.Invoke();
+            }
+            if (SKeyDown != null)
+            {
+                SKeyDown.Invoke();
             }
         }
     }
