@@ -587,6 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   borderImg: {fileID: 1645517565}
+  crownImg: {fileID: 526266646}
   stageNumber: 4
 --- !u!1 &351262488
 GameObject:
@@ -1670,6 +1671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   borderImg: {fileID: 815093297}
+  crownImg: {fileID: 1354501712}
   stageNumber: 1
 --- !u!1 &815093295
 GameObject:
@@ -1884,6 +1886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   borderImg: {fileID: 619623450}
+  crownImg: {fileID: 1176654483}
   stageNumber: 2
 --- !u!1 &917953590
 GameObject:
@@ -1919,9 +1922,11 @@ MonoBehaviour:
   - {fileID: 1934162071}
   - {fileID: 489946928}
   - {fileID: 609977924}
-  isStageCleared: 000000
+  stageCount: 4
   duration: 2
   targetWidth: 100
+  isStageCleared:
+    temp: 
 --- !u!4 &917953592
 Transform:
   m_ObjectHideFlags: 0
@@ -2030,6 +2035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   borderImg: {fileID: 1420934074}
+  crownImg: {fileID: 1196626092}
   stageNumber: 3
 --- !u!1 &1032173935
 GameObject:
@@ -2048,7 +2054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1032173936
 RectTransform:
   m_ObjectHideFlags: 0
