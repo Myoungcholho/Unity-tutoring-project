@@ -21,11 +21,6 @@ public class MovingWall : MonoBehaviour
         endPosition = beginPosition + new Vector3(distanceToMove, 0);
     }
 
-    void Update()
-    {
-        
-    }
-
     private IEnumerator MoveWallLeft()
     {
         //왼쪽으로 벽 이동 후 2초 기다린 다음 MoveWallRight() 함수 실행

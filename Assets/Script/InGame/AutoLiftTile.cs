@@ -53,7 +53,6 @@ public class AutoLiftTile : MonoBehaviour
     }
     private IEnumerator MoveDown() //일정 시간 동안 beginPosition으로 아래로 이동
     {
-        
         float time = 0;
         while (time < moveDuration)
         {

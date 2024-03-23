@@ -21,7 +21,7 @@ public class PiggyBack : MonoBehaviour
     private RaycastHit2D footRayDetect;
     private GameObject detectedPlayer;
     private Vector3 movedPosition;
-    
+
     private void Update()
     {
         Ray();
@@ -30,6 +30,13 @@ public class PiggyBack : MonoBehaviour
     {
         PiggdBack();
     }
+
+    private void LateUpdate()
+    {
+       
+    }
+    private Vector3 velocity = Vector3.zero; // 속도를 저장할 변수
+    private float smoothTime = 0.3f;
     private void PiggdBack()
     {
         if (footRayDetect && footRayDetect.collider.gameObject != this.gameObject)
@@ -40,15 +47,23 @@ public class PiggyBack : MonoBehaviour
             {
                 //감지 된 오브젝트가 새로운 오브젝트일 경우 등록
                 isOn = true;
-                lastPosition = footRayDetect.transform.position;
+                lastPosition = detectedPlayer.transform.position;
                 currentUnderPlayer = detectedPlayer;
             }
-            else if (isOn && lastPosition != footRayDetect.transform.position)
+            else if (isOn && lastPosition != detectedPlayer.transform.position)
             {
+
+
                 //등록 된 오브젝트일 경우 따라가기 실행
-                movedPosition = footRayDetect.transform.position - lastPosition;
+                movedPosition = detectedPlayer.transform.position - lastPosition;
                 transform.position += movedPosition;
-                lastPosition = footRayDetect.transform.position;
+                //transform.position = Vector3.SmoothDamp(transform.position, transform.position + movedPosition, ref velocity, smoothTime);
+
+
+                Debug.Log(movedPosition);
+                lastPosition = detectedPlayer.transform.position;
+
+
             }
         }
         else

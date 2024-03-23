@@ -115,20 +115,37 @@ public class MovableWall : MonoBehaviour
         
         count = numberOfPlayers;
         count -= (leftPower + rightPower);
-        
+
+        CheckFreezeCondition();
+
+
+        if (count > -1)
+        {
+            text.text = count.ToString();
+        }
+        else
+        {
+            text.text = "0";
+        }
+
+        rigid.velocity = new Vector2(move, rigid.velocity.y);
+    }
+    
+    private void CheckFreezeCondition()
+    {
         if (count <= 0)
         {
             if (leftPower > rightPower)
             {
                 move = -0.4f;
                 rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
-                
+
             }
             else if (leftPower < rightPower)
             {
                 move = 0.4f;
                 rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
-                
+
             }
             else
             {
@@ -140,17 +157,6 @@ public class MovableWall : MonoBehaviour
         {
             rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
-        
-        if (count > -1)
-        {
-            text.text = count.ToString();
-        }
-        else
-        {
-            text.text = "0";
-        }
-
-        rigid.velocity = new Vector2(move, rigid.velocity.y);
     }
 
     private void InitialSettings()
