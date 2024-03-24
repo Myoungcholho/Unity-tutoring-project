@@ -25,18 +25,14 @@ public class PiggyBack : MonoBehaviour
     private void Update()
     {
         Ray();
+        
     }
     private void FixedUpdate()
     {
         PiggdBack();
     }
 
-    private void LateUpdate()
-    {
-       
-    }
-    private Vector3 velocity = Vector3.zero; // 속도를 저장할 변수
-    private float smoothTime = 0.3f;
+    
     private void PiggdBack()
     {
         if (footRayDetect && footRayDetect.collider.gameObject != this.gameObject)
@@ -52,18 +48,12 @@ public class PiggyBack : MonoBehaviour
             }
             else if (isOn && lastPosition != detectedPlayer.transform.position)
             {
-
-
                 //등록 된 오브젝트일 경우 따라가기 실행
                 movedPosition = detectedPlayer.transform.position - lastPosition;
-                transform.position += movedPosition;
-                //transform.position = Vector3.SmoothDamp(transform.position, transform.position + movedPosition, ref velocity, smoothTime);
-
-
+                //transform.position += movedPosition;
+                transform.position += new Vector3(movedPosition.x, 0);
                 Debug.Log(movedPosition);
                 lastPosition = detectedPlayer.transform.position;
-
-
             }
         }
         else

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageTimeLimitManager : MonoBehaviour
+public class Stage2_1Manager : MonoBehaviour
 {
     public float limitTime;
 
@@ -13,6 +13,7 @@ public class StageTimeLimitManager : MonoBehaviour
     public GameObject keyObject;
     void Start()
     {
+        SetTargetScore();
         Coin[] coinArray = FindObjectsOfType<Coin>();
 
         foreach (var coin in coinArray)
@@ -27,12 +28,24 @@ public class StageTimeLimitManager : MonoBehaviour
         limitTime -= Time.deltaTime;
     }
 
+    private void SetTargetScore()
+    {
+        int countOfCoins = GameObject.FindObjectsOfType<Coin>().Length;
+        targetScore= countOfCoins;
+
+    }
+
     private void PlusScore()
     {
         score++;
         if (score == targetScore)
         {
-            keyObject.SetActive(true);
+            ActiveKey();
         }
+    }
+
+    private void ActiveKey()
+    {
+        keyObject.SetActive(true);
     }
 }

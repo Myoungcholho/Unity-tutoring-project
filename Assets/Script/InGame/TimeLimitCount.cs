@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TimeLimit : MonoBehaviour
+public class TimeLimitCount : MonoBehaviour
 {
     public Action GameOver;
 
@@ -17,12 +17,27 @@ public class TimeLimit : MonoBehaviour
     void Start()
     {
         text = GetComponent<TextMeshPro>();
+
+        ButtonRe[] buttonReArray = FindObjectsOfType<ButtonRe>();
+
+        foreach (var buttonRe in buttonReArray)
+        {
+            buttonRe.buttonPressed += AddTimeWhenPressedButton;
+            
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(limitTime < 0)
+        CountTime();
+
+
+    }
+
+    private void CountTime()
+    {
+        if (limitTime < 0)
         {
             GameOver?.Invoke();
         }
@@ -34,9 +49,11 @@ public class TimeLimit : MonoBehaviour
         //Debug.Log(string.Format("{0:D2}:{1:D2}", min, sec));
 
         text.text = string.Format("{0:D2}:{1:D2}", min, sec);
-
-
     }
-
+    
+    private void AddTimeWhenPressedButton()
+    {
+        limitTime++;
+    }
 }
 

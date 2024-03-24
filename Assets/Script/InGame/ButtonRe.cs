@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ButtonRe : MonoBehaviour
 {
+    public bool holdButtonDown = false;
 
     public Action buttonPressed;
     public Action buttonReleased;
@@ -19,6 +20,7 @@ public class ButtonRe : MonoBehaviour
 
     public bool isPressed = false;
 
+    
     void Start()
     {
         mushRoomObject = transform.GetChild(0).gameObject;
@@ -51,6 +53,8 @@ public class ButtonRe : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (holdButtonDown == true) return;
+        
         GameObject pressedObject = collision.gameObject;
 
         if (pressedObject.layer != LayerMask.NameToLayer("MovableWall")
