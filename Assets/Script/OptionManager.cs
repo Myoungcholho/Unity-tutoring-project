@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,10 +18,19 @@ public class OptionManager : MonoBehaviour
     public Button OKButton;
     public Button CancelButton;
 
+
+    private InitInputManager initInputManager;
     private int currentButtonIndex = 0;
+
+    private string[] str = { "test1", " test2" };
+    private int idx = 0;
 
     private void Start()
     {
+        initInputManager = InitInputManager.instance;
+
+        initInputManager.APress += APRESS;
+
         // PRD 버튼을 선택 상태로 만듭니다.
         SelectButton(CONSTDEFINE.PRDCONFIG);
     }
@@ -29,6 +39,38 @@ public class OptionManager : MonoBehaviour
     {
         // W 키와 S 키를 처리합니다.
         HandleInput();
+    }
+
+    private void APRESS()
+    {
+        if (currentButtonIndex == 0 || currentButtonIndex == 1)
+            return;
+
+        switch (currentButtonIndex)
+        {
+            case 2:
+                idx = idx + 1 > 1 ? 0 : 1;
+                OptionText.instance.UpdateWindowText(str[idx]);
+
+                if(idx == 0)
+                {
+                    // 기능
+                }
+                else if(idx == 1)
+                {
+                    // 기능
+                }
+
+                break;
+            case 3:
+
+                break;
+        }
+
+    }
+    private void DPRESS()
+    {
+
     }
 
     private void HandleInput()
@@ -44,6 +86,8 @@ public class OptionManager : MonoBehaviour
             SelectButton(currentButtonIndex + 1);
         }
     }
+
+
 
     private void SelectButton(int index)
     {
