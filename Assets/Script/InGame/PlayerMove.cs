@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private PlayerInput playerInput;
 
-    private int moveDirection = 0;
+    public int moveDirection = 0;
     public float move = 0;
 
     private PlayerStatus playerStatus;

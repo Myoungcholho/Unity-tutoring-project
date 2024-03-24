@@ -34,10 +34,10 @@ public class PlayerJump : MonoBehaviour
         playerStatus = GetComponent<PlayerStatus>();
 
     }
-
+    private bool isCheck = false;
     private void JumpKeyDown()
     {
-        if(!isJumping && anim.GetBool("isJumping") == false)
+        if(!isJumping && anim.GetBool("isJumping") == false && playerStatus.footRayDetect)
         {
             if (playerStatus.headRayDetect && playerStatus.headRayDetect.collider.gameObject != this.gameObject)
             {
