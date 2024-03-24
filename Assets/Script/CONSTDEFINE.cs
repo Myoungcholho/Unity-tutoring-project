@@ -15,4 +15,6 @@ public static class CONSTDEFINE
     public const int BGMVOLUME = 4;
     public const int SEVOLUME = 5;
     public const int DISPNUMBER = 6;
+    public const int OK = 7;
+    public const int CANCEL = 8;
 }

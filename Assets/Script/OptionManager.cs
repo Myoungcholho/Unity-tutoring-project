@@ -1,147 +1,97 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionManager : MonoBehaviour
 {
-
     public Button PRDbutton;
-    private OptionText optionText;
-    const int maxIndex = 2;
+    public Button KeyboardButton;
+    public Button WindowButton;
+    public Button FullButton;
+    public Button WhiteButton;
+    public Button BlueButton;
+    public Button GreenButton;
+    public Button BGMButton;
+    public Button SEButton;
+    public Button OffButton;
+    public Button OnButton;
+    public Button OKButton;
+    public Button CancelButton;
 
-    private string[] windowModeText = { "WINDOW", "FULL" };
-    private string[] bgColorText = { "Nomal", "Bule", "Green" };
-    private int bgmVolume;
-    private int seVolume;
-    private string[] dispNumberText = { "Off", "On" };
+    private int currentButtonIndex = 0;
 
-    private int currentIndex = 0;
-    private int currentverticalIndex = 0;
-    private bool isButtonPressed = false;
-    private int previousVerticalIndex;
-
-    private void OnEnable()
-    {
-        InitInputManager.instance.DPress += ChangeTextForward;
-        InitInputManager.instance.APress += ChangeTextBackward;
-        InitInputManager.instance.AKeyDown += SetButtonPressed;
-        InitInputManager.instance.DKeyDown += SetButtonPressed;
-        InitInputManager.instance.WKeyDown += DecreaseIndex;
-        InitInputManager.instance.SKeyDown += IncreaseIndex;
-    }
-
-    private void DecreaseIndex()
-    {
-        if (!isButtonPressed)
-        {
-            currentverticalIndex = (currentverticalIndex - 1 + 7) % 7;
-            UpdateText();
-        }
-    }
-    private void IncreaseIndex()
-    {
-        if (!isButtonPressed)
-        {
-            currentverticalIndex = (currentverticalIndex + 1) % 7;
-            UpdateText();
-        }
-    }
-    private void Awake()
-    {
-        optionText = OptionText.instance;
-    }
     private void Start()
     {
-        PRDbutton.Select();
-    }
-    private void UpdateText()
-    {
-        Debug.Log("UpdateText() called");
-        switch (currentverticalIndex)
-        {
-            case CONSTDEFINE.PRDCONFIG:
-                Debug.Log("prdconfig");
-                break;
-            case CONSTDEFINE.KEYBOARDCONFIG:
-                Debug.Log("keyboardconfig");
-                break;
-            case CONSTDEFINE.WINDOWMODE:
-                Debug.Log("windowmode");
-                optionText.UpdateWindowText(windowModeText[currentIndex]);
-                break;
-            case CONSTDEFINE.BGCOLOR:
-                Debug.Log("bgcolor");
-                optionText.UpdateBgText(bgColorText[currentIndex]);
-                break;
-            case CONSTDEFINE.BGMVOLUME:
-                Debug.Log("bgmvolume");
-                break;
-            case CONSTDEFINE.SEVOLUME:
-                Debug.Log("sevolume");
-                break;
-            case CONSTDEFINE.DISPNUMBER:
-                Debug.Log("dispnumber");
-                optionText.UpdateDispText(dispNumberText[currentIndex]);
-                break;
-            default:
-                break;
-        }
-    }
-    private void ChangeTextForward()
-    {
-        if (!isButtonPressed)
-        {
-            previousVerticalIndex = currentverticalIndex;
-            currentIndex = (currentIndex + 1) % GetTextArrayLength();
-            UpdateText();
-        }
-    }
-    // A키가 눌렸을 경우
-    private void ChangeTextBackward()
-    {
-        if (!isButtonPressed)
-        {
-            previousVerticalIndex = currentverticalIndex;
-            currentIndex = (currentIndex + (maxIndex - 1) + GetTextArrayLength()) % GetTextArrayLength();
-            UpdateText();
-        }
-    }
-    private void SetButtonPressed()
-    {
-        isButtonPressed = true;
-    }
-    private void ResetButtonPressed()
-    {
-        isButtonPressed = false;
-    }
-    private int GetTextArrayLength()
-    {
-        int length = 0;
-        switch (currentverticalIndex)
-        {
-            case CONSTDEFINE.WINDOWMODE:
-                length = windowModeText.Length;
-                break;
-            case CONSTDEFINE.BGCOLOR:
-                length = bgColorText.Length;
-                break;
-            case CONSTDEFINE.DISPNUMBER:
-                length = dispNumberText.Length;
-                break;
-            default:
-                break;
-        }
-        return Mathf.Max(length, 1); //0대신에 1을 반환하도록
+        // PRD 버튼을 선택 상태로 만듭니다.
+        SelectButton(CONSTDEFINE.PRDCONFIG);
     }
 
-    private void OnDisable()
+    private void Update()
     {
-        InitInputManager.instance.DPress -= ChangeTextForward;
-        InitInputManager.instance.APress -= ChangeTextBackward;
-        InitInputManager.instance.AKeyDown -= SetButtonPressed;
-        InitInputManager.instance.DKeyDown -= SetButtonPressed;
-        InitInputManager.instance.WKeyDown -= DecreaseIndex;
-        InitInputManager.instance.SKeyDown -= IncreaseIndex;
+        // W 키와 S 키를 처리합니다.
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
+        // W 키를 누르면 이전 버튼으로 이동합니다.
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            SelectButton(currentButtonIndex - 1);
+        }
+        // S 키를 누르면 다음 버튼으로 이동합니다.
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            SelectButton(currentButtonIndex + 1);
+        }
+    }
+
+    private void SelectButton(int index)
+    {
+        // 현재 버튼 인덱스를 갱신합니다.
+        currentButtonIndex = index;
+
+        // 인덱스를 범위 내에 유지합니다.
+        if (currentButtonIndex < CONSTDEFINE.PRDCONFIG)
+        {
+            currentButtonIndex = CONSTDEFINE.CANCEL;
+        }
+        else if (currentButtonIndex > CONSTDEFINE.CANCEL)
+        {
+            currentButtonIndex = CONSTDEFINE.PRDCONFIG;
+        }
+
+        // 해당하는 버튼을 선택 상태로 만듭니다.
+        switch (currentButtonIndex)
+        {
+            case CONSTDEFINE.PRDCONFIG:
+                PRDbutton.Select();
+                break;
+            case CONSTDEFINE.KEYBOARDCONFIG:
+                KeyboardButton.Select();
+                break;
+            case CONSTDEFINE.WINDOWMODE:
+                WindowButton.Select();
+                break;
+            case CONSTDEFINE.BGCOLOR:
+                WhiteButton.Select();
+                break;
+            case CONSTDEFINE.BGMVOLUME:
+                BGMButton.Select();
+                break;
+            case CONSTDEFINE.SEVOLUME:
+                SEButton.Select();
+                break;
+            case CONSTDEFINE.DISPNUMBER:
+                OffButton.Select();
+                break;
+            case CONSTDEFINE.OK:
+                OKButton.Select();
+                break;
+            case CONSTDEFINE.CANCEL:
+                CancelButton.Select();
+                break;
+            default:
+                break;
+        }
     }
 }
