@@ -30,7 +30,7 @@ public class Spring : MonoBehaviour
             return;
         }
 
-        Debug.Log("Detected");
+        //Debug.Log("Detected");
         rd = collision.gameObject.GetComponent<Rigidbody2D>();
         rd.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
     }

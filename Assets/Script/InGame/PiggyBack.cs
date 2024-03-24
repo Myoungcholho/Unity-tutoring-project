@@ -50,9 +50,9 @@ public class PiggyBack : MonoBehaviour
             {
                 //등록 된 오브젝트일 경우 따라가기 실행
                 movedPosition = detectedPlayer.transform.position - lastPosition;
-                //transform.position += movedPosition;
-                transform.position += new Vector3(movedPosition.x, 0);
-                Debug.Log(movedPosition);
+                transform.position += movedPosition;
+                //transform.position += new Vector3(movedPosition.x, 0);
+                //Debug.Log(movedPosition);
                 lastPosition = detectedPlayer.transform.position;
             }
         }

@@ -37,10 +37,12 @@ public class TimeLimitCount : MonoBehaviour
 
     private void CountTime()
     {
-        if (limitTime < 0)
+        if (limitTime <= 0)
         {
             GameOver?.Invoke();
+            return;
         }
+        
         limitTime -= Time.deltaTime;
 
         min = (int)(limitTime / 60); // ºÐ °è»ê
