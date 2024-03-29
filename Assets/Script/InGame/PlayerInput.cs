@@ -29,18 +29,27 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
 
-        Jump();
+        
         Move();
+        Jump();
         PushWall();
     }
+    private void FixedUpdate()
+    {
+        
+    }
+    
     void Jump()
     {
-        if (Input.GetKeyDown(jumpKey))
-            OnJumpKeyDown?.Invoke();
+       
         if (Input.GetKey(jumpKey))
             OnJumpKeyPress?.Invoke();
         if (Input.GetKeyUp(jumpKey))
+        {
             OnJumpKeyUp?.Invoke();
+            
+        }
+            
     }
     void Move()
     {

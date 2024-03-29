@@ -89,7 +89,7 @@ public class PlayerMove : MonoBehaviour
             playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
         }
-   
+    
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         
         anim.SetBool("isWalking", move != 0);
