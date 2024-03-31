@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class PlayerStatus : MonoBehaviour
+public partial class Player : MonoBehaviour
 {
-
+    [Header("Status")]
     public LayerMask groundLayer;
     public LayerMask playerLayer;
 
@@ -26,8 +26,7 @@ public class PlayerStatus : MonoBehaviour
     public bool hasKey = false;
 
     private float sideRaycastDistance = 0.2f;
-    public Transform leftRaycastPosition;
-    public Transform rightRaycastPosition;
+    
 
     public float groundX = -0.325f;
     private float groundY = -0.5f;
@@ -40,17 +39,9 @@ public class PlayerStatus : MonoBehaviour
     private int dumpLeftPower = 0;
     private bool isLeftPowering = false;
     private bool isRightPowering = false;
-    
-    private void Update()
-    {
-        BesidePlusPower();
-        Power();
-        isGroundRayDetect();
-        isHeadRayDetect();
-        leftRay();
-        rightRay();
-    }
- 
+
+    private bool canEnter = true;
+    private bool hasEnteredDoor = false;
     public void isGroundRayDetect()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
@@ -111,7 +102,7 @@ public class PlayerStatus : MonoBehaviour
         {
             if(leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                PlayerStatus besidePlayerStatus = leftRayDetect.collider.gameObject.GetComponent<PlayerStatus>();
+                Player besidePlayerStatus = leftRayDetect.collider.gameObject.GetComponent<Player>();
                 dumpRightPower = besidePlayerStatus.curRightPower;
                 curRightPower += besidePlayerStatus.curRightPower;
             }
@@ -127,11 +118,51 @@ public class PlayerStatus : MonoBehaviour
         curLeftPower -= dumpLeftPower;
         if (rightRayDetect && rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            PlayerStatus besidePlayerStatus = rightRayDetect.collider.gameObject.GetComponent<PlayerStatus>();
+            Player besidePlayerStatus = rightRayDetect.collider.gameObject.GetComponent<Player>();
             dumpLeftPower = besidePlayerStatus.curLeftPower;
             curLeftPower += besidePlayerStatus.curLeftPower;
         }
         else
             dumpLeftPower = 0;
+    }
+    
+    private void EnterDoor()
+    {
+        if(leftRayDetect)
+        {
+            if(leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Door"))
+            {
+                Door door = leftRayDetect.collider.gameObject.GetComponent<Door>();
+                if(canEnter && door.isOpened)
+                {
+                    spriteRenderer.enabled = !spriteRenderer.enabled;
+                    gameObject.layer = spriteRenderer.enabled ? LayerMask.NameToLayer("Player") : LayerMask.NameToLayer("Ghost");
+                    canEnter = false;
+                    hasEnteredDoor = !hasEnteredDoor;
+                    Invoke("EnableEnter", 1f);
+                }
+                
+            }
+        }
+        else if(rightRayDetect )
+        {
+            if(rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Door"))
+            {
+                Door door = rightRayDetect.collider.gameObject.GetComponent<Door>();
+                if (canEnter && door.isOpened)
+                {
+                    spriteRenderer.enabled = !spriteRenderer.enabled;
+                    gameObject.layer = spriteRenderer.enabled ? LayerMask.NameToLayer("Player") : LayerMask.NameToLayer("Ghost");
+                    canEnter = false;
+                    hasEnteredDoor = !hasEnteredDoor;
+
+                    Invoke("EnableEnter", 1f);
+                }
+            }
+        }
+    }
+    private void EnableEnter()
+    {
+        canEnter = true;
     }
 }

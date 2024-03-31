@@ -297,6 +297,7 @@ MonoBehaviour:
   jumpKey: 32
   leftKey: 97
   rightKey: 100
+  ActionKey: 119
 --- !u!95 &105364121
 Animator:
   serializedVersion: 5
@@ -1846,11 +1847,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6217815359585549500, guid: d02df65b485057849bc3a3d017051b77, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.35433006
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6217815359585549500, guid: d02df65b485057849bc3a3d017051b77, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8776225
+      value: -0.9
       objectReference: {fileID: 0}
     - target: {fileID: 6217815359585549500, guid: d02df65b485057849bc3a3d017051b77, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4416,6 +4417,7 @@ MonoBehaviour:
   jumpKey: 273
   leftKey: 276
   rightKey: 275
+  ActionKey: 119
 --- !u!95 &1205125484
 Animator:
   serializedVersion: 5
