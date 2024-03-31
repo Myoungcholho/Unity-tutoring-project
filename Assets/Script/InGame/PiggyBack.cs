@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,6 +30,7 @@ public class PiggyBack : MonoBehaviour
     private void FixedUpdate()
     {
         PiggdBack();
+        //transform.position += new Vector3(0.06f, 0, 0);
     }
 
     
@@ -50,6 +51,7 @@ public class PiggyBack : MonoBehaviour
             {
                 //등록 된 오브젝트일 경우 따라가기 실행
                 movedPosition = detectedPlayer.transform.position - lastPosition;
+                //movedPosition 값이 0.06f
                 transform.position += movedPosition;
                 //transform.position += new Vector3(movedPosition.x, 0);
                 //Debug.Log(movedPosition);

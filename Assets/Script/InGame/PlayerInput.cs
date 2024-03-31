@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -9,38 +10,39 @@ public class PlayerInput : MonoBehaviour
     public MoveFunction OnMove;
 
     public delegate void JumpFunction();
-    public JumpFunction OnJumpKeyDown;
-    public JumpFunction OnJumpKeyUp;
+    //public JumpFunction OnJumpKeyDown;
+    //public JumpFunction OnJumpKeyUp;
     public JumpFunction OnJumpKeyPress;
 
+    public Action OnActionKeyDown;
     public KeyCode jumpKey = KeyCode.Space;
 
     public KeyCode leftKey = KeyCode.A;
     public KeyCode rightKey = KeyCode.D;
 
+    public KeyCode ActionKey = KeyCode.W;
+
     private int moveDirection = 0;
 
     public delegate void StopMoveFunction();
-    public JumpFunction OnMoveKeyUp;
-    void Start()
-    {
-       
-    }
+    //public JumpFunction OnMoveKeyUp;
+    
     void Update()
     {
 
-        Jump();
+        
         Move();
-        PushWall();
+        Jump();
+        
     }
+    
     void Jump()
     {
-        if (Input.GetKeyDown(jumpKey))
-            OnJumpKeyDown?.Invoke();
+       
         if (Input.GetKey(jumpKey))
             OnJumpKeyPress?.Invoke();
-        if (Input.GetKeyUp(jumpKey))
-            OnJumpKeyUp?.Invoke();
+        
+            
     }
     void Move()
     {
@@ -56,14 +58,16 @@ public class PlayerInput : MonoBehaviour
         }
         
         OnMove?.Invoke(moveDirection);
-        if (Input.GetKeyUp(leftKey) || Input.GetKeyUp(rightKey))
+        /*if (Input.GetKeyUp(leftKey) || Input.GetKeyUp(rightKey))
         {
             OnMoveKeyUp?.Invoke();
-        }
+        }*/
     }
-
-    void PushWall()
+    void Action()
     {
-        
+        if(Input.GetKey(ActionKey))
+        {
+            OnActionKeyDown?.Invoke();
+        }
     }
 }

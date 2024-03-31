@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInput = GetComponent<PlayerInput>();
         playerInput.OnMove += GetMoveDirection;
-        playerInput.OnMoveKeyUp += StopMove;
+        //playerInput.OnMoveKeyUp += StopMove;
     }
     private void Update()
     {
@@ -89,7 +89,7 @@ public class PlayerMove : MonoBehaviour
             playerStatus.movingRightRayDetect = Physics2D.Raycast(rightRaycastPosition.position, Vector2.down, raycastDistance, playerLayer);
             Debug.DrawRay(rightRaycastPosition.position, Vector2.down * 0.2f, Color.red);
         }
-   
+    
         rigid.velocity = new Vector2(move, rigid.velocity.y);
         
         anim.SetBool("isWalking", move != 0);

@@ -14,17 +14,12 @@ public class FollowKey : MonoBehaviour
 
     private PlayerMove playermove;
     private PlayerStatus playerStatus;
-    private Vector3 AddKeyPosition;
+
     void Start()
     {
         TargetPlayer = null;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-    }
     private void LateUpdate()
     {
         if (TargetPlayer != null)
@@ -43,8 +38,10 @@ public class FollowKey : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.name);
         if (collision != null)
         {
+            
             if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 if (playerStatus != null)
@@ -57,6 +54,8 @@ public class FollowKey : MonoBehaviour
                 playerStatus = LastPlayer.GetComponent<PlayerStatus>();
                 playerStatus.hasKey = true;
             }
+            
         }
     }
+
 }
