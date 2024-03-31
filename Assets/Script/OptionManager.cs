@@ -49,7 +49,7 @@ public class OptionManager : MonoBehaviour
 
     public void OnSpacePressed()
     {
-        if(KeyboardConfigCanvas!= null)
+        if(KeyboardConfigCanvas != null)
         {
             KeyboardConfigCanvas.SetActive(true);
         }
