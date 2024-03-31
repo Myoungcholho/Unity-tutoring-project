@@ -8,7 +8,6 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerJump : MonoBehaviour
 {
-
     public float jumpPower = 1f;
     public float addJumpPower = 5f;
 
@@ -21,7 +20,6 @@ public class PlayerJump : MonoBehaviour
 
     private float jumpTime = 1f;
     private float jumpTimeCount = 0;
-
 
     private void Start()
     {
@@ -50,7 +48,6 @@ public class PlayerJump : MonoBehaviour
                 {
                     AddForceWallUp(playerStatus.headRayDetect.collider.gameObject);
                 }
-                //anim.SetBool("isJumping", true);
                 return;
             }
             if (!isJumping && anim.GetBool("isJumping") == false)
@@ -61,12 +58,6 @@ public class PlayerJump : MonoBehaviour
                 anim.SetBool("isJumping", true);
                 return;
             }
-            else if (isJumping)
-            {
-                anim.SetBool("isJumping", false);
-                return;
-            }
-
         }
         if (isJumping && jumpTimeCount > 0)
         {
@@ -83,18 +74,16 @@ public class PlayerJump : MonoBehaviour
 
     private void StopJumpAnimation()
     {
-        if (!isJumping)
+        if (rigid.velocity.y <= 0)
         {
             if (playerStatus.footRayDetect && playerStatus.footRayDetect.collider.gameObject != this.gameObject/*playerStatus.footRayDetect.collider.CompareTag("Ground")*/)
                 anim.SetBool("isJumping", false);
         }
-
     }
 
     private void FixedUpdate()
     {
         StopJumpAnimation();
-
     }
 
 
@@ -109,6 +98,7 @@ public class PlayerJump : MonoBehaviour
                 if (abovePlayersPlayerJump.playerStatus.headRayDetect)
                 {
                     abovePlayer = abovePlayersPlayerJump.playerStatus.headRayDetect.collider.gameObject;
+                    //맨 위의 오브젝트까지 재귀
                     abovePlayersPlayerJump.AddForceWallUp(abovePlayer);
                 }
             }
