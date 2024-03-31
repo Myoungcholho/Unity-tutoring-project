@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class InitGameManager : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class InitGameManager : MonoBehaviour
     public GameObject KeyBoardConfigCanvas;
 
     public TextMeshProUGUI menuText;
+    public OptionManager optionManager;
     private ButtonTextUpdater_MenuCanvas buttonTextUpdater;
     ButtonTextUpdater_PlayerCanvas playerCanvas;
     const int maxIndex = 3;
@@ -44,6 +47,11 @@ public class InitGameManager : MonoBehaviour
     {
         EnableCanvas(FirstCanvas);
         //UpdateText();
+        optionManager = FindObjectOfType<OptionManager>(); // OptionManager 찾아서 할당
+        if (optionManager.KeyboardConfigCanvas != null)
+        {
+            optionManager.OnSpacePressed();
+        }
     }
 
     // A와 D키 눌렸을 때 호출됨
@@ -118,6 +126,18 @@ public class InitGameManager : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    private void onSpacePressed()
+    {
+        if (currentPageIndex == CONSTDEFINE.OPTIONWINDOW)
+        {
+            if (optionManager.KeyboardConfigCanvas != null)
+            {
+                optionManager.OnSpacePressed();
+                currentPageIndex = CONSTDEFINE.LASTWINDOW;
+            }
         }
     }
     void EscCanvas()
