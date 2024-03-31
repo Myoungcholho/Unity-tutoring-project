@@ -81,7 +81,7 @@ public class MovableWall : MonoBehaviour
             {
                 if (hit && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
-                    rightPower += hit.collider.GetComponent<PlayerStatus>().curRightPower;
+                    rightPower += hit.collider.GetComponent<Player>().curRightPower;
                 }
             }
         }
@@ -99,7 +99,7 @@ public class MovableWall : MonoBehaviour
             {
                 if (hit && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
-                    leftPower += hit.collider.GetComponent<PlayerStatus>().curLeftPower;
+                    leftPower += hit.collider.GetComponent<Player>().curLeftPower;
                 }
             }
         }

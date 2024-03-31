@@ -8,10 +8,11 @@ public class Door : MonoBehaviour
 {
     public Sprite[] opendDoor;
 
-    
+    public bool isOpened = false;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer spriteRenderer2;
+
     private void Start()
     {
         GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
@@ -35,6 +36,7 @@ public class Door : MonoBehaviour
                 collision.gameObject.SetActive(false);
                 spriteRenderer.sprite = opendDoor[0];
                 spriteRenderer2.sprite = opendDoor[1];
+                isOpened = true;
             }
         }
     }

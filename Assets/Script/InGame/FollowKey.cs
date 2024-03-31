@@ -12,9 +12,8 @@ public class FollowKey : MonoBehaviour
     
     private float smoothTime = 0.15f;
 
-    private PlayerMove playermove;
-    private PlayerStatus playerStatus;
-
+    private Player player;
+    private Player otherPlayer;
     void Start()
     {
         TargetPlayer = null;
@@ -24,7 +23,7 @@ public class FollowKey : MonoBehaviour
     {
         if (TargetPlayer != null)
         {
-            if (playermove.playerDirection)
+            if (player.playerDirection)
             {
                 TargetPosition = TargetPlayer.transform.position + Vector3.right * 0.2f;
             }
@@ -44,15 +43,15 @@ public class FollowKey : MonoBehaviour
             
             if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                if (playerStatus != null)
-                    playerStatus.hasKey = false;
+                if (player != null)
+                    player.hasKey = false;
 
-                playermove = collision.gameObject.GetComponent<PlayerMove>();
+                player = collision.gameObject.GetComponent<Player>();
                 TargetPlayer = collision.gameObject;
                 LastPlayer = collision.gameObject;
 
-                playerStatus = LastPlayer.GetComponent<PlayerStatus>();
-                playerStatus.hasKey = true;
+                otherPlayer = LastPlayer.GetComponent<Player>();
+                otherPlayer.hasKey = true;
             }
             
         }
