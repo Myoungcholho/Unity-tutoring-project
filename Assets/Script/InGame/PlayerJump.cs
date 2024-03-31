@@ -68,8 +68,8 @@ public class PlayerJump : MonoBehaviour
 
     private void JumpKeyUp()
     {
-        isJumping = false;
-        jumpTimeCount = 0;
+        /*isJumping = false;
+        jumpTimeCount = 0;*/
     }
 
     private void StopJumpAnimation()
@@ -77,7 +77,12 @@ public class PlayerJump : MonoBehaviour
         if (rigid.velocity.y <= 0)
         {
             if (playerStatus.footRayDetect && playerStatus.footRayDetect.collider.gameObject != this.gameObject/*playerStatus.footRayDetect.collider.CompareTag("Ground")*/)
+            {
                 anim.SetBool("isJumping", false);
+                isJumping = false;
+                jumpTimeCount = 0;
+            }
+                
         }
     }
 
