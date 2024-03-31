@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInput = GetComponent<PlayerInput>();
         playerInput.OnMove += GetMoveDirection;
-        playerInput.OnMoveKeyUp += StopMove;
+        //playerInput.OnMoveKeyUp += StopMove;
     }
     private void Update()
     {

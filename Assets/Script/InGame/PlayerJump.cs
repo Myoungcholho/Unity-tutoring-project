@@ -26,7 +26,7 @@ public class PlayerJump : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        playerInput.OnJumpKeyUp += JumpKeyUp;
+        //playerInput.OnJumpKeyUp += JumpKeyUp;
         playerInput.OnJumpKeyPress += JumpKeyPress;
 
         playerStatus = GetComponent<PlayerStatus>();
