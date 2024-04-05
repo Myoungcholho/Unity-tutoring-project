@@ -25,7 +25,6 @@ public class Door : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer2 = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
 
-
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,6 +32,7 @@ public class Door : MonoBehaviour
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("Key"))
             {
+                //키가 닿았으면 실행
                 collision.gameObject.SetActive(false);
                 spriteRenderer.sprite = opendDoor[0];
                 spriteRenderer2.sprite = opendDoor[1];

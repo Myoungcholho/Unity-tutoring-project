@@ -21,7 +21,7 @@ public class CameraFollow : MonoBehaviour
 
     private GameObject[] Players;
 
-    private void Awake()
+    private void Start()
     {
         Players = GameObject.FindGameObjectsWithTag("Player");
         int i = 0;
@@ -30,9 +30,9 @@ public class CameraFollow : MonoBehaviour
             i++;
         }
         targets = new Transform[i];
-        
+
         i = 0;
-        foreach(var Player in Players)
+        foreach (var Player in Players)
         {
             targets[i] = Player.transform;
             i++;

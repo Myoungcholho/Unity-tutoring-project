@@ -20,9 +20,9 @@ TagManager:
   - MovableWall
   - CameraWall
   - Time
-  - 
-  - 
-  - 
+  - Door
+  - Ghost
+  - Key
   - 
   - 
   - 

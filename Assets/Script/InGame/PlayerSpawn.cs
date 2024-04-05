@@ -4,27 +4,24 @@ using UnityEngine;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    
-    private GameObject player3;
-    private GameObject player4;
+    public GameObject playerPrefabObj;
+    private Vector3[] spawnPositions;
+
     private void Awake()
     {
-        
-        player3 = GameObject.Find("player3");
-        player4 = GameObject.Find("player4");
+        Spawn(2);
     }
-
+    
     private void Spawn(int countOfPlayers)
     {
-        if(countOfPlayers == 2)
+        spawnPositions = new Vector3[countOfPlayers];
+        for (int i = 0; i < spawnPositions.Length; i++)
         {
-            player3?.SetActive(false);
-            player4?.SetActive(false);
+            spawnPositions[i] = transform.GetChild(i).position;
+            if(playerPrefabObj != null)
+            {
+                Instantiate(playerPrefabObj, spawnPositions[i], Quaternion.identity);
+            }
         }
-        else if(countOfPlayers == 3)
-        {
-            player4?.SetActive(false);
-        }
-
     }
 }
