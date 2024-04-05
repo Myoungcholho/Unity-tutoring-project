@@ -25,7 +25,7 @@ public partial class Player : MonoBehaviour
         OnJumpKeyPress += JumpKeyPress;
 
         //Status
-        OnActionKeyDown += EnterDoor;
+        OnActionKeyDown += InOutDoor;
 
         
     }

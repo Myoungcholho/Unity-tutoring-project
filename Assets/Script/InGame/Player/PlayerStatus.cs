@@ -40,8 +40,6 @@ public partial class Player : MonoBehaviour
     private bool isLeftPowering = false;
     private bool isRightPowering = false;
 
-    private bool canEnter = true;
-    private bool hasEnteredDoor = false;
     public void isGroundRayDetect()
     {
         Vector3 GroundstartPosition = transform.position + new Vector3(groundX, groundY, 0);
@@ -126,43 +124,5 @@ public partial class Player : MonoBehaviour
             dumpLeftPower = 0;
     }
     
-    private void EnterDoor()
-    {
-        if(leftRayDetect)
-        {
-            if(leftRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Door"))
-            {
-                Door door = leftRayDetect.collider.gameObject.GetComponent<Door>();
-                if(canEnter && door.isOpened)
-                {
-                    spriteRenderer.enabled = !spriteRenderer.enabled;
-                    gameObject.layer = spriteRenderer.enabled ? LayerMask.NameToLayer("Player") : LayerMask.NameToLayer("Ghost");
-                    canEnter = false;
-                    hasEnteredDoor = !hasEnteredDoor;
-                    Invoke("EnableEnter", 1f);
-                }
-                
-            }
-        }
-        else if(rightRayDetect )
-        {
-            if(rightRayDetect.collider.gameObject.layer == LayerMask.NameToLayer("Door"))
-            {
-                Door door = rightRayDetect.collider.gameObject.GetComponent<Door>();
-                if (canEnter && door.isOpened)
-                {
-                    spriteRenderer.enabled = !spriteRenderer.enabled;
-                    gameObject.layer = spriteRenderer.enabled ? LayerMask.NameToLayer("Player") : LayerMask.NameToLayer("Ghost");
-                    canEnter = false;
-                    hasEnteredDoor = !hasEnteredDoor;
-
-                    Invoke("EnableEnter", 1f);
-                }
-            }
-        }
-    }
-    private void EnableEnter()
-    {
-        canEnter = true;
-    }
+    
 }

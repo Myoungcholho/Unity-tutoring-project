@@ -10,16 +10,23 @@ public class Door : MonoBehaviour
 
     public bool isOpened = false;
 
+    private int count;
+
+    private int countOfPlayers;
     SpriteRenderer spriteRenderer;
     SpriteRenderer spriteRenderer2;
 
+    Player player;
     private void Start()
     {
-        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] playersObj = GameObject.FindGameObjectsWithTag("Player");
         int i = 0;
-        foreach (var Player in Players)
+        foreach (var playerGameobj in playersObj)
         {
-            i++;
+            countOfPlayers++;
+            player = playerGameobj.GetComponent<Player>();
+            player.enterDoor += CountUp;
+            player.exitDoor += CountDown;
         }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -38,6 +45,25 @@ public class Door : MonoBehaviour
                 spriteRenderer2.sprite = opendDoor[1];
                 isOpened = true;
             }
+        }
+    }
+
+    private void CountUp()
+    {
+        count++;
+        TrystageClear();
+    }
+    private void CountDown()
+    {
+        count--;
+    }
+
+    private void TrystageClear()
+    {
+        if(count == countOfPlayers)
+        {
+            Debug.Log("스테이지 클리어");
+            //StageClear
         }
     }
 }
